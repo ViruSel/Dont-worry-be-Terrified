@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using UI_Scripts;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Audio_Scripts
 {
@@ -31,6 +34,14 @@ namespace Audio_Scripts
         private void Start()
         {
             Play("Menu");
+        }
+
+        private void Update()
+        {
+            //PlayerPrefs = for later
+
+            if (PauseMenu.isPaused)
+                StartCoroutine(Stop("Menu"));
         }
 
         /// <summary>
@@ -68,11 +79,26 @@ namespace Audio_Scripts
         {
             var s = Array.Find(sounds, sound => sound.name.Equals(soundName));
             s?.source.Play();
+        }
+        
+        private IEnumerator Stop(string soundName)
+        {
+            var s = Array.Find(sounds, sound => sound.name.Equals(soundName));
 
-            if (PauseMenu.isPaused && s != null)
+            while (s.source.isPlaying)
             {
-                s.source.pitch *= 0.5f; 
-            }
+                // decrease slow motion without considering Time.timeScale
+                s.source.volume -= Time.unscaledDeltaTime; 
+
+                // if slow motion time is less than or equal to 0 break the loop
+                if (s.source.volume <= 0f)
+                {
+                    s.source.Stop();
+                }
+
+                // will execute again in the next frame
+                yield return null; 
+            }   
         }
     }
 }

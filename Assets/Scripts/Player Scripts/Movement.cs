@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Input_Scripts;
 using UI_Scripts;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine;
 namespace Player_Scripts
 {
     /// <summary>
-    /// Movement script
+    /// Movement script - Under heavy maintenance
     /// </summary>
     public class Movement : MonoBehaviour
     {
@@ -178,7 +177,6 @@ namespace Player_Scripts
             if (_isCrouching)
             {
                 UpdateMovement(crouchSpeed);
-                //ChangeFOV(_defaultCameraFOV - 15f);
             }
             else if (_isRunning)
             {
@@ -187,19 +185,24 @@ namespace Player_Scripts
             else if (_isWalking)
             {
                 UpdateMovement(walkSpeed);
-                //ChangeFOV(_defaultCameraFOV);
             }
             else
             {
                 UpdateMovement(defaultSpeed);
-                //ChangeFOV(_defaultCameraFOV);
             }
 
             // Crouch Action
             if (_isCrouching)
+            {
                 CrouchEvent();
+                //if (_characterController.height > crouchHeight) _characterController.height = crouchHeight;
+            }
             else
+            {
                 StandUpEvent();
+                //if (_characterController.height < StandingHeight) _characterController.height = StandingHeight;
+                
+            }
 
             // Jump Action
             if (_wishJump && !_isJumping)
@@ -258,14 +261,14 @@ namespace Player_Scripts
         /// </summary>
         private void CrouchEvent()
         {
-            if (_characterController.height <= crouchHeight) return;
+            if (transform.localScale.y <= crouchHeight) return;
             
-            _characterController.height = Mathf.Lerp(_characterController.height, crouchHeight, CrouchingSpeed * Time.deltaTime);
+            _characterController.height = Mathf.Lerp(_characterController.height, crouchHeight, CrouchingSpeed * Time.unscaledDeltaTime);
 
-            if (_characterController.height - 0.025f <= crouchHeight) _characterController.height = crouchHeight;
+            if (_characterController.height - 0.05f < crouchHeight) _characterController.height = crouchHeight;
         }
         
-        // TODO FIX THIS SHIT - Lag when standing up - USE IEnumerator
+        // TODO FIX THIS SHIT - Lag when standing up
         /// <summary>
         /// Stand Up Event
         /// </summary>
@@ -273,9 +276,9 @@ namespace Player_Scripts
         {
             if (_characterController.height >= StandingHeight) return;
             
-            _characterController.height = Mathf.Lerp(_characterController.height, StandingHeight, StandingUpSpeed * Time.deltaTime);
+            _characterController.height = Mathf.Lerp(_characterController.height, StandingHeight, StandingUpSpeed * 4 * Time.unscaledDeltaTime);
 
-            if (_characterController.height + 0.1f >= StandingHeight) _characterController.height = StandingHeight;
+            if (_characterController.height + 0.05f > StandingHeight) _characterController.height = StandingHeight;
         }
 
         private void CheckLadderEvent()

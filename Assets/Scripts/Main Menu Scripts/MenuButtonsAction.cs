@@ -73,7 +73,7 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void Settings()
         {
-            print("Options not implemented yet");
+            print("Settings not implemented yet");
         }
 
         /// <summary>

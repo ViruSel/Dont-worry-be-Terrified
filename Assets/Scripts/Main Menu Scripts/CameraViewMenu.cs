@@ -25,6 +25,7 @@ namespace Main_Menu_Scripts
         private float _clampAngleLeft;
         private float _clampAngleRight;
 
+        private const float FieldOfView = 70f;
         private const float ClampAngleUp = 25f;
         private const float ClampAngleDown = -10f;
         private const float DefaultClampAngleLeft = -15f;
@@ -42,10 +43,12 @@ namespace Main_Menu_Scripts
         private void Awake()
         {
             _menuCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            _menuCamera.fieldOfView = FieldOfView;
             
             isClamped = true;
             
             _tripod = transform.parent;
+            
             _clampAngleLeft = DefaultClampAngleLeft;
             _clampAngleRight = DefaultClampAngleRight;
         }

@@ -44,8 +44,10 @@ namespace Player_Scripts
             
             isClamped = true;
             defaultFOV = 80f; // To be changed later in settings
+            
             _camera.fieldOfView = defaultFOV;
             _player = transform.parent;
+            
             _clampAngleUp = DefaultClampAngleUp;
             _clampAngleDown = DefaultClampAngleDown;
         }
@@ -114,12 +116,29 @@ namespace Player_Scripts
         /// </summary>
         private void CheckFOV()
         {
-            if(_isCrouching)
-                ChangeFOV(defaultFOV - 15f);
-            else if(_isRunning)
-                ChangeFOV(defaultFOV + 15f);
-            else 
+            var crouchFOV = defaultFOV - 15f;
+            var runningFOV = defaultFOV + 15f;
+
+            if (_isCrouching)
+            {
+                ChangeFOV(crouchFOV);
+                CorrectAfterCrouchingFOV(crouchFOV);
+            }
+            else if (_isRunning)
+            {
+                ChangeFOV(runningFOV);
+                CorrectAfterRunningFOV(runningFOV);
+            }
+            else
+            {
                 ChangeFOV(defaultFOV);
+                
+                // Correct FOV values to a non decimal value after crouching and running
+                if (_camera.fieldOfView > defaultFOV)
+                    CorrectAfterCrouchingFOV(defaultFOV);
+                else if (_camera.fieldOfView < defaultFOV)
+                    CorrectAfterRunningFOV(defaultFOV);
+            }
         }
         
         /// <summary>
@@ -129,6 +148,26 @@ namespace Player_Scripts
         private void ChangeFOV(float newFOV)
         {
             _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, 5f * Time.deltaTime);
+        }
+
+        /// <summary>
+        /// Correct FOV after Running, to be a non decimal value
+        /// </summary>
+        /// <param name="newFOV"></param>
+        private void CorrectAfterRunningFOV(float newFOV)
+        {
+            if (_camera.fieldOfView + 0.05f > newFOV)
+                _camera.fieldOfView = newFOV;
+        }
+
+        /// <summary>
+        /// Correct FOV after Crouching, to be a non decimal value
+        /// </summary>
+        /// <param name="newFov"></param>
+        private void CorrectAfterCrouchingFOV(float newFov)
+        {
+            if (_camera.fieldOfView - 0.05f < newFov)
+                _camera.fieldOfView = newFov;
         }
 
         /// <summary>
