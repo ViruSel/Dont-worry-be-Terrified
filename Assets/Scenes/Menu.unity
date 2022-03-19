@@ -1332,7 +1332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 750059678}
   m_Layer: 0
-  m_Name: ====SETTINGS====
+  m_Name: ==== SETTINGS ====
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1616,7 +1616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 952679552}
   m_Layer: 0
-  m_Name: ====UI====
+  m_Name: ==== UI ====
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1812,7 +1812,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d1a38463f560441a641f5acfb18c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1355814290}
 --- !u!1 &1072693258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,7 +1935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1146105436
 Transform:
   m_ObjectHideFlags: 0
@@ -1963,7 +1962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ac7922849e5fe4a877f41d38c4667b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   otherDoor: {fileID: 0}
 --- !u!65 &1146105438
 BoxCollider:
@@ -2214,7 +2212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 1.3
-  mouseSmoothTime: 0
+  mouseSmoothTime: 1
   isClamped: 0
 --- !u!1 &1408132537
 GameObject:
@@ -2699,7 +2697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1843444578}
   m_Layer: 0
-  m_Name: ====MENU====
+  m_Name: ==== MENU ====
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
