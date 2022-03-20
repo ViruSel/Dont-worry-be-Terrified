@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Player_Scripts
 {
     /// <summary>
-    /// Movement script - Under heavy maintenance
+    /// Movement script
     /// </summary>
     public class Movement : MonoBehaviour
     {
@@ -32,14 +32,6 @@ namespace Player_Scripts
         [SerializeField] private float crouchSpeed;
         [SerializeField] private float crouchHeight;
 
-        [Header("Ladder Settings")] 
-        [SerializeField] private Transform ladderCheck;
-        [SerializeField] private LayerMask ladderMask;
-        [SerializeField] private bool isClimbing;
-        [SerializeField] private float climbSpeedUp;
-        [SerializeField] private float climbSpeedDown;
-        [SerializeField] private float ladderDistance;
-
         [Header("Ground Check")]
         [SerializeField] private Transform groundCheck;
         [SerializeField] private LayerMask groundMask;
@@ -50,7 +42,6 @@ namespace Player_Scripts
         private const float Gravity = -9.81f;
         private const float SlopeForce = 3;
         private const float SlopeForceRayLenght = 1.5f;
-        private const float GroundRayDistance = 1;
         private const float StandingHeight = 2f;
         private const float GroundDistance = 0.4f;
         
@@ -61,11 +52,11 @@ namespace Player_Scripts
         private bool _isWalking;
         private bool _isRunning;
         private bool _isCrouching;
-
+        
         private RaycastHit _slopeHit;
         private Vector3 _moveDirection;
         private Vector3 _velocity;
-        [SerializeField]private Vector2 _inputDir;
+        private Vector2 _inputDir;
         private Vector2 _currentDir = Vector2.zero;
         private Vector2 _currentDirVelocity = Vector2.zero;
 
@@ -136,7 +127,7 @@ namespace Player_Scripts
             else
                 playerState = States.Moving;
             
-            // TODO - Air movement
+            // TODO - Block air movement
             // Player movement smoothing
             _currentDir = Vector2.SmoothDamp(_currentDir, _inputDir, ref _currentDirVelocity, moveSmoothTime);
             
@@ -176,7 +167,7 @@ namespace Player_Scripts
                 // Prevent player from running backwards
                 if(_inputDir.x != 0 || _inputDir.y != 0)
                 {
-                    if (_inputDir.y > -0.5f)
+                    if (_inputDir.y > -0f)
                     {
                         UpdateMovementSpeed(runSpeed);
                         playerState = States.Running;
@@ -209,10 +200,6 @@ namespace Player_Scripts
 
             // Slope Action
             if (OnSlope()) SlopeEvent();
-
-            // TODO FIX THIS SHIT - Doesn't do shit
-            // Steep Slope Action
-            if(OnSteepSlope()) SteepSlopeMovement();
         }
 
         /// <summary>
@@ -275,25 +262,6 @@ namespace Player_Scripts
             if (_characterController.height + 0.05f > StandingHeight) _characterController.height = StandingHeight;
         }
 
-        private void CheckLadderEvent()
-        {
-            // Ladder Action
-            isClimbing = Physics.CheckSphere(ladderCheck.position, ladderDistance, ladderMask);
-
-            if (isClimbing)
-            {
-                var transformNew = transform;
-                var velocity = transformNew.up + Vector3.up * velocityY;
-                //_characterController.Move(velocity * Time.deltaTime);
-                
-                if (Input.GetKey("w"))
-                    _characterController.Move(Vector3.up * climbSpeedUp);
-                //_characterController.transform.position += Vector3.up * climbSpeedUp;
-                else if (Input.GetKey("s"))
-                    _characterController.transform.position += Vector3.down * climbSpeedDown;
-            }
-        }
-
         /// <summary>
         /// Verify if character is on a slope
         /// </summary>
@@ -316,31 +284,6 @@ namespace Player_Scripts
         {
             if (_currentDir.y != 0 || _currentDir.x != 0) 
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (SlopeForce * Time.deltaTime));
-        }
-
-        // TODO - Doesn't work
-        // Verify if character is on steep slope
-        private bool OnSteepSlope()
-        {
-            if (_characterController.isGrounded) return false;
-
-            if (!Physics.Raycast(transform.position, Vector3.down, out _slopeHit,
-                    (_characterController.height / 2) + GroundRayDistance)) return false;
-            
-            float slopeAngle = Vector3.Angle(_slopeHit.normal, Vector3.up);
-
-            return slopeAngle > 45;
-        }
-
-        // TODO - Doesn't work
-        // Steep slope Event
-        private void SteepSlopeMovement()
-        {
-            var slopeDirection = Vector3.up - _slopeHit.normal * Vector3.Dot(Vector3.up, _slopeHit.normal);
-            var slideSpeed = defaultSpeed + 10 + Time.deltaTime;
-
-            _moveDirection = slopeDirection * -slideSpeed;
-            _moveDirection.y -= _slopeHit.point.y;
         }
 
         private void CheckPauseMenu()
