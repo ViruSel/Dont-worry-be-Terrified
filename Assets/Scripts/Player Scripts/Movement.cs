@@ -65,12 +65,15 @@ namespace Player_Scripts
         private RaycastHit _slopeHit;
         private Vector3 _moveDirection;
         private Vector3 _velocity;
+        private Vector2 _inputDir;
         private Vector2 _currentDir = Vector2.zero;
         private Vector2 _currentDirVelocity = Vector2.zero;
 
         private Camera _camera;
         private CharacterController _characterController;
         private InputManager _inputManager;
+
+        public States playerState;
         
         /// <summary>
         /// Called before Start function
@@ -96,7 +99,7 @@ namespace Player_Scripts
         {
             CheckPauseMenu();
             MovePlayer();
-            PlayerMovement();
+            PlayerMovementSettings();
         }
 
         /// <summary>
@@ -120,41 +123,26 @@ namespace Player_Scripts
         }
 
         /// <summary>
-        /// Ground check
-        /// </summary>
-        /// <returns> If player is on ground</returns>
-        private bool IsGrounded()
-        {
-            return Physics.CheckSphere(groundCheck.position, GroundDistance, groundMask);
-        }
-        
-        /// <summary>
         /// Moving the Player
         /// </summary>
         private void MovePlayer()
         {
             // Movement input
-            var inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            inputDir.Normalize();
-            
-            // TODO FIX CAN MOVE IN AIR OR NOT
-            // Player movement + Resetting velocity 
-            if (canMoveInAir)
-            {
-                _currentDir = Vector2.SmoothDamp(_currentDir, inputDir, ref _currentDirVelocity, moveSmoothTime);
+            _inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            _inputDir.Normalize();
 
-                if (_characterController.isGrounded) velocityY = 0f;
-            }
+            // Find out if player is moving
+            if (_inputDir.x == 0 && _inputDir.y == 0)
+                playerState = States.Standing;
             else
-            {
-                if (_characterController.isGrounded)
-                {
-                    _currentDir = Vector2.SmoothDamp(_currentDir, inputDir, ref _currentDirVelocity, moveSmoothTime); 
-                    velocityY = 0f;
-                }
-            }
+                playerState = States.Moving;
             
-            _currentDir = Vector2.SmoothDamp(_currentDir, inputDir, ref _currentDirVelocity, moveSmoothTime);
+            // TODO - Air movement
+            // Player movement smoothing
+            _currentDir = Vector2.SmoothDamp(_currentDir, _inputDir, ref _currentDirVelocity, moveSmoothTime);
+            
+            // Resetting velocity if player was grounded
+            if (_characterController.isGrounded) velocityY = 0f;
 
             // Applying gravity
             velocityY += (Gravity-2) * Time.deltaTime;
@@ -162,52 +150,56 @@ namespace Player_Scripts
             // Movement math
             var transformNew = transform;
             _velocity = (transformNew.forward * _currentDir.y + transformNew.right * _currentDir.x) * _movementSpeed + Vector3.up * velocityY;
+            
+            // Move player
             _characterController.Move(_velocity * Time.deltaTime);
         }
         
         /// <summary>
         /// Player Movement Settings
         /// </summary>
-        private void PlayerMovement()
+        private void PlayerMovementSettings()
         {
             // Ground check
             isGrounded = Physics.CheckSphere(groundCheck.position, GroundDistance, groundMask);
 
-            // Update movement speed based on action
+            if (!isGrounded) playerState = States.InAir;
+
+            // Update movement speed & state based on action
             if (_isCrouching)
             {
-                UpdateMovement(crouchSpeed);
+                UpdateMovementSpeed(crouchSpeed);
+                playerState = States.Crouching;
+                isGrounded = true;
             }
             else if (_isRunning)
             {
-                UpdateMovement(runSpeed);
+                UpdateMovementSpeed(runSpeed);
+                
+                if(_inputDir.x != 0 || _inputDir.y != 0)
+                    playerState = States.Running;
             }
             else if (_isWalking)
             {
-                UpdateMovement(walkSpeed);
+                UpdateMovementSpeed(walkSpeed);
+                playerState = States.Walking;
             }
             else
             {
-                UpdateMovement(defaultSpeed);
+                UpdateMovementSpeed(defaultSpeed);
             }
 
             // Crouch Action
             if (_isCrouching)
-            {
                 CrouchEvent();
-                //if (_characterController.height > crouchHeight) _characterController.height = crouchHeight;
-            }
             else
-            {
                 StandUpEvent();
-                //if (_characterController.height < StandingHeight) _characterController.height = StandingHeight;
-                
-            }
-
+            
             // Jump Action
             if (_wishJump && !_isJumping)
             {
                 _isJumping = true;
+                playerState = States.InAir;
                 StartCoroutine(JumpEvent());
             }
 
@@ -224,10 +216,10 @@ namespace Player_Scripts
         /// </summary>
         /// <param name="speed"></param>
         /// <returns> Movement Speed </returns>
-        private void UpdateMovement(float speed)
+        private void UpdateMovementSpeed(float speed)
         {
             _movementSpeed = Mathf.Lerp(_movementSpeed, speed, Time.deltaTime * acceleration);
-
+            
             if (_movementSpeed - 0.025f <= speed) _movementSpeed = speed;
         }
 
@@ -252,8 +244,6 @@ namespace Player_Scripts
             _characterController.slopeLimit = 45;
 
             _isJumping = false;
-            
-            yield return new WaitForSeconds(5f);
         }
 
         /// <summary>
@@ -305,7 +295,7 @@ namespace Player_Scripts
         }
 
         /// <summary>
-        /// Verify Character On Slope
+        /// Verify if character is on a slope
         /// </summary>
         /// <returns>
         /// true = on slope
@@ -313,14 +303,14 @@ namespace Player_Scripts
         /// </returns>
         private bool OnSlope()
         {
-            if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
+            if (!Physics.Raycast(transform.position, Vector3.down, out var hit,
                     _characterController.height / 2 * SlopeForceRayLenght)) return false;
             
             return hit.normal != Vector3.up;
         }
 
         /// <summary>
-        /// Slope Event
+        /// If player is on slope, stick him to it
         /// </summary>
         private void SlopeEvent()
         {

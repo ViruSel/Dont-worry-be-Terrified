@@ -34,6 +34,7 @@ namespace Player_Scripts
         
         private InputManager _inputManager;
         private Camera _camera;
+        private Movement _playerMovement;
 
         /// <summary>
         /// Called Before Start
@@ -61,6 +62,7 @@ namespace Player_Scripts
             Cursor.visible = false;
             
             _inputManager = InputManager.instance;
+            _playerMovement = _player.GetComponent<Movement>();
         }
 
         /// <summary>
@@ -119,12 +121,12 @@ namespace Player_Scripts
             var crouchFOV = defaultFOV - 15f;
             var runningFOV = defaultFOV + 15f;
 
-            if (_isCrouching)
+            if (_playerMovement.playerState == States.Crouching)
             {
                 ChangeFOV(crouchFOV);
                 CorrectAfterCrouchingFOV(crouchFOV);
             }
-            else if (_isRunning)
+            else if (_playerMovement.playerState == States.Running)
             {
                 ChangeFOV(runningFOV);
                 CorrectAfterRunningFOV(runningFOV);
