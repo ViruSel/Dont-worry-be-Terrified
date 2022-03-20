@@ -173,6 +173,8 @@ namespace Player_Scripts
                         playerState = States.Running;
                     }
                 }
+                else
+                    UpdateMovementSpeed(walkSpeed);
             }
             else if (_isWalking)
             {
