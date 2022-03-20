@@ -47,7 +47,7 @@ namespace Player_Scripts
 
         private const float CrouchingSpeed = 10f;
         private const float StandingUpSpeed = 10f;
-        private float Gravity = -9.81f;
+        private const float Gravity = -9.81f;
         private const float SlopeForce = 3;
         private const float SlopeForceRayLenght = 1.5f;
         private const float GroundRayDistance = 1;
@@ -65,7 +65,7 @@ namespace Player_Scripts
         private RaycastHit _slopeHit;
         private Vector3 _moveDirection;
         private Vector3 _velocity;
-        private Vector2 _inputDir;
+        [SerializeField]private Vector2 _inputDir;
         private Vector2 _currentDir = Vector2.zero;
         private Vector2 _currentDirVelocity = Vector2.zero;
 
@@ -108,7 +108,6 @@ namespace Player_Scripts
         private void FixedUpdate()
         {
             InitializeBindings();
-            CheckLadderEvent();
         }
 
         /// <summary>
@@ -174,10 +173,15 @@ namespace Player_Scripts
             }
             else if (_isRunning)
             {
-                UpdateMovementSpeed(runSpeed);
-                
+                // Prevent player from running backwards
                 if(_inputDir.x != 0 || _inputDir.y != 0)
-                    playerState = States.Running;
+                {
+                    if (_inputDir.y > -0.5f)
+                    {
+                        UpdateMovementSpeed(runSpeed);
+                        playerState = States.Running;
+                    }
+                }
             }
             else if (_isWalking)
             {
@@ -249,7 +253,7 @@ namespace Player_Scripts
         /// <summary>
         /// Crouch Event
         /// </summary>
-        private void CrouchEvent()
+        private void   CrouchEvent()
         {
             if (transform.localScale.y <= crouchHeight) return;
             
@@ -278,8 +282,6 @@ namespace Player_Scripts
 
             if (isClimbing)
             {
-                Gravity = 2f;
-
                 var transformNew = transform;
                 var velocity = transformNew.up + Vector3.up * velocityY;
                 //_characterController.Move(velocity * Time.deltaTime);
@@ -290,8 +292,6 @@ namespace Player_Scripts
                 else if (Input.GetKey("s"))
                     _characterController.transform.position += Vector3.down * climbSpeedDown;
             }
-
-            Gravity = -9.81f;
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Player_Scripts
             _moveDirection = slopeDirection * -slideSpeed;
             _moveDirection.y -= _slopeHit.point.y;
         }
-        
+
         private void CheckPauseMenu()
         {
             _camera.GetComponent<CameraView>().enabled = !PauseMenu.isPaused;

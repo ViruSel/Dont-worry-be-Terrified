@@ -32,7 +32,6 @@ namespace Player_Scripts
         private Vector2 _currentMouseDelta = Vector2.zero;
         private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
         
-        private InputManager _inputManager;
         private Camera _camera;
         private Movement _playerMovement;
 
@@ -61,7 +60,6 @@ namespace Player_Scripts
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             
-            _inputManager = InputManager.instance;
             _playerMovement = _player.GetComponent<Movement>();
         }
 
@@ -77,38 +75,21 @@ namespace Player_Scripts
         }
 
         /// <summary>
-        /// Called every fixed frame
-        /// </summary>
-        private void FixedUpdate()
-        {
-            InitializeBindings();
-        }
-
-        /// <summary>
-        /// Initialize Bindings
-        /// </summary>
-        private void InitializeBindings()
-        {
-            _isRunning = _inputManager.GetKey(KeybindingActions.Run);
-            _isCrouching = _inputManager.GetKey(KeybindingActions.Crouch);
-        }
-
-        /// <summary>
         /// Camera Movement
         /// </summary>
         private void CameraMovement()
         {
-            // Camera Input
+            // Input
             var targetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-            // Camera movement
+            // Movement
             _currentMouseDelta = Vector2.SmoothDamp(_currentMouseDelta, targetMouseDelta, ref _currentMouseDeltaVelocity, mouseSmoothTime);
 
-            // Camera clamp
+            // Clamp
             _mouseClamp -= _currentMouseDelta.y * mouseSensitivity;
             _mouseClamp = Mathf.Clamp(_mouseClamp, _clampAngleDown, _clampAngleUp);
             
-            // Camera math
+            // Rotate
             _camera.transform.localEulerAngles = Vector3.right * _mouseClamp;
             _player.Rotate(Vector3.up * _currentMouseDelta.x * mouseSensitivity);
         }
