@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 582458219305369217}
   - component: {fileID: 5616422898692595663}
   - component: {fileID: 582458219305369223}
-  - component: {fileID: 4793130141276715022}
+  - component: {fileID: 4703723427280168838}
   m_Layer: 9
-  m_Name: Player_rb
+  m_Name: Player_rb_D
   m_TagString: Player
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &4793130141276715022
+--- !u!114 &4703723427280168838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,27 +156,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 582458219305369220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ff9390642faeb4e8825dd49df94a2d, type: 3}
+  m_Script: {fileID: 11500000, guid: aa0df37ecb9e45c4cadcea70a700336e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 7
-  sprintSpeed: 10
-  groundDrag: 1
-  jumpForce: 12
-  jumpCooldown: 0.25
-  airMultiplier: 0.4
-  crouchSpeed: 2.5
-  crouchYScale: 0.6
-  jumpKey: 32
-  sprintKey: 304
-  crouchKey: 306
-  playerHeight: 1
+  playerCam: {fileID: 582458220228660628}
+  orientation: {fileID: 8612800221670549597}
+  moveSpeed: 4500
+  maxSpeed: 20
+  grounded: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  maxSlopeAngle: 45
-  orientation: {fileID: 0}
-  state: 0
+  counterMovement: 0.175
+  maxSlopeAngle: 35
+  slideForce: 400
+  slideCounterMovement: 0.2
+  jumpForce: 550
 --- !u!1 &582458219944076201
 GameObject:
   m_ObjectHideFlags: 0
