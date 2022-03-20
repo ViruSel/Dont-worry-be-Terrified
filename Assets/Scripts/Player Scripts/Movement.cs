@@ -65,7 +65,7 @@ namespace Player_Scripts
         private RaycastHit _slopeHit;
         private Vector3 _moveDirection;
         private Vector3 _velocity;
-        [SerializeField]private Vector2 _inputDir;
+        private Vector2 _inputDir;
         private Vector2 _currentDir = Vector2.zero;
         private Vector2 _currentDirVelocity = Vector2.zero;
 
