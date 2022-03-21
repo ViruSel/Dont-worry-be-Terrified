@@ -592,6 +592,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 499573383861317961, guid: ecd6435ff91dc3147811c19c8dc21f6d, type: 3}
+      propertyPath: castingMask.m_Bits
+      value: 511
+      objectReference: {fileID: 0}
+    - target: {fileID: 499573383861317965, guid: ecd6435ff91dc3147811c19c8dc21f6d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 499573383861317967, guid: ecd6435ff91dc3147811c19c8dc21f6d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1959,7 +1967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 969844707}
   m_Layer: 9
-  m_Name: CeillingCheck
+  m_Name: CeilingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
