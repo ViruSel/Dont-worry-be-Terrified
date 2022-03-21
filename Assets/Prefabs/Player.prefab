@@ -34,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 499573385119171160}
   - {fileID: 499573385079471797}
-  - {fileID: 499573384221406215}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,7 +135,7 @@ MonoBehaviour:
   defaultSpeed: 5
   moveSmoothTime: 0.125
   walkSpeed: 3
-  runSpeed: 7
+  runSpeed: 6
   acceleration: 5
   jumpMultiplier: 10
   jumpFallOff:
@@ -165,49 +164,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   crouchSpeed: 2.5
   crouchHeight: 0.5
-  ladderCheck: {fileID: 499573384221406215}
-  ladderMask:
-    serializedVersion: 2
-    m_Bits: 64
-  isClimbing: 0
-  climbSpeedUp: 0.5
-  climbSpeedDown: 0.5
-  ladderDistance: 0.4
-  groundCheck: {fileID: 499573385079471797}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   isGrounded: 0
---- !u!1 &499573384221406214
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 499573384221406215}
-  m_Layer: 9
-  m_Name: LadderCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &499573384221406215
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499573384221406214}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.499}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 499573383861317967}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  _movementSpeed: 0
+  playerState: 0
 --- !u!1 &499573385079471796
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499573385119171237}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6600001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 499573385370348646}
@@ -295,7 +257,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 90
   orthographic: 0
