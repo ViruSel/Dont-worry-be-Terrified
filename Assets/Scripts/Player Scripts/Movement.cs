@@ -33,19 +33,17 @@ namespace Player_Scripts
         [SerializeField] private float crouchHeight;
 
         [Header("Ground Check")]
-        [SerializeField] private Transform groundCheck;
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private bool isGrounded;
 
-        private const float CrouchingSpeed = 10f;
-        private const float StandingUpSpeed = 10f;
         private const float Gravity = -9.81f;
+        private const float CrouchingSpeed = 5f;
+        private const float StandingUpSpeed = 5f;
         private const float SlopeForce = 3;
         private const float SlopeForceRayLenght = 1.5f;
-        private const float StandingHeight = 2f;
         private const float GroundDistance = 0.4f;
         
-        private float _movementSpeed;
+        [SerializeField] private float _movementSpeed;
         private float _defaultCameraFOV;
         private bool _isJumping;
         private bool _wishJump;
@@ -62,6 +60,7 @@ namespace Player_Scripts
 
         private Camera _camera;
         private CharacterController _characterController;
+        private Transform _groundCheck;
         private InputManager _inputManager;
 
         public States playerState;
@@ -73,6 +72,7 @@ namespace Player_Scripts
         {
             _characterController = GetComponent<CharacterController>();
             _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            _groundCheck = transform.Find("GroundCheck");
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Player_Scripts
         private void PlayerMovementSettings()
         {
             // Ground check
-            isGrounded = Physics.CheckSphere(groundCheck.position, GroundDistance, groundMask);
+            isGrounded = Physics.CheckSphere(_groundCheck.position, GroundDistance, groundMask);
 
             if (!isGrounded) playerState = States.InAir;
 
@@ -165,16 +165,11 @@ namespace Player_Scripts
             else if (_isRunning)
             {
                 // Prevent player from running backwards
-                if(_inputDir.x != 0 || _inputDir.y != 0)
-                {
+                if(_inputDir.x != 0 || _inputDir.y != 0) 
                     if (_inputDir.y > -0f)
-                    {
-                        UpdateMovementSpeed(runSpeed);
                         playerState = States.Running;
-                    }
-                }
-                else
-                    UpdateMovementSpeed(walkSpeed);
+
+                UpdateMovementSpeed(playerState == States.Running ? runSpeed : defaultSpeed);
             }
             else if (_isWalking)
             {
@@ -182,10 +177,8 @@ namespace Player_Scripts
                 playerState = States.Walking;
             }
             else
-            {
                 UpdateMovementSpeed(defaultSpeed);
-            }
-
+            
             // Crouch Action
             if (_isCrouching)
                 CrouchEvent();
@@ -221,7 +214,7 @@ namespace Player_Scripts
         /// </summary>
         private IEnumerator JumpEvent()
         {
-            _characterController.slopeLimit = 90;
+            _characterController.slopeLimit = 90f;
 
             float timeInAir = 0;
 
@@ -234,34 +227,37 @@ namespace Player_Scripts
 
             } while (!_characterController.isGrounded && _characterController.collisionFlags != CollisionFlags.Above);
 
-            _characterController.slopeLimit = 45;
+            _characterController.slopeLimit = 45f;
 
             _isJumping = false;
         }
 
+        // TODO - Make transform size small
         /// <summary>
         /// Crouch Event
         /// </summary>
-        private void   CrouchEvent()
+        private void CrouchEvent()
         {
-            if (transform.localScale.y <= crouchHeight) return;
-            
-            _characterController.height = Mathf.Lerp(_characterController.height, crouchHeight, CrouchingSpeed * Time.unscaledDeltaTime);
-
-            if (_characterController.height - 0.05f < crouchHeight) _characterController.height = crouchHeight;
+            _characterController.height = 1;
+            _characterController.center = new Vector3(0, -0.5f, 0);
+            _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.10f, CrouchingSpeed * Time.deltaTime);
+            //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f/2,1f), CrouchingSpeed * Time.deltaTime);
         }
         
-        // TODO FIX THIS SHIT - Lag when standing up
+        // TODO - Make transform size big + ceiling detection
         /// <summary>
         /// Stand Up Event
         /// </summary>
         private void StandUpEvent()
         {
-            if (_characterController.height >= StandingHeight) return;
-            
-            _characterController.height = Mathf.Lerp(_characterController.height, StandingHeight, StandingUpSpeed * 4 * Time.unscaledDeltaTime);
-
-            if (_characterController.height + 0.05f > StandingHeight) _characterController.height = StandingHeight;
+            RaycastHit hit;
+            if (!Physics.Raycast(_camera.transform.position + Vector3.up, Vector3.up, out hit, 1.0f))
+            {
+                _characterController.height = 2;
+                _characterController.center = new Vector3(0, 0f, 0);
+                _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.66f, CrouchingSpeed * Time.deltaTime);
+                //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f,1f), CrouchingSpeed * Time.deltaTime);
+            }
         }
 
         /// <summary>
@@ -288,9 +284,35 @@ namespace Player_Scripts
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (SlopeForce * Time.deltaTime));
         }
 
+        /// <summary>
+        /// Disable camera while pause menu is open
+        /// </summary>
         private void CheckPauseMenu()
         {
             _camera.GetComponent<CameraView>().enabled = !PauseMenu.isPaused;
+        }
+
+        /// <summary>
+        /// Making player interact with physics objects
+        /// </summary>
+        /// <param name="hit"> Physics object </param>
+        private void PushPhysicsObjects(ControllerColliderHit hit)
+        {
+            var body = hit.collider.attachedRigidbody;
+            
+            if (body == null || body.isKinematic) return;
+            if (hit.moveDirection.y < -0.3f) return;
+            
+            body.velocity = hit.moveDirection * _velocity.magnitude;
+        }
+
+        /// <summary>
+        /// Hitting other colliders
+        /// </summary>
+        /// <param name="hit"></param>
+        private void OnControllerColliderHit( ControllerColliderHit hit )
+        {
+            PushPhysicsObjects(hit);
         }
     }
 }

@@ -1,4 +1,3 @@
-using Input_Scripts;
 using UI_Scripts;
 using UnityEngine;
 
@@ -25,7 +24,8 @@ namespace Player_Scripts
         private float _clampAngleDown;
         private bool _isRunning;
         private bool _isCrouching;
-        
+
+        private const float FOVChangingSpeed = 5f;
         private const float DefaultClampAngleUp = 89.999f;
         private const float DefaultClampAngleDown = -89.999f;
 
@@ -91,7 +91,7 @@ namespace Player_Scripts
             
             // Rotate
             _camera.transform.localEulerAngles = Vector3.right * _mouseClamp;
-            _player.Rotate(Vector3.up * _currentMouseDelta.x * mouseSensitivity);
+            _player.Rotate(Vector3.up * (_currentMouseDelta.x * mouseSensitivity));
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Player_Scripts
         /// <param name="newFOV"> New FOV Value </param>
         private void ChangeFOV(float newFOV)
         {
-            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, 5f * Time.deltaTime);
+            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, FOVChangingSpeed * Time.deltaTime);
         }
 
         /// <summary>
