@@ -40,7 +40,7 @@ namespace Audio_Scripts
         {
             //PlayerPrefs = for later
 
-            if (PauseMenu.isPaused)
+            if (PauseMenu.IsPaused)
                 StartCoroutine(Stop("Menu"));
         }
 

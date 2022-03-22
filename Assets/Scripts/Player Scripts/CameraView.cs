@@ -158,7 +158,7 @@ namespace Player_Scripts
         /// </summary>
         private void CheckPauseMenu()
         {
-            if (PauseMenu.isPaused)
+            if (PauseMenu.IsPaused)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

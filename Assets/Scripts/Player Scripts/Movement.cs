@@ -289,7 +289,7 @@ namespace Player_Scripts
         /// </summary>
         private void CheckPauseMenu()
         {
-            _camera.GetComponent<CameraView>().enabled = !PauseMenu.isPaused;
+            _camera.GetComponent<CameraView>().enabled = !PauseMenu.IsPaused;
         }
 
         /// <summary>

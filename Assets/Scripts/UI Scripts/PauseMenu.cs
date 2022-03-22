@@ -13,7 +13,7 @@ namespace UI_Scripts
         /// <summary>
         /// Variables
         /// </summary>
-        public static bool isPaused;
+        public static bool IsPaused;
         
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private GameObject settingsMenu;
@@ -25,8 +25,10 @@ namespace UI_Scripts
         /// </summary>
         private void Awake()
         {
-            isPaused = false;
+            IsPaused = false;
             _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
+            //pauseMenu = GameObject.Find("Pause_Menu");
+            //settingsMenu = GameObject.Find("Settings_Menu");
         }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace UI_Scripts
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.Escape) && Time.timeSinceLevelLoad > 1f)
-                if(isPaused)
+                if(IsPaused)
                     Resume();
                 else
                     Pause();
@@ -50,7 +52,7 @@ namespace UI_Scripts
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            isPaused = true;
+            IsPaused = true;
         }
 
         /// <summary>
@@ -63,15 +65,7 @@ namespace UI_Scripts
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            isPaused = false;
-        }
-
-        /// <summary>
-        /// Open Settings Actions
-        /// </summary>
-        public void Settings()
-        {
-        
+            IsPaused = false;
         }
 
         /// <summary>
