@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -72,7 +70,7 @@ namespace UI_Scripts
                 var option = _resolutions[i].width + " x " + _resolutions[i].height +" @ "+ _resolutions[i].refreshRate + "hz";
                 options.Add(option);
 
-                if (_resolutions[i].width == Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
+                if (_resolutions[i].width == Screen.width && _resolutions[i].height == Screen.height)
                     currentResolutionIndex = i;
             }
             

@@ -8,6 +8,7 @@ namespace Input_Scripts
         Walk,
         Run,
         Jump,
-        Crouch
+        Crouch,
+        Use
     }
 }

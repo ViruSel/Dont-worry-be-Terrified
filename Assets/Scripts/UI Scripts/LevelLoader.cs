@@ -13,8 +13,6 @@ namespace UI_Scripts
         /// Variables
         /// </summary>
         [SerializeField] private Animator transition;
-
-        private static readonly int StartTrigger = Animator.StringToHash("Start");
         private const float TransitionTime = 1f;
 
         /// <summary>
@@ -33,7 +31,7 @@ namespace UI_Scripts
         /// <returns></returns>
         private IEnumerator LoadLevel(string sceneName)
         {
-            transition.SetTrigger(StartTrigger);
+            transition.Play("Crossfade_Start");
 
             yield return new WaitForSeconds(TransitionTime);
 

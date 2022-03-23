@@ -1,3 +1,5 @@
+using System;
+using UI_Scripts;
 using UnityEngine;
 
 namespace Mirror_Scripts
@@ -11,29 +13,40 @@ namespace Mirror_Scripts
         /// Variables
         /// </summary>
         [SerializeField] private Camera[] cameras;
-        
         [SerializeField] private Material[] cameraMaterials;
 
+        private Resolution _currentResolution;
+        
         /// <summary>
         /// Called before Start function
         /// </summary>
         private void Awake ()
         {
+            _currentResolution.width = Screen.width;
+            _currentResolution.height = Screen.height;
+            
             SetupTextures();
         }
 
         /// <summary>
-        /// Render textures
+        /// Update is called once per frame
         /// </summary>
-        /// <param name="kam"> Camera </param>
-        /// <param name="mat"> Material </param>
-        private void RenderTexture(Camera kam, Material mat)
+        private void Update()
         {
-            if (kam.targetTexture != null)
-                kam.targetTexture.Release();
+            RefreshTextures();
+        }
 
-            kam.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-            mat.mainTexture = kam.targetTexture;
+        /// <summary>
+        /// Refresh Mirror Textures at screen resolution change
+        /// </summary>
+        private void RefreshTextures()
+        {
+            if (_currentResolution.width == Screen.width && _currentResolution.height == Screen.height) return;
+            
+            SetupTextures();
+                
+            _currentResolution.width = Screen.width;
+            _currentResolution.height = Screen.height;
         }
 
         /// <summary>
@@ -43,6 +56,20 @@ namespace Mirror_Scripts
         {
             for(var i = 0; i < cameras.Length; i++)
                 RenderTexture(cameras[i], cameraMaterials[i]);
+        }
+        
+        /// <summary>
+        /// Render textures
+        /// </summary>
+        /// <param name="kam"> Camera </param>
+        /// <param name="mat"> Material </param>
+        private static void RenderTexture(Camera kam, Material mat)
+        {
+            if (kam.targetTexture != null)
+                kam.targetTexture.Release();
+
+            kam.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+            mat.mainTexture = kam.targetTexture;
         }
     }
 }

@@ -36,11 +36,16 @@ namespace UI_Scripts
         /// </summary>
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Escape) && Time.timeSinceLevelLoad > 1f)
-                if(IsPaused)
-                    Resume();
-                else
-                    Pause();
+            CheckPaused();
+        }
+
+        private void CheckPaused()
+        {
+            if (!Input.GetKeyDown(KeyCode.Escape) || !(Time.timeSinceLevelLoad > 1f)) return;
+            if(IsPaused)
+                Resume();
+            else
+                Pause();
         }
 
         /// <summary>

@@ -80,7 +80,7 @@ namespace Player_Scripts
         /// </summary>
         private void Start()
         {
-            _inputManager = InputManager.instance;
+            _inputManager = InputManager.Instance;
         }
 
         /// <summary>

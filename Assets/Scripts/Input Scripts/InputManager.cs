@@ -11,7 +11,7 @@ namespace Input_Scripts
         // Variables
         [SerializeField] private Keybindings keybindings;
         
-        public static InputManager instance;
+        public static InputManager Instance;
 
         /// <summary>
         /// Called before Start function
@@ -19,8 +19,8 @@ namespace Input_Scripts
         private void Awake()
         {
             // Making sure this persists in the whole game
-            if (instance == null)
-                instance = this;
+            if (Instance == null)
+                Instance = this;
             else
                 Destroy(this);
 
