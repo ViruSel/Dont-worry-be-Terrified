@@ -22,4 +22,4 @@ MonoBehaviour:
   - keybindingAction: 3
     keycode: 306
   - keybindingAction: 4
-    keycode: 27
+    keycode: 101
