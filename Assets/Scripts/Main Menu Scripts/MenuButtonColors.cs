@@ -10,8 +10,11 @@ namespace Main_Menu_Scripts
         /// <summary>
         /// Variables
         /// </summary>
+        [SerializeField] private Material offColor;
+        [SerializeField] private Material onColor;
+        
         private Renderer _buttonRenderer;
-    
+        
         /// <summary>
         /// Called before Start function
         /// </summary>
@@ -25,7 +28,7 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void OnMouseEnter()
         {
-            _buttonRenderer.material.color = Color.red;
+            _buttonRenderer.material = onColor;
         }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void OnMouseExit()
         {
-            _buttonRenderer.material.color = Color.white;
+            _buttonRenderer.material = offColor;
         }
     }
 }
