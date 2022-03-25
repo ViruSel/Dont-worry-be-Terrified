@@ -10,7 +10,7 @@ namespace Mirror_Scripts
         /// <summary>
         /// Variables
         /// </summary>
-        [SerializeField] private Transform otherDoor;
+        [SerializeField] private Transform otherMirror;
 
         private bool _playerIsOverlapping;
         private Transform _player;
@@ -38,22 +38,26 @@ namespace Mirror_Scripts
         private void TeleportPlayer()
         {
             // Math
-            var portalToPlayer = _player.position - transform.position;
-            var dotProduct = Vector3.Dot(transform.forward, portalToPlayer);
-        
-            // If this is true: The player has moved across the portal
-            if (!(dotProduct < 0f)) return;
-        
-            // Teleport player
-            var rotationDiff = -Quaternion.Angle(transform.rotation, otherDoor.rotation);
-            rotationDiff += 180; // was 180
-            _player.Rotate(Vector3.up, rotationDiff);
-            
-            var positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
-            _player.position = otherDoor.position + positionOffset;
+            var thisTransform = transform;
+            var mirrorToPlayer = _player.position - thisTransform.position;
+            var dotProduct = Vector3.Dot(thisTransform.up, mirrorToPlayer);
 
-            // Player is leaving the portal
-            _playerIsOverlapping = false;
+            // Check if player has moved across the portal
+            if (dotProduct < 0f)
+            {
+                // Math
+                var rotationDiff = -Quaternion.Angle(thisTransform.rotation, otherMirror.rotation);
+                rotationDiff += 180;
+                
+                // Rotate player
+                _player.Rotate(Vector3.up, rotationDiff);
+
+                // Teleport player
+                var positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * mirrorToPlayer;
+                _player.position = otherMirror.position + positionOffset;
+
+                _playerIsOverlapping = false;
+            }
         }
     
         /// <summary>
@@ -63,10 +67,7 @@ namespace Mirror_Scripts
         private void OnTriggerEnter (Collider other)
         {
             if (other.CompareTag("Player"))
-            {
                 _playerIsOverlapping = true;
-                //Debug.Log("Collision made");
-            }
         }
 
         /// <summary>
@@ -76,10 +77,7 @@ namespace Mirror_Scripts
         private void OnTriggerExit (Collider other)
         {
             if (other.CompareTag("Player"))
-            {
                 _playerIsOverlapping = false;
-                //Debug.Log("Collision exit");
-            }
         }
     }
 }
