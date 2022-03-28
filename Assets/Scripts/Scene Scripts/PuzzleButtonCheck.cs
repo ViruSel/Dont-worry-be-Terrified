@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Linq;
+using System;
 using Input_Scripts;
 using Player_Scripts;
 using UnityEngine;
@@ -7,36 +6,29 @@ using UnityEngine.UI;
 
 namespace Scene_Scripts
 {
-    public class OpenDoorButton : MonoBehaviour
+    public class PuzzleButtonCheck : MonoBehaviour
     {
         /// <summary>
         /// variables
         /// </summary>
         [Header("Crosshair")]
         [SerializeField] private Text crosshair;
-        
-        [Header("Animated Object")]
-        [Tooltip("Object with animation")]
-        [SerializeField] private GameObject animatedObject;
 
-        [Header("Buttons")] 
-        [SerializeField] private GameObject[] buttons;
-        
         [Header("Button Colors")]
         [SerializeField] private Material offColor;
         [SerializeField] private Material onColor;
 
+        public bool isChecked;
+        
         private float _distance; // Distance to this object
         private string _oldText;
         private bool _isPressing;
-        private bool _canOpen;
-
+        private bool _canPress;
+        
         private InputManager _inputManager;
         private Renderer _renderer;
-        private AudioSource _creekSound;
         private AudioSource _buttonSound;
-        private Animation _objectAnim;
-        private Animation _buttonAnim;
+        private Animation _animation;
 
         /// <summary>
         /// Called before the first frame update
@@ -70,37 +62,23 @@ namespace Scene_Scripts
             _inputManager = InputManager.Instance;
             
             _renderer = GetComponent<Renderer>();
-            _buttonAnim = GetComponent<Animation>();
+            _animation = GetComponent<Animation>();
             _buttonSound = GetComponent<AudioSource>();
-            _creekSound = animatedObject.GetComponent<AudioSource>();
-            _objectAnim = animatedObject.GetComponent<Animation>();
 
             _renderer.material = offColor;
             _oldText = crosshair.text;
-            _canOpen = true;
+            
+            isChecked = false;
+            _canPress = true;
         }
 
-        /// <summary>
-        /// Check if all other buttons are checked
-        /// </summary>
-        /// <returns></returns>
-        private bool CheckAllButtons()
+        public void ResetButton()
         {
-            return buttons.All(button => button.GetComponent<OpenDoorButtonCheck>().isChecked);
-        }
-
-        private IEnumerator OpenDoor()
-        {
-            _renderer.material = onColor;
-            crosshair.text = " ";
+            _renderer.material = offColor;
+            _oldText = crosshair.text;
             
-            _buttonAnim.Play();
-            _buttonSound.Play();
-            
-            yield return new WaitForSeconds(2);
-            
-            _objectAnim.Play();
-            _creekSound.Play();
+            isChecked = false;
+            _canPress = true;
         }
 
         /// <summary>
@@ -108,16 +86,26 @@ namespace Scene_Scripts
         /// </summary>
         private void OnMouseOver()
         {
-            if (_distance < 4 && _canOpen)
+            if (_distance < 4 && _canPress)
             {
                 crosshair.text = "E";
-
-                if (_isPressing && CheckAllButtons())
+                
+                if (_isPressing)
                 {
-                    _canOpen = false;
-                    StartCoroutine(OpenDoor());
+                    _canPress = false;
+                    isChecked = true;
+                    
+                    _renderer.material = onColor;
+                    crosshair.text = "";
+                    
+                    _animation.Play();
+                    _buttonSound.Play();
+                    
+                    PuzzleSolvedButton.PasswordReceived.Add(int.Parse(name));
                 }
             }
+            else
+                crosshair.text = _oldText;
         }
 
         /// <summary>

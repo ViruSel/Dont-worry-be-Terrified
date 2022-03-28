@@ -11,8 +11,8 @@ namespace Scene_Scripts
         /// <summary>
         /// Variables
         /// </summary>
-        [SerializeField] private Animator[] animators;
-        [SerializeField] private string[] actions;
+        [SerializeField] private Animation[] animations;
+        [SerializeField] private AudioSource[] sounds;
 
         /// <summary>
         /// Actions to be done while entering the trigger
@@ -22,9 +22,17 @@ namespace Scene_Scripts
         {
             if (!other.CompareTag("Player")) return;
 
-            for (var i = 0; i < animators.Length; i++)
+            for (var i = 0; i < animations.Length; i++)
             {
-                animators[i].Play(actions[i],0,0f);
+                // Check Mirror object to fix the animation
+                if (animations[i].gameObject.name == "Mirror")
+                {
+                    animations[i].transform.GetChild(0).gameObject.SetActive(false); // Disable Non broken Mirror
+                    animations[i].transform.GetChild(1).gameObject.SetActive(false); // Disable Teleportation collider
+                }
+                
+                sounds[i].Play();
+                animations[i].Play();
             }
             
             Destroy(this);  // Destroying the collider so the animations can't be triggered again
