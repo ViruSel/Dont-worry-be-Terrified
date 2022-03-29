@@ -1,4 +1,3 @@
-using System;
 using Input_Scripts;
 using Player_Scripts;
 using UnityEngine;
@@ -75,7 +74,7 @@ namespace Scene_Scripts
         public void ResetButton()
         {
             _renderer.material = offColor;
-            _oldText = crosshair.text;
+            crosshair.text = _oldText;
             
             isChecked = false;
             _canPress = true;
@@ -104,8 +103,6 @@ namespace Scene_Scripts
                     PuzzleSolvedButton.PasswordReceived.Add(int.Parse(name));
                 }
             }
-            else
-                crosshair.text = _oldText;
         }
 
         /// <summary>

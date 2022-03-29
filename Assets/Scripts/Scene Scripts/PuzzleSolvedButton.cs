@@ -32,11 +32,13 @@ namespace Scene_Scripts
         [SerializeField] private int[] password;
         
         public static List<int> PasswordReceived = new List<int>(); // Password received by pressing the buttons
+        public static string AnimatedObjReference;
+        public static bool IsSolved;
 
         private float _distance; // Distance to this object
         private string _oldText;
         private bool _isPressing;
-        private bool _canOpen;
+        private bool _canPress;
 
         private InputManager _inputManager;
         private Renderer _renderer;
@@ -84,7 +86,10 @@ namespace Scene_Scripts
 
             _renderer.material = offColor;
             _oldText = crosshair.text;
-            _canOpen = true;
+            _canPress = true;
+            IsSolved = false;
+
+            AnimatedObjReference = animatedObject.tag;
         }
 
         /// <summary>
@@ -112,6 +117,8 @@ namespace Scene_Scripts
         /// <returns></returns>
         private IEnumerator PuzzleSolvedActions(int delay)
         {
+            IsSolved = true;
+            
             _renderer.material = onColor;
             crosshair.text = _oldText;
             
@@ -122,6 +129,8 @@ namespace Scene_Scripts
             
             _objectAnim.Play();
             _openSound.Play();
+
+            IsSolved = false;
         }
         
         /// <summary>
@@ -146,7 +155,7 @@ namespace Scene_Scripts
         /// </summary>
         private void OnMouseOver()
         {
-            if (_distance < 4 && _canOpen)
+            if (_distance < 4 && _canPress)
             {
                 crosshair.text = "E";
 
@@ -158,7 +167,7 @@ namespace Scene_Scripts
                         {
                             if (CheckAllButtons() && CheckPassword())
                             {
-                                _canOpen = false;
+                                _canPress = false;
                                 StartCoroutine(PuzzleSolvedActions(0));
                                 
                                 animatedObject.transform.GetChild(0).gameObject.SetActive(false); // Disable Non broken Mirror
@@ -171,7 +180,7 @@ namespace Scene_Scripts
                         {
                             if (CheckAllButtons())
                             {
-                                _canOpen = false;
+                                _canPress = false;
                                 StartCoroutine(PuzzleSolvedActions(1));
                             }
                             else StartCoroutine(PuzzleUnSolvedActions());
@@ -180,8 +189,6 @@ namespace Scene_Scripts
                     }
                 }
             }
-            else 
-                crosshair.text = _oldText;
         }
 
         /// <summary>
