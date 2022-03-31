@@ -27,14 +27,14 @@ namespace Scene_Scripts
                 {
                     obj.GetComponent<Animation>().Play();
                     obj.GetComponent<AudioSource>().Play();
-                    obj.transform.GetChild(0).gameObject.SetActive(false); // Disable Non broken Mirror
-                    obj.transform.GetChild(1).gameObject.SetActive(false); // Disable Teleportation collider
+                    obj.transform.GetChild(0).gameObject.SetActive(false); // Disable Teleportation collider
+                    obj.transform.GetChild(1).gameObject.SetActive(false); // Disable Non broken Mirror
                 }
 
                 foreach (var illusion in _illusionObjectsToSync)
                 {
                     illusion.transform.GetChild(0).gameObject.SetActive(false); // Disable Teleportation collider
-                    illusion.transform.GetChild(1).gameObject.SetActive(false); // Disable Door Colliders
+                    illusion.transform.GetChild(1).gameObject.SetActive(false); // Disable Door Colliders so you can exit those rooms
                 }
             }
         }
