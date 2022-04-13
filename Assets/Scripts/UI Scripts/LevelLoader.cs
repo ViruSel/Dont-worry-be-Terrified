@@ -16,16 +16,21 @@ namespace UI_Scripts
         private const float TransitionTime = 1f;
 
         /// <summary>
-        /// Loading the main menu level by scene name
+        /// Loading level by scene name
         /// </summary>
         /// <param name="sceneName"> Scene Name </param>
         public void LoadScene(string sceneName)
         {
             StartCoroutine(LoadLevel(sceneName));
         }
+
+        public void LoadSceneAsync(string sceneName)
+        {
+            SceneManager.LoadSceneAsync(sceneName);
+        }
     
         /// <summary>
-        /// Plays animation and loads the next level by scene name
+        /// Plays animation and loads the level by scene name
         /// </summary>
         /// <param name="sceneName"> Scene Name </param>
         /// <returns></returns>
