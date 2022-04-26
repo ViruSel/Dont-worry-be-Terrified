@@ -22,8 +22,6 @@ namespace Player_Scripts
         private float _mouseClamp;
         private float _clampAngleUp;
         private float _clampAngleDown;
-        private bool _isRunning;
-        private bool _isCrouching;
 
         private const float FOVChangingSpeed = 5f;
         private const float DefaultClampAngleUp = 89.999f;

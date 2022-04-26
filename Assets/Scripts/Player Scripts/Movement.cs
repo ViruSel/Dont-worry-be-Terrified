@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Enemy_Scripts;
 using Input_Scripts;
 using UI_Scripts;
 using UnityEngine;
@@ -83,6 +84,7 @@ namespace Player_Scripts
         private void Update()
         {
             CheckPauseMenu();
+            CheckDeath();
             MovePlayer();
             PlayerMovementSettings();
         }
@@ -286,11 +288,17 @@ namespace Player_Scripts
             _camera.GetComponent<CameraView>().enabled = !PauseMenu.IsPaused;
         }
 
+        private void CheckDeath()
+        {
+            enabled = !Enemy.Caught;
+            _camera.GetComponent<CameraView>().enabled = !Enemy.Caught;
+        }
+
         /// <summary>
         /// Making player interact with physics objects
         /// </summary>
         /// <param name="hit"> Physics object </param>
-        private void PushPhysicsObjects(ControllerColliderHit hit)
+        private void PushPhysicsObject(ControllerColliderHit hit)
         {
             var body = hit.collider.attachedRigidbody;
             
@@ -306,7 +314,9 @@ namespace Player_Scripts
         /// <param name="hit"></param>
         private void OnControllerColliderHit( ControllerColliderHit hit )
         {
-            PushPhysicsObjects(hit);
+            // Check if the object is a box
+            if(hit.gameObject.CompareTag("Box"))
+                PushPhysicsObject(hit);
         }
     }
 }

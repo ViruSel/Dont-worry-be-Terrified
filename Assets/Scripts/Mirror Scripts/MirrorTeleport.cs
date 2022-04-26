@@ -15,12 +15,14 @@ namespace Mirror_Scripts
         private bool _playerIsOverlapping;
         private Transform _player;
         
+        
         /// <summary>
         /// Called before Start function
         /// </summary>
         private void Awake()
         {
             _player = GameObject.FindWithTag("Player").transform;
+            
         }
 
         /// <summary>
@@ -58,8 +60,9 @@ namespace Mirror_Scripts
 
                 _playerIsOverlapping = false;
             }
+            
         }
-    
+
         /// <summary>
         /// Actions when colliding with the trigger
         /// </summary>
