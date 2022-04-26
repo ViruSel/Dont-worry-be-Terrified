@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Mirror
   - Illusion
+  - Box
+  - Enemy
   layers:
   - Default
   - TransparentFX
