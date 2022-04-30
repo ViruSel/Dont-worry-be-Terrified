@@ -12,17 +12,18 @@ namespace Mirror_Scripts
         /// </summary>
         [SerializeField] private Transform otherMirror;
 
+        public bool teleported;
+        
         private bool _playerIsOverlapping;
         private Transform _player;
-        
-        
+
         /// <summary>
         /// Called before Start function
         /// </summary>
         private void Awake()
         {
+            teleported = false;
             _player = GameObject.FindWithTag("Player").transform;
-            
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace Mirror_Scripts
                 _player.position = otherMirror.position + positionOffset;
 
                 _playerIsOverlapping = false;
+                teleported = true;
             }
             
         }
@@ -70,7 +72,9 @@ namespace Mirror_Scripts
         private void OnTriggerEnter (Collider other)
         {
             if (other.CompareTag("Player"))
+            {
                 _playerIsOverlapping = true;
+            }
         }
 
         /// <summary>

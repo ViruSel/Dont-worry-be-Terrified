@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace UI_Scripts
+namespace Scene_Scripts
 {
     /// <summary>
     /// Level loading Script with loading screen
@@ -24,9 +24,9 @@ namespace UI_Scripts
             StartCoroutine(LoadLevel(sceneName));
         }
 
-        public void LoadSceneAsync(string sceneName)
+        public static void LoadSceneAsyncAdditive(string sceneName)
         {
-            SceneManager.LoadSceneAsync(sceneName);
+            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         }
     
         /// <summary>

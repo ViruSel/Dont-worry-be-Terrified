@@ -84,7 +84,6 @@ namespace Player_Scripts
         private void Update()
         {
             CheckPauseMenu();
-            CheckDeath();
             MovePlayer();
             PlayerMovementSettings();
         }
@@ -286,12 +285,6 @@ namespace Player_Scripts
         private void CheckPauseMenu()
         {
             _camera.GetComponent<CameraView>().enabled = !PauseMenu.IsPaused;
-        }
-
-        private void CheckDeath()
-        {
-            enabled = !Enemy.Caught;
-            _camera.GetComponent<CameraView>().enabled = !Enemy.Caught;
         }
 
         /// <summary>
