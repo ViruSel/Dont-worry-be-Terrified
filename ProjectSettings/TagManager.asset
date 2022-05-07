@@ -8,6 +8,9 @@ TagManager:
   - Illusion
   - Box
   - Enemy
+  - StartButton
+  - SettingsButton
+  - ExitButton
   layers:
   - Default
   - TransparentFX
