@@ -10,17 +10,21 @@ namespace Main_Menu_Scripts
         /// <summary>
         /// Variables
         /// </summary>
-        [SerializeField] private Material offColor;
-        [SerializeField] private Material onColor;
-        
-        private Renderer _buttonRenderer;
-        
+        [Header("Button Color")]
+        [SerializeField] private Material buttonOnColor;
+        [SerializeField] private Material buttonOffColor;
+
+        private readonly Color _textOnColor = new Color(110,0,0); // BLOODY RED
+        private readonly Color _textOffColor = new Color(200,200,200); // WHITEY GREY
+
+        private GameObject[] _buttons;
+
         /// <summary>
         /// Called before Start function
         /// </summary>
         private void Awake()
         {
-            _buttonRenderer = GetComponent<Renderer>();
+            _buttons = GameObject.FindGameObjectsWithTag(gameObject.tag);
         }
 
         /// <summary>
@@ -28,7 +32,10 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void OnMouseEnter()
         {
-            _buttonRenderer.material = onColor;
+            foreach (var button in _buttons)
+            {
+                button.GetComponent<Renderer>().material = buttonOnColor;
+            }
         }
 
         /// <summary>
@@ -36,7 +43,32 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void OnMouseExit()
         {
-            _buttonRenderer.material = offColor;
+            foreach (var button in _buttons)
+            {
+                button.GetComponent<Renderer>().material = buttonOffColor;
+            }
+        }
+
+        /// <summary>
+        /// Changing color when clicked
+        /// </summary>
+        private void OnMouseDown()
+        {
+            foreach (var button in _buttons)
+            {
+                button.GetComponentInChildren<SpriteRenderer>().color = _textOnColor;
+            }
+        }
+
+        /// <summary>
+        /// Changing color when click is lifted
+        /// </summary>
+        private void OnMouseUp()
+        {
+            foreach (var button in _buttons)
+            {
+                button.GetComponentInChildren<SpriteRenderer>().color = _textOffColor;
+            }
         }
     }
 }

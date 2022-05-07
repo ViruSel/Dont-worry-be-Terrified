@@ -64,7 +64,6 @@ namespace Enemy_Scripts
             }
             else // Loop Waypoints
                 _currentWaypoint = (_currentWaypoint + 1) % waypoints.Length;
-            
         }
 
         /// <summary>

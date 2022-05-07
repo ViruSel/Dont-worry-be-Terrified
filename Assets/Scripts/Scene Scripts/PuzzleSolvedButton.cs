@@ -86,6 +86,7 @@ namespace Scene_Scripts
 
             _renderer.material = offColor;
             _oldText = crosshair.text;
+            
             _canPress = true;
             IsSolved = false;
 
