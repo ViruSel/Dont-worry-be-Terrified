@@ -5,6 +5,10 @@ namespace Scene_Scripts
 {
     public class TriggerEndLevel: MonoBehaviour
     {
+        /// <summary>
+        /// Variables
+        /// </summary>
+        [SerializeField] private string levelName;
         private LevelLoader _levelLoader;
 
         /// <summary>
@@ -23,7 +27,7 @@ namespace Scene_Scripts
         {
             if (other.CompareTag("Player"))
             {
-                _levelLoader.LoadScene("Scene 2");
+                _levelLoader.LoadScene(levelName);
             }
         }
     }

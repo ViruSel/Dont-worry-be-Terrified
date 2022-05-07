@@ -4,8 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ladder
-  - Door
+  - Mirror
+  - Illusion
+  - Box
+  - Enemy
+  - StartButton
+  - SettingsButton
+  - ExitButton
   layers:
   - Default
   - TransparentFX
@@ -13,10 +18,10 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Ladder
   - Illusion_Ignored
-  - Trigger
-  - Camera_Ignored
+  - Reflection_Ignored
+  - 
+  - 
   - 
   - 
   - 

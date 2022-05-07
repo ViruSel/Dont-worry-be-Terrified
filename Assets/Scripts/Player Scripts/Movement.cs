@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Enemy_Scripts;
 using Input_Scripts;
 using UI_Scripts;
 using UnityEngine;
@@ -11,9 +12,7 @@ namespace Player_Scripts
     public class Movement : MonoBehaviour
     {
         // Variables
-        [Header("Movement Settings")] 
-        [SerializeField] private bool canMoveInAir;
-        [SerializeField] private float velocityY;
+        [Header("Movement Settings")]
         [SerializeField] private float defaultSpeed;
         [SerializeField] [Range(0f, 1f)] private float moveSmoothTime;
 
@@ -30,7 +29,6 @@ namespace Player_Scripts
 
         [Header("Crouching Settings")]
         [SerializeField] private float crouchSpeed;
-        [SerializeField] private float crouchHeight;
 
         [Header("Ground Check")]
         [SerializeField] private LayerMask groundMask;
@@ -38,21 +36,18 @@ namespace Player_Scripts
 
         private const float Gravity = -9.81f;
         private const float CrouchingSpeed = 5f;
-        private const float StandingUpSpeed = 5f;
         private const float SlopeForce = 3;
         private const float SlopeForceRayLenght = 1.5f;
         private const float GroundDistance = 0.4f;
         
         [SerializeField] private float _movementSpeed;
-        private float _defaultCameraFOV;
+        private float _velocityY;
         private bool _isJumping;
         private bool _wishJump;
         private bool _isWalking;
         private bool _isRunning;
         private bool _isCrouching;
-        
-        private RaycastHit _slopeHit;
-        private Vector3 _moveDirection;
+
         private Vector3 _velocity;
         private Vector2 _inputDir;
         private Vector2 _currentDir = Vector2.zero;
@@ -132,14 +127,14 @@ namespace Player_Scripts
             _currentDir = Vector2.SmoothDamp(_currentDir, _inputDir, ref _currentDirVelocity, moveSmoothTime);
             
             // Resetting velocity if player was grounded
-            if (_characterController.isGrounded) velocityY = 0f;
+            if (_characterController.isGrounded) _velocityY = 0f;
 
             // Applying gravity
-            velocityY += (Gravity-2) * Time.deltaTime;
+            _velocityY += (Gravity-2) * Time.deltaTime;
             
             // Movement math
             var transformNew = transform;
-            _velocity = (transformNew.forward * _currentDir.y + transformNew.right * _currentDir.x) * _movementSpeed + Vector3.up * velocityY;
+            _velocity = (transformNew.forward * _currentDir.y + transformNew.right * _currentDir.x) * _movementSpeed + Vector3.up * _velocityY;
             
             // Move player
             _characterController.Move(_velocity * Time.deltaTime);
@@ -296,7 +291,7 @@ namespace Player_Scripts
         /// Making player interact with physics objects
         /// </summary>
         /// <param name="hit"> Physics object </param>
-        private void PushPhysicsObjects(ControllerColliderHit hit)
+        private void PushPhysicsObject(ControllerColliderHit hit)
         {
             var body = hit.collider.attachedRigidbody;
             
@@ -312,7 +307,9 @@ namespace Player_Scripts
         /// <param name="hit"></param>
         private void OnControllerColliderHit( ControllerColliderHit hit )
         {
-            PushPhysicsObjects(hit);
+            // Check if the object is a box
+            if(hit.gameObject.CompareTag("Box"))
+                PushPhysicsObject(hit);
         }
     }
 }
