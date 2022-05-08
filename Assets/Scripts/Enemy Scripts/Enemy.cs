@@ -38,9 +38,9 @@ namespace Enemy_Scripts
         }
 
         /// <summary>
-        /// Called once per frame
+        /// Called once per fixed frame
         /// </summary>
-        private void Update()
+        private void FixedUpdate()
         {
             if(!CaughtPlayer) MoveEnemy();
         }
