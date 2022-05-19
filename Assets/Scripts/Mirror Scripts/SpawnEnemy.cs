@@ -15,7 +15,7 @@ namespace Mirror_Scripts
         // Update is called once per frame
         private void Update()
         {
-            if (GetComponent<MirrorTeleport>().teleported)
+            if (GetComponent<MirrorTeleport>().playerTeleported)
                 enemy.SetActive(true);
         }
     }

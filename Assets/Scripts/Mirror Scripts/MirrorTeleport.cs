@@ -12,9 +12,9 @@ namespace Mirror_Scripts
         /// </summary>
         [SerializeField] private Transform otherMirror;
 
-        public bool teleported;
-        
+        public bool playerTeleported;
         private bool _playerIsOverlapping;
+
         private Transform _player;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Mirror_Scripts
         /// </summary>
         private void Awake()
         {
-            teleported = false;
+            playerTeleported = false;
             _player = GameObject.FindWithTag("Player").transform;
         }
 
@@ -32,37 +32,48 @@ namespace Mirror_Scripts
         private void Update ()
         {
             if (_playerIsOverlapping)
-                TeleportPlayer();
+                Teleport(_player);
         }
 
         /// <summary>
         /// Teleporting the Player
         /// </summary>
-        private void TeleportPlayer()
+        private void Teleport(Transform objectToTeleport)
         {
             // Math
             var thisTransform = transform;
-            var mirrorToPlayer = _player.position - thisTransform.position;
-            var dotProduct = Vector3.Dot(thisTransform.up, mirrorToPlayer);
+            var mirrorToObject = objectToTeleport.position - thisTransform.position;
+            var dotProduct = Vector3.Dot(thisTransform.up, mirrorToObject);
 
-            // Check if player has moved across the portal
+            // Check if object has moved across the portal
             if (dotProduct < 0f)
             {
                 // Math
                 var rotationDiff = -Quaternion.Angle(thisTransform.rotation, otherMirror.rotation);
                 rotationDiff += 180;
                 
-                // Rotate player
-                _player.Rotate(Vector3.up, rotationDiff);
+                // Rotate object
+                objectToTeleport.Rotate(Vector3.up, rotationDiff);
 
-                // Teleport player
-                var positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * mirrorToPlayer;
-                _player.position = otherMirror.position + positionOffset;
-
-                _playerIsOverlapping = false;
-                teleported = true;
+                // Teleport object
+                var positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * mirrorToObject;
+                objectToTeleport.position = otherMirror.position + positionOffset;
+                
+                CheckTeleportingObject(objectToTeleport);
             }
-            
+        }
+        
+        /// <summary>
+        /// Check which object to be teleported
+        /// </summary>
+        /// <param name="objectToCheck"></param>
+        private void CheckTeleportingObject(Component objectToCheck)
+        {
+            if (objectToCheck.CompareTag("Player"))
+            {
+                _playerIsOverlapping = false;
+                playerTeleported = true;
+            }
         }
 
         /// <summary>

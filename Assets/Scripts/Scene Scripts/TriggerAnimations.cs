@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Scene_Scripts
 {
     /// <summary>
-    /// Trigger one or multiple animations at once
+    /// Trigger one or multiple animations at once with specific sounds
     /// </summary>
     public class TriggerAnimations : MonoBehaviour
     {
@@ -15,13 +15,10 @@ namespace Scene_Scripts
         [SerializeField] private AudioSource[] sounds;
 
         /// <summary>
-        /// Actions to be done while entering the trigger
+        /// Triggers animations with specific sounds
         /// </summary>
-        /// <param name="other"> The object that enters the trigger </param>
-        private void OnTriggerEnter(Collider other)
+        private void TriggerAnims()
         {
-            if (!other.CompareTag("Player")) return;
-
             for (var i = 0; i < animations.Length; i++)
             {
                 // Check Mirror object to fix the animation
@@ -34,6 +31,16 @@ namespace Scene_Scripts
                 sounds[i].Play();
                 animations[i].Play();
             }
+        }
+        
+        /// <summary>
+        /// Actions to be done while entering the trigger
+        /// </summary>
+        /// <param name="other"> The object that enters the trigger </param>
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.CompareTag("Player")) return;
+                TriggerAnims();
             
             Destroy(this);  // Destroying the collider so the animations can't be triggered again
         }
