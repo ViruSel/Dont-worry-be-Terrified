@@ -39,6 +39,7 @@ namespace UI_Scripts
             // Graphics
             _isFullScreen = true;
             _isVsync = true;
+            QualitySettings.vSyncCount = 1;
             InitializeResolution();
             ChangeVsync();
             SetQuality(6);

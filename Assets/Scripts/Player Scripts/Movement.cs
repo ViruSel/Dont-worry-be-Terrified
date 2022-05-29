@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Enemy_Scripts;
 using Input_Scripts;
 using UI_Scripts;
 using UnityEngine;
@@ -11,7 +10,9 @@ namespace Player_Scripts
     /// </summary>
     public class Movement : MonoBehaviour
     {
-        // Variables
+        /// <summary>
+        /// Variables
+        /// </summary>
         [Header("Movement Settings")]
         [SerializeField] private float defaultSpeed;
         [SerializeField] [Range(0f, 1f)] private float moveSmoothTime;
@@ -36,11 +37,11 @@ namespace Player_Scripts
 
         private const float Gravity = -9.81f;
         private const float CrouchingSpeed = 5f;
-        private const float SlopeForce = 3;
+        private const float SlopeForce = 6f;
         private const float SlopeForceRayLenght = 1.5f;
         private const float GroundDistance = 0.4f;
         
-        [SerializeField] private float _movementSpeed;
+        private float _movementSpeed;
         private float _velocityY;
         private bool _isJumping;
         private bool _wishJump;
@@ -139,7 +140,7 @@ namespace Player_Scripts
             // Move player
             _characterController.Move(_velocity * Time.deltaTime);
         }
-        
+
         /// <summary>
         /// Player Movement Settings
         /// </summary>
@@ -155,7 +156,7 @@ namespace Player_Scripts
             {
                 UpdateMovementSpeed(crouchSpeed);
                 playerState = States.Crouching;
-                isGrounded = true;
+                isGrounded = true; // Quick fix
             }
             else if (_isRunning)
             {
@@ -183,7 +184,7 @@ namespace Player_Scripts
             // Jump Action
             if (_wishJump && !_isJumping)
             {
-                _isJumping = true;
+                _isJumping = true; 
                 playerState = States.InAir;
                 StartCoroutine(JumpEvent());
             }
@@ -209,7 +210,7 @@ namespace Player_Scripts
         /// </summary>
         private IEnumerator JumpEvent()
         {
-            _characterController.slopeLimit = 90f;
+            _characterController.slopeLimit = 91f;
 
             float timeInAir = 0;
 
@@ -245,8 +246,7 @@ namespace Player_Scripts
         /// </summary>
         private void StandUpEvent()
         {
-            RaycastHit hit;
-            if (!Physics.Raycast(_camera.transform.position + Vector3.up, Vector3.up, out hit, 1.0f))
+            if (!Physics.Raycast(_camera.transform.position + Vector3.up, Vector3.up, out _, 1.0f))
             {
                 _characterController.height = 2;
                 _characterController.center = new Vector3(0, 0f, 0);
@@ -275,7 +275,8 @@ namespace Player_Scripts
         /// </summary>
         private void SlopeEvent()
         {
-            if (_currentDir.y != 0 || _currentDir.x != 0) 
+            if (_isJumping) return;
+            if (_currentDir.y != 0 || _currentDir.x != 0)
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (SlopeForce * Time.deltaTime));
         }
 
