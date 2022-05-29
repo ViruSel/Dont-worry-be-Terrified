@@ -162,7 +162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2641554921620828663}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.03, y: 0.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 3.1279092, y: 0.18585998, z: 1.3346791}
   m_Children: []
   m_Father: {fileID: 2641554922686976455}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 6002202429432503975}
   - component: {fileID: 7204998553957448695}
   - component: {fileID: 7238371092153883815}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
