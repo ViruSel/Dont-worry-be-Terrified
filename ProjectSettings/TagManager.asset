@@ -11,6 +11,7 @@ TagManager:
   - StartButton
   - SettingsButton
   - ExitButton
+  - Post-Process
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Illusion_Ignored
-  - Reflection_Ignored
+  - 
   - 
   - 
   - 
