@@ -20,8 +20,6 @@ namespace Main_Menu_Scripts
     
         private float _mouseClampY;
         private float _mouseClampX;
-        private float _pointerClampY;
-        private float _pointerClampX;
         private float _clampAngleLeft;
         private float _clampAngleRight;
 
