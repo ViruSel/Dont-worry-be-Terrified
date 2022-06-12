@@ -275,7 +275,7 @@ namespace Player_Scripts
         /// </summary>
         private void SlopeEvent()
         {
-            if (_isJumping) return;
+            if (_isJumping || playerState == States.InAir) return;
             if (_currentDir.y != 0 || _currentDir.x != 0)
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (SlopeForce * Time.deltaTime));
         }

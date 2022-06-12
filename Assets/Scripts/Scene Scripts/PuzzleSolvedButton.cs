@@ -170,9 +170,6 @@ namespace Scene_Scripts
                             {
                                 _canPress = false;
                                 StartCoroutine(PuzzleSolvedActions(0));
-                                
-                                animatedObject.transform.GetChild(0).gameObject.SetActive(false); // Disable Non broken Mirror
-                                animatedObject.transform.GetChild(1).gameObject.SetActive(false); // Disable Teleportation collider
                             }
                             else StartCoroutine(PuzzleUnSolvedActions());
                             break;

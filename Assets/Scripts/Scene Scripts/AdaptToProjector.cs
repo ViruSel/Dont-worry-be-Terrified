@@ -19,7 +19,7 @@ namespace Scene_Scripts
         /// </summary>
         private void Start()
         {
-            isProjecting = false;
+            //isProjecting = false;
         }
         
         /// <summary>
