@@ -166,7 +166,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   isGrounded: 0
-  _movementSpeed: 0
   playerState: 0
 --- !u!114 &2972211621908177329
 MonoBehaviour:
