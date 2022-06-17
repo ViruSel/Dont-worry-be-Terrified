@@ -1,29 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using Scene_Scripts;
 using UnityEngine;
 
-public class DisableColliders : MonoBehaviour
+namespace Scene_Scripts
 {
-    /// <summary>
-    /// Variables
-    /// </summary>
-    [SerializeField] private GameObject[] objectsToDisable;
+    public class DisableColliders : MonoBehaviour
+    {
+        /// <summary>
+        /// Variables
+        /// </summary>
+        [SerializeField] private GameObject[] objectsToDisable;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (PuzzleSolvedButton.IsSolved)
+        // Start is called before the first frame update
+        void Start()
         {
-            foreach (var obj in objectsToDisable)
+        
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (PuzzleSolvedButton.IsSolved)
             {
-                obj.SetActive(false);
+                foreach (var obj in objectsToDisable)
+                {
+                    obj.SetActive(false);
+                }
             }
         }
     }

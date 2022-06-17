@@ -5,8 +5,10 @@ namespace Scene_Scripts
 {
     public class Respawn : MonoBehaviour
     {
-        [SerializeField] private Vector3 respawnPoint;
         [SerializeField] private Animator respawnAnim;
+        
+        private Vector3 _respawnPoint;
+        private Vector3 _respawnRotation;
         
         private const float TransitionTime = 1f;
         
@@ -18,6 +20,9 @@ namespace Scene_Scripts
         private void Start()
         {
             _player = GameObject.Find("Player").transform;
+            
+            _respawnPoint = _player.position;
+            _respawnRotation = _player.rotation.eulerAngles;
         }
 
         /// <summary>
@@ -31,7 +36,9 @@ namespace Scene_Scripts
             yield return new WaitForSeconds(TransitionTime);
             
             respawnAnim.Play("Crossfade_End");
-            _player.localPosition = respawnPoint;
+            
+            _player.localPosition = _respawnPoint;
+            _player.localRotation = Quaternion.Euler(_respawnRotation);
         }
         
         /// <summary>

@@ -246,15 +246,15 @@ namespace Player_Scripts
         /// </summary>
         private void StandUpEvent()
         {
-            if (!Physics.Raycast(_camera.transform.position + Vector3.up, Vector3.up, out _, 1.0f))
+            if (!Physics.Raycast(_camera.transform.position + Vector3.up, Vector3.up, out _, .5f))
             {
                 _characterController.height = 2;
                 _characterController.center = new Vector3(0, 0f, 0);
                 _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.66f, CrouchingSpeed * Time.deltaTime);
                 //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f,1f), CrouchingSpeed * Time.deltaTime);
-            }
+            }   
         }
-
+    
         /// <summary>
         /// Verify if character is on a slope
         /// </summary>
