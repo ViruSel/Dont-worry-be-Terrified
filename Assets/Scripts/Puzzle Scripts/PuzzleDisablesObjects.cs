@@ -1,19 +1,13 @@
 using UnityEngine;
 
-namespace Scene_Scripts
+namespace Puzzle_Scripts
 {
-    public class DisableColliders : MonoBehaviour
+    public class PuzzleDisablesObjects : MonoBehaviour
     {
         /// <summary>
         /// Variables
         /// </summary>
         [SerializeField] private GameObject[] objectsToDisable;
-    
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
 
         // Update is called once per frame
         void Update()
