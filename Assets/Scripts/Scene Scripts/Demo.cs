@@ -24,7 +24,7 @@ namespace Scene_Scripts
 
         public void Exit()
         {
-            levelLoader.LoadScene("Menu");
+            levelLoader.LoadScene(levelName);
             Destroy(this);
         }
     }

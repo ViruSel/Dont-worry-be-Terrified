@@ -13,15 +13,7 @@ namespace Scene_Scripts
         [SerializeField] private bool isProjecting;
         
         private Tonemapping _tonemapping;
-        
-        /// <summary>
-        /// Start is called before the first frame update
-        /// </summary>
-        private void Start()
-        {
-            //isProjecting = false;
-        }
-        
+
         /// <summary>
         /// Called once per frame
         /// </summary>

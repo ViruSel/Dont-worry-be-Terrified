@@ -6,7 +6,7 @@ using Player_Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scene_Scripts
+namespace Puzzle_Scripts
 {
     public class PuzzleSolvedButton : MonoBehaviour
     {
