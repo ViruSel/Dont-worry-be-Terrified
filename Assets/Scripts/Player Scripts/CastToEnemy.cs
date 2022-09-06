@@ -13,10 +13,6 @@ namespace Player_Scripts
         [SerializeField] private VolumeProfile volumeProfile;
 
         private float _distanceToEnemy;
-        
-        private const float VignetteChangingSpeed = 5f;
-        private const float InitialVignette = .25f;
-        private const float NewVignette = .5f;
 
         private Vignette _vignette;
         
@@ -37,21 +33,21 @@ namespace Player_Scripts
 
             if (!volumeProfile.TryGet(out _vignette)) return;
             
-            if (_distanceToEnemy < 5f)
+            if (_distanceToEnemy < PlayerProperties.CAST_TO_ENEMY_DISTANCE)
             {
-                ChangeVignette(NewVignette);
+                ChangeVignette(PlayerProperties.VIGNETTE_NEW_VALUE);
                 
                 // Correct Vignette Value
-                if (_vignette.intensity.value + .0005f > NewVignette)
-                    _vignette.intensity.value = NewVignette;
+                if (_vignette.intensity.value + .0005f > PlayerProperties.VIGNETTE_NEW_VALUE)
+                    _vignette.intensity.value = PlayerProperties.VIGNETTE_NEW_VALUE;
             }
             else
             {
-                ChangeVignette(InitialVignette);
+                ChangeVignette(PlayerProperties.VIGNETTE_DEFAULT_VALUE);
 
                 // Correct Vignette Value
-                if (_vignette.intensity.value + .0005f < InitialVignette)
-                    _vignette.intensity.value = InitialVignette;
+                if (_vignette.intensity.value + .0005f < PlayerProperties.VIGNETTE_DEFAULT_VALUE)
+                    _vignette.intensity.value = PlayerProperties.VIGNETTE_DEFAULT_VALUE;
             }
         }
         
@@ -61,7 +57,7 @@ namespace Player_Scripts
         /// <param name="newValue"></param>
         private void ChangeVignette(float newValue)
         {
-            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, VignetteChangingSpeed * Time.deltaTime);
+            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, PlayerProperties.VIGNETTE_CHANGING_SPEED * Time.deltaTime);
         }
         
         /// <summary>

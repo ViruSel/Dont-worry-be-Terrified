@@ -23,10 +23,6 @@ namespace Player_Scripts
         private float _clampAngleUp;
         private float _clampAngleDown;
 
-        private const float FOVChangingSpeed = 5f;
-        private const float DefaultClampAngleUp = 89.999f;
-        private const float DefaultClampAngleDown = -89.999f;
-
         private Vector2 _currentMouseDelta = Vector2.zero;
         private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
         
@@ -46,8 +42,8 @@ namespace Player_Scripts
             _camera.fieldOfView = defaultFOV;
             _player = transform.parent;
             
-            _clampAngleUp = DefaultClampAngleUp;
-            _clampAngleDown = DefaultClampAngleDown;
+            _clampAngleUp = PlayerProperties.CAMERA_CLAMP_UP;
+            _clampAngleDown = PlayerProperties.CAMERA_CLAMP_DOWN;
         }
         
         /// <summary>
@@ -128,7 +124,7 @@ namespace Player_Scripts
         /// <param name="newFOV"> New FOV Value </param>
         private void ChangeFOV(float newFOV)
         {
-            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, FOVChangingSpeed * Time.deltaTime);
+            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, PlayerProperties.FOV_CHANGING_SPEED * Time.deltaTime);
         }
 
         /// <summary>
@@ -178,8 +174,8 @@ namespace Player_Scripts
             // if camera isn't clamped allow full mouse movement
             if (isClamped)
             {
-                _clampAngleUp = DefaultClampAngleUp;
-                _clampAngleDown = DefaultClampAngleDown;
+                _clampAngleUp = PlayerProperties.CAMERA_CLAMP_UP;
+                _clampAngleDown = PlayerProperties.CAMERA_CLAMP_DOWN;
             }
             else
             {
