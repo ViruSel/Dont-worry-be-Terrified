@@ -93,8 +93,8 @@ namespace Player_Scripts
         /// </summary>
         private void CheckFOV()
         {
-            var crouchFOV = defaultFOV - 15f;
-            var runningFOV = defaultFOV + 15f;
+            var crouchFOV = defaultFOV - PlayerProperties.FOV_DIFFERENCE;
+            var runningFOV = defaultFOV + PlayerProperties.FOV_DIFFERENCE;
 
             if (_playerMovement.playerState == States.Crouching)
             {
@@ -133,7 +133,7 @@ namespace Player_Scripts
         /// <param name="newFOV"></param>
         private void CorrectAfterRunningFOV(float newFOV)
         {
-            if (_camera.fieldOfView + 0.05f > newFOV)
+            if (_camera.fieldOfView + PlayerProperties.FOV_CORRECTION > newFOV)
                 _camera.fieldOfView = newFOV;
         }
 
@@ -143,7 +143,7 @@ namespace Player_Scripts
         /// <param name="newFov"></param>
         private void CorrectAfterCrouchingFOV(float newFov)
         {
-            if (_camera.fieldOfView - 0.05f < newFov)
+            if (_camera.fieldOfView - PlayerProperties.FOV_CORRECTION < newFov)
                 _camera.fieldOfView = newFov;
         }
 
