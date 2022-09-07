@@ -33,21 +33,21 @@ namespace Player_Scripts
 
             if (!volumeProfile.TryGet(out _vignette)) return;
             
-            if (_distanceToEnemy < PlayerProperties.CAST_TO_ENEMY_DISTANCE)
+            if (_distanceToEnemy < PlayerProperties.CastToEnemyDistance)
             {
-                ChangeVignette(PlayerProperties.VIGNETTE_NEW_VALUE);
+                ChangeVignette(PlayerProperties.VignetteNewValue);
                 
                 // Correct Vignette Value
-                if (_vignette.intensity.value + .0005f > PlayerProperties.VIGNETTE_NEW_VALUE)
-                    _vignette.intensity.value = PlayerProperties.VIGNETTE_NEW_VALUE;
+                if (_vignette.intensity.value + PlayerProperties.VignetteCorrection > PlayerProperties.VignetteNewValue)
+                    _vignette.intensity.value = PlayerProperties.VignetteNewValue;
             }
             else
             {
-                ChangeVignette(PlayerProperties.VIGNETTE_DEFAULT_VALUE);
+                ChangeVignette(PlayerProperties.VignetteDefaultValue);
 
                 // Correct Vignette Value
-                if (_vignette.intensity.value + .0005f < PlayerProperties.VIGNETTE_DEFAULT_VALUE)
-                    _vignette.intensity.value = PlayerProperties.VIGNETTE_DEFAULT_VALUE;
+                if (_vignette.intensity.value + PlayerProperties.VignetteCorrection < PlayerProperties.VignetteDefaultValue)
+                    _vignette.intensity.value = PlayerProperties.VignetteDefaultValue;
             }
         }
         
@@ -57,7 +57,7 @@ namespace Player_Scripts
         /// <param name="newValue"></param>
         private void ChangeVignette(float newValue)
         {
-            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, PlayerProperties.VIGNETTE_CHANGING_SPEED * Time.deltaTime);
+            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, PlayerProperties.VignetteChangingSpeed * Time.deltaTime);
         }
         
         /// <summary>

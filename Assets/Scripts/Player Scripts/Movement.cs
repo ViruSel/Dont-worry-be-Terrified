@@ -98,13 +98,13 @@ namespace Player_Scripts
         {
             _inputManager = InputManager.Instance;
             
-            moveSmoothTime = PlayerProperties.SMOOTH_TIME;
-            defaultSpeed = PlayerProperties.DEFAULT_SPEED;
-            walkSpeed = PlayerProperties.WALK_SPEED;
-            runSpeed = PlayerProperties.RUN_SPEED;
-            acceleration = PlayerProperties.ACCELERATION_SPEED;
-            jumpMultiplier = PlayerProperties.JUMP_MULTIPLIER;
-            crouchSpeed = PlayerProperties.CROUCH_SPEED;
+            moveSmoothTime = PlayerProperties.SmoothTime;
+            defaultSpeed = PlayerProperties.DefaultSpeed;
+            walkSpeed = PlayerProperties.WalkSpeed;
+            runSpeed = PlayerProperties.RunSpeed;
+            acceleration = PlayerProperties.AccelerationSpeed;
+            jumpMultiplier = PlayerProperties.JumpMultiplier;
+            crouchSpeed = PlayerProperties.CrouchSpeed;
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Player_Scripts
             if (_characterController.isGrounded) _velocityY = 0f;
 
             // Applying gravity
-            _velocityY += (PlayerProperties.GRAVITY-2) * Time.deltaTime;
+            _velocityY += (PlayerProperties.Gravity-2) * Time.deltaTime;
             
             // Movement math
             var transformNew = transform;
@@ -157,7 +157,7 @@ namespace Player_Scripts
         private void PlayerMovementSettings()
         {
             // Ground check
-            isGrounded = Physics.CheckSphere(_groundCheck.position, PlayerProperties.GROUND_DISTANCE, groundMask);
+            isGrounded = Physics.CheckSphere(_groundCheck.position, PlayerProperties.GroundDistance, groundMask);
 
             if (!isGrounded) playerState = States.InAir;
 
@@ -220,7 +220,7 @@ namespace Player_Scripts
         /// </summary>
         private IEnumerator JumpEvent()
         {
-            _characterController.slopeLimit = PlayerProperties.SLOPE_LIMIT_IN_AIR;
+            _characterController.slopeLimit = PlayerProperties.SlopeLimitInAir;
 
             float timeInAir = 0;
 
@@ -233,7 +233,7 @@ namespace Player_Scripts
 
             } while (!_characterController.isGrounded && _characterController.collisionFlags != CollisionFlags.Above);
 
-            _characterController.slopeLimit = PlayerProperties.SLOPE_LIMIT_ON_GROUND;
+            _characterController.slopeLimit = PlayerProperties.SlopeLimitOnGround;
 
             _isJumping = false;
         }
@@ -246,7 +246,7 @@ namespace Player_Scripts
         {
             _characterController.height = 1;
             _characterController.center = new Vector3(0, -0.5f, 0);
-            _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.10f, PlayerProperties.CROUCH_SPEED * Time.deltaTime);
+            _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.10f, PlayerProperties.CrouchSpeed * Time.deltaTime);
             //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f/2,1f), CrouchingSpeed * Time.deltaTime);
         }
         
@@ -260,7 +260,7 @@ namespace Player_Scripts
             {
                 _characterController.height = 2;
                 _characterController.center = new Vector3(0, 0f, 0);
-                _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.66f, PlayerProperties.CROUCHING_SPEED * Time.deltaTime);
+                _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.66f, PlayerProperties.CrouchingSpeed * Time.deltaTime);
                 //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f,1f), CrouchingSpeed * Time.deltaTime);
             }   
         }
@@ -275,7 +275,7 @@ namespace Player_Scripts
         private bool OnSlope()
         {
             if (!Physics.Raycast(transform.position, Vector3.down, out var hit,
-                    _characterController.height / 2 * PlayerProperties.SLOPE_FORCE_RAY_LENGTH)) return false;
+                    _characterController.height / 2 * PlayerProperties.SlopeForceRayLength)) return false;
             
             return hit.normal != Vector3.up;
         }
@@ -288,7 +288,7 @@ namespace Player_Scripts
             if (_isJumping || playerState == States.InAir) return;
             
             if (_currentDir.y != 0 || _currentDir.x != 0)
-                _characterController.Move(Vector3.down * _characterController.height / 2 * (PlayerProperties.SLOPE_FORCE * Time.deltaTime));
+                _characterController.Move(Vector3.down * _characterController.height / 2 * (PlayerProperties.SlopeForce * Time.deltaTime));
         }
 
         /// <summary>
