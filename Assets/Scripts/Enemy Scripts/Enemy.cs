@@ -1,8 +1,6 @@
 using System.Collections;
-using Mirror_Scripts;
 using Player_Scripts;
 using Scene_Scripts;
-using UI_Scripts;
 using UnityEngine;
 
 namespace Enemy_Scripts
@@ -15,9 +13,9 @@ namespace Enemy_Scripts
         [SerializeField] private Transform[] waypoints;
 
         [SerializeField] private float speed;
-        [SerializeField] private float damping;
+        [SerializeField] private float rotationTime;
 
-        public static bool CaughtPlayer;
+        private static bool _caughtPlayer;
         
         private int _currentWaypoint;
 
@@ -25,16 +23,16 @@ namespace Enemy_Scripts
         private GameObject _playerCamera;
         private LevelLoader _levelLoader;
         
+        private Movement _playerMovement;
+        private CameraView _playerCameraView;
+        private Rigidbody _enemyRigidbody;
+        
         /// <summary>
         /// Called before the first frame update
         /// </summary>
         private void Start()
         {
-            CaughtPlayer = false;
-
-            _player = GameObject.FindWithTag("Player");
-            _playerCamera = GameObject.FindWithTag("MainCamera");
-            _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
+            Initialize();
         }
 
         /// <summary>
@@ -42,9 +40,28 @@ namespace Enemy_Scripts
         /// </summary>
         private void FixedUpdate()
         {
-            if(!CaughtPlayer) MoveEnemy();
+            if(!_caughtPlayer) MoveEnemy();
         }
 
+        /// <summary>
+        /// Initialize every variable
+        /// </summary>
+        private void Initialize()
+        {
+            _caughtPlayer = false;
+
+            speed = EnemyProperties.Speed;
+            rotationTime = EnemyProperties.RotationTime;
+            
+            _player = GameObject.FindWithTag("Player");
+            _playerCamera = GameObject.FindWithTag("MainCamera");
+            _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
+            
+            _enemyRigidbody = GetComponent<Rigidbody>();
+            _playerMovement = _player.GetComponent<Movement>();
+            _playerCameraView = _playerCamera.GetComponent<CameraView>();
+        }
+        
         /// <summary>
         /// Move Enemy towards waypoint
         /// </summary>
@@ -56,11 +73,11 @@ namespace Enemy_Scripts
                 
                 // Move Enemy to the next waypoint
                 var pos = Vector3.MoveTowards(position, waypoints[_currentWaypoint].position, speed * Time.deltaTime);
-                GetComponent<Rigidbody>().MovePosition(pos);
+                _enemyRigidbody.MovePosition(pos);
                 
                 // Rotate enemy to face the next waypoint
                 var rotation = Quaternion.LookRotation(waypoints[_currentWaypoint].position - position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationTime);
             }
             else // Loop Waypoints
                 _currentWaypoint = (_currentWaypoint + 1) % waypoints.Length;
@@ -71,17 +88,17 @@ namespace Enemy_Scripts
         /// </summary>
         private IEnumerator KillPlayer()
         {   
-            CaughtPlayer = true;
-            _player.GetComponent<Movement>().enabled = false;
-            _playerCamera.GetComponent<CameraView>().enabled = false;
+            _caughtPlayer = true;
+            _playerMovement.enabled = false;
+            _playerCameraView.enabled = false;
             
             // Oped death panel
             _levelLoader.LoadScene("Scene 2");
 
             yield return new WaitForSeconds(1f);
 
-            _player.GetComponent<Movement>().enabled = true;
-            _playerCamera.GetComponent<CameraView>().enabled = true;
+            _playerMovement.enabled = true;
+            _playerCameraView.enabled = true;
         }
 
         /// <summary>
