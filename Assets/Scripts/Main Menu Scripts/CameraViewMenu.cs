@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Main_Menu_Scripts
@@ -23,12 +22,6 @@ namespace Main_Menu_Scripts
         private float _clampAngleLeft;
         private float _clampAngleRight;
 
-        private const float FieldOfView = 70f;
-        private const float ClampAngleUp = 25f;
-        private const float ClampAngleDown = -10f;
-        private const float DefaultClampAngleLeft = -15f;
-        private const float DefaultClampAngleRight = 15f;
-    
         private Vector2 _currentMouseDelta = Vector2.zero;
         private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
         
@@ -40,15 +33,7 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void Awake()
         {
-            _menuCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-            _menuCamera.fieldOfView = FieldOfView;
-            
-            isClamped = true;
-            
-            _tripod = transform.parent;
-            
-            _clampAngleLeft = DefaultClampAngleLeft;
-            _clampAngleRight = DefaultClampAngleRight;
+            Initialize();
         }
 
         /// <summary>
@@ -69,6 +54,22 @@ namespace Main_Menu_Scripts
             CameraMovement();
         }
 
+        private void Initialize()
+        {
+            _menuCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            _menuCamera.fieldOfView = MainMenuProperties.FieldOfView;
+            
+            isClamped = true;
+            
+            _tripod = transform.parent;
+
+            mouseSensitivity = MainMenuProperties.MouseSensitivity;
+            mouseSmoothTime = MainMenuProperties.MouseSmoothTime;
+            
+            _clampAngleLeft = MainMenuProperties.DefaultClampAngleLeft;
+            _clampAngleRight = MainMenuProperties.DefaultClampAngleRight;
+        }
+        
         /// <summary>
         /// Camera Movement
         /// </summary>
@@ -82,7 +83,7 @@ namespace Main_Menu_Scripts
 
             // Camera clamp on Vertical axis
             _mouseClampY -= _currentMouseDelta.y * mouseSensitivity;
-            _mouseClampY = Mathf.Clamp(_mouseClampY, ClampAngleDown, ClampAngleUp);
+            _mouseClampY = Mathf.Clamp(_mouseClampY, MainMenuProperties.ClampAngleDown, MainMenuProperties.ClampAngleUp);
 
             // Camera clamp on Horizontal Axis
             _mouseClampX += _currentMouseDelta.x * mouseSensitivity;
@@ -103,8 +104,8 @@ namespace Main_Menu_Scripts
             // if camera isn't clamped allow full mouse movement
             if (isClamped)
             {
-                _clampAngleLeft = DefaultClampAngleLeft;
-                _clampAngleRight = DefaultClampAngleRight;
+                _clampAngleLeft = MainMenuProperties.DefaultClampAngleLeft;
+                _clampAngleRight = MainMenuProperties.DefaultClampAngleRight;
             }
             else
             {
