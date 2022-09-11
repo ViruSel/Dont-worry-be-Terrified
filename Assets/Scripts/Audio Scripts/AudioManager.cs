@@ -16,7 +16,8 @@ namespace Audio_Scripts
         /// Variables
         /// </summary>
         public Sound[] sounds;
-        public static AudioManager Instance;
+
+        private static AudioManager _instance;
 
         /// <summary>
         /// Called before Start function
@@ -36,21 +37,13 @@ namespace Audio_Scripts
             Play("Menu");
         }
 
-        private void Update()
-        {
-            //PlayerPrefs = for later
-
-            if (PauseMenu.IsPaused)
-                StartCoroutine(Stop("Menu"));
-        }
-
         /// <summary>
         /// Initialize object
         /// </summary>
         private void Initialize()
         {
-            if (Instance == null)
-                Instance = this;
+            if (_instance == null)
+                _instance = this;
             else
                 Destroy(this);
         }
