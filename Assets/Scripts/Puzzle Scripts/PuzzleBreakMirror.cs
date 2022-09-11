@@ -10,8 +10,6 @@ namespace Puzzle_Scripts
         /// </summary>
         private GameObject[] _mirrors;
 
-        [SerializeField] private Material black;
-
         private void Awake()
         {
             _mirrors = GameObject.FindGameObjectsWithTag("Mirror");

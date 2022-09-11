@@ -32,7 +32,6 @@ namespace Puzzle_Scripts
         [SerializeField] private int[] password;
 
         public static List<int> PasswordReceived; // Password received by pressing the buttons
-        public static string AnimatedObjReference;
         public static bool IsSolved;
 
         private float _distance; // Distance to this object
@@ -91,7 +90,6 @@ namespace Puzzle_Scripts
             IsSolved = false;
 
             PasswordReceived = new List<int>();
-            AnimatedObjReference = animatedObject.tag;
         }
 
         /// <summary>
@@ -139,8 +137,10 @@ namespace Puzzle_Scripts
         /// <returns></returns>
         private IEnumerator PuzzleSolvedActions(int delay)
         {
-            DestroyObjects.DestroyPuzzleObjects();
-            
+            ObjectManager.ActivateTunnelObjects();
+            ObjectManager.DestroyTriggers();
+            ObjectManager.DestroyPuzzleObjects();
+
             IsSolved = true;
 
             _renderer.material = onColor;
