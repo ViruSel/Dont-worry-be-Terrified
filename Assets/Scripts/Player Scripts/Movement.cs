@@ -70,7 +70,7 @@ namespace Player_Scripts
         /// </summary>
         private void Start()
         {
-            Init();
+            Initialize();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Player_Scripts
         /// <summary>
         /// Initialize variables
         /// </summary>
-        private void Init()
+        private void Initialize()
         {
             _inputManager = InputManager.Instance;
             
