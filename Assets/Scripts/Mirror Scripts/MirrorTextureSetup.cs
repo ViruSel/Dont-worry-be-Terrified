@@ -1,5 +1,3 @@
-using System;
-using UI_Scripts;
 using UnityEngine;
 
 namespace Mirror_Scripts
@@ -22,8 +20,7 @@ namespace Mirror_Scripts
         /// </summary>
         private void Awake ()
         {
-            _currentResolution.width = Screen.width;
-            _currentResolution.height = Screen.height;
+            _currentResolution = Screen.currentResolution;
             
             SetupTextures();
         }
@@ -45,8 +42,7 @@ namespace Mirror_Scripts
             
             SetupTextures();
                 
-            _currentResolution.width = Screen.width;
-            _currentResolution.height = Screen.height;
+            _currentResolution = Screen.currentResolution;
         }
 
         /// <summary>
