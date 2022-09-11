@@ -22,17 +22,6 @@ namespace Puzzle_Scripts
         /// </summary>
         private void Update()
         {
-            if (PuzzleSolvedButton.AnimatedObjReference == "Mirror")
-            {
-                foreach (var mirror in _mirrors)
-                {
-                    for(var i = 2; i < mirror.transform.childCount; i++)
-                    {
-                        mirror.transform.GetChild(i).GetComponent<Renderer>().material = black;
-                    }
-                }
-            }
-
             if (PuzzleSolvedButton.IsSolved)
             {
                 foreach (var mirror in _mirrors)

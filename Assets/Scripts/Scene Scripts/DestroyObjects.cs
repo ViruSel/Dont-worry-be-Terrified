@@ -1,5 +1,3 @@
-using System;
-using Puzzle_Scripts;
 using UnityEngine;
 
 namespace Scene_Scripts
@@ -13,9 +11,14 @@ namespace Scene_Scripts
 
         private void Start()
         {
-            _puzzleObjectsToDestroy = GameObject.FindGameObjectsWithTag("Puzzle");
+            Initialize();
         }
 
+        private static void Initialize()
+        {
+            _puzzleObjectsToDestroy = GameObject.FindGameObjectsWithTag("Puzzle");
+        }
+        
         public static void DestroyPuzzleObjects()
         {
             foreach (var obj in _puzzleObjectsToDestroy)
