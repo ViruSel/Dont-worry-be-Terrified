@@ -17,7 +17,7 @@ namespace Puzzle_Scripts
         [SerializeField] private Material offColor;
         [SerializeField] private Material onColor;
 
-        public bool isChecked;
+        public bool isPressed;
         
         private float _distance; // Distance to this object
         private string _oldText;
@@ -67,7 +67,7 @@ namespace Puzzle_Scripts
             _renderer.material = offColor;
             _oldText = crosshair.text;
             
-            isChecked = false;
+            isPressed = false;
             _canPress = true;
         }
 
@@ -76,7 +76,7 @@ namespace Puzzle_Scripts
             _renderer.material = offColor;
             crosshair.text = _oldText;
             
-            isChecked = false;
+            isPressed = false;
             _canPress = true;
         }
 
@@ -92,7 +92,7 @@ namespace Puzzle_Scripts
                 if (_isPressing)
                 {
                     _canPress = false;
-                    isChecked = true;
+                    isPressed = true;
                     
                     _renderer.material = onColor;
                     crosshair.text = "";

@@ -13,10 +13,6 @@ namespace Player_Scripts
         [SerializeField] private VolumeProfile volumeProfile;
 
         private float _distanceToEnemy;
-        
-        private const float VignetteChangingSpeed = 5f;
-        private const float InitialVignette = .25f;
-        private const float NewVignette = .5f;
 
         private Vignette _vignette;
         
@@ -37,21 +33,21 @@ namespace Player_Scripts
 
             if (!volumeProfile.TryGet(out _vignette)) return;
             
-            if (_distanceToEnemy < 5f)
+            if (_distanceToEnemy < PlayerProperties.CastToEnemyDistance)
             {
-                ChangeVignette(NewVignette);
+                ChangeVignette(PlayerProperties.VignetteNewValue);
                 
                 // Correct Vignette Value
-                if (_vignette.intensity.value + .0005f > NewVignette)
-                    _vignette.intensity.value = NewVignette;
+                if (_vignette.intensity.value + PlayerProperties.VignetteCorrection > PlayerProperties.VignetteNewValue)
+                    _vignette.intensity.value = PlayerProperties.VignetteNewValue;
             }
             else
             {
-                ChangeVignette(InitialVignette);
+                ChangeVignette(PlayerProperties.VignetteDefaultValue);
 
                 // Correct Vignette Value
-                if (_vignette.intensity.value + .0005f < InitialVignette)
-                    _vignette.intensity.value = InitialVignette;
+                if (_vignette.intensity.value + PlayerProperties.VignetteCorrection < PlayerProperties.VignetteDefaultValue)
+                    _vignette.intensity.value = PlayerProperties.VignetteDefaultValue;
             }
         }
         
@@ -61,7 +57,7 @@ namespace Player_Scripts
         /// <param name="newValue"></param>
         private void ChangeVignette(float newValue)
         {
-            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, VignetteChangingSpeed * Time.deltaTime);
+            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, PlayerProperties.VignetteChangingSpeed * Time.deltaTime);
         }
         
         /// <summary>

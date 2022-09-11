@@ -1,6 +1,4 @@
-using System;
 using Scene_Scripts;
-using UI_Scripts;
 using UnityEngine;
 
 namespace Main_Menu_Scripts
@@ -44,7 +42,7 @@ namespace Main_Menu_Scripts
 
             if (!Physics.Raycast(ray, out var hit)) return;
         
-            if (hit.transform == null) return;
+            if (hit.transform.Equals(null)) return;
 
             // Which button has which action
             switch (hit.transform.gameObject.name)

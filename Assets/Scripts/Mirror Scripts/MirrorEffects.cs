@@ -14,10 +14,10 @@ namespace Mirror_Scripts
         private Camera _playerCamera;
         private Camera _mirrorCamera;
 
-        [SerializeField] private Transform mirror;
+        /*[SerializeField] private Transform mirror;
         [SerializeField] private int fps;
         
-        private float _elapsedTime;
+        private float _elapsedTime;*/
 
         /// <summary>
         /// Called before Start function
@@ -26,11 +26,6 @@ namespace Mirror_Scripts
         {
             _mirrorCamera = GetComponent<Camera>();
             _playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        }
-
-        private void Start()
-        {
-            //_mirrorCamera.enabled = false;
         }
 
         /// <summary>
@@ -43,10 +38,10 @@ namespace Mirror_Scripts
         
         private void Update()
         {
-            LimitFPS();
+            //LimitFPS();
         }
 
-        private bool IsFacingObject()
+        /*private bool IsFacingObject()
         {
             var toPlayer = (_playerCamera.transform.parent.position - mirror.position).normalized;
             var forward = mirror.forward;
@@ -54,9 +49,9 @@ namespace Mirror_Scripts
             var dot = Vector3.Dot(toPlayer, forward);
             
             return dot < 0;
-        }
+        }*/
 
-        private void LimitFPS()
+        /*private void LimitFPS()
         {
             if (gameObject.activeSelf && IsFacingObject())
             {
@@ -72,7 +67,7 @@ namespace Mirror_Scripts
             {
                 _mirrorCamera.enabled = false;
             }
-        }
+        }*/
         
         /// <summary>
         /// Change Mirror's FOV with Player's FOV

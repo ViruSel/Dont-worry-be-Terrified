@@ -96,10 +96,5 @@ namespace Mirror_Scripts
             if (other.CompareTag("Player"))
                 _playerIsOverlapping = false;
         }
-
-        private void OnTriggerStay(Collider other)
-        {
-            // Check if object is overlapping
-        }
     }
 }

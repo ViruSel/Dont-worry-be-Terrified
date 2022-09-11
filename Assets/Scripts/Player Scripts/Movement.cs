@@ -35,12 +35,6 @@ namespace Player_Scripts
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private bool isGrounded;
 
-        private const float Gravity = -9.81f;
-        private const float CrouchingSpeed = 5f;
-        private const float SlopeForce = 6f;
-        private const float SlopeForceRayLenght = 1.5f;
-        private const float GroundDistance = 0.4f;
-        
         private float _movementSpeed;
         private float _velocityY;
         private bool _isJumping;
@@ -76,7 +70,7 @@ namespace Player_Scripts
         /// </summary>
         private void Start()
         {
-            _inputManager = InputManager.Instance;
+            Initialize();
         }
 
         /// <summary>
@@ -95,6 +89,22 @@ namespace Player_Scripts
         private void FixedUpdate()
         {
             InitializeBindings();
+        }
+        
+        /// <summary>
+        /// Initialize variables
+        /// </summary>
+        private void Initialize()
+        {
+            _inputManager = InputManager.Instance;
+            
+            moveSmoothTime = PlayerProperties.SmoothTime;
+            defaultSpeed = PlayerProperties.DefaultSpeed;
+            walkSpeed = PlayerProperties.WalkSpeed;
+            runSpeed = PlayerProperties.RunSpeed;
+            acceleration = PlayerProperties.AccelerationSpeed;
+            jumpMultiplier = PlayerProperties.JumpMultiplier;
+            crouchSpeed = PlayerProperties.CrouchSpeed;
         }
 
         /// <summary>
@@ -131,7 +141,7 @@ namespace Player_Scripts
             if (_characterController.isGrounded) _velocityY = 0f;
 
             // Applying gravity
-            _velocityY += (Gravity-2) * Time.deltaTime;
+            _velocityY += (PlayerProperties.Gravity-2) * Time.deltaTime;
             
             // Movement math
             var transformNew = transform;
@@ -147,7 +157,7 @@ namespace Player_Scripts
         private void PlayerMovementSettings()
         {
             // Ground check
-            isGrounded = Physics.CheckSphere(_groundCheck.position, GroundDistance, groundMask);
+            isGrounded = Physics.CheckSphere(_groundCheck.position, PlayerProperties.GroundDistance, groundMask);
 
             if (!isGrounded) playerState = States.InAir;
 
@@ -162,7 +172,7 @@ namespace Player_Scripts
             {
                 // Prevent player from running backwards
                 if(_inputDir.x != 0 || _inputDir.y != 0) 
-                    if (_inputDir.y > -0f)
+                    if (_inputDir.y > 0f)
                         playerState = States.Running;
 
                 UpdateMovementSpeed(playerState == States.Running ? runSpeed : defaultSpeed);
@@ -210,7 +220,7 @@ namespace Player_Scripts
         /// </summary>
         private IEnumerator JumpEvent()
         {
-            _characterController.slopeLimit = 91f;
+            _characterController.slopeLimit = PlayerProperties.SlopeLimitInAir;
 
             float timeInAir = 0;
 
@@ -223,7 +233,7 @@ namespace Player_Scripts
 
             } while (!_characterController.isGrounded && _characterController.collisionFlags != CollisionFlags.Above);
 
-            _characterController.slopeLimit = 45f;
+            _characterController.slopeLimit = PlayerProperties.SlopeLimitOnGround;
 
             _isJumping = false;
         }
@@ -236,7 +246,7 @@ namespace Player_Scripts
         {
             _characterController.height = 1;
             _characterController.center = new Vector3(0, -0.5f, 0);
-            _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.10f, CrouchingSpeed * Time.deltaTime);
+            _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.10f, PlayerProperties.CrouchSpeed * Time.deltaTime);
             //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f/2,1f), CrouchingSpeed * Time.deltaTime);
         }
         
@@ -250,7 +260,7 @@ namespace Player_Scripts
             {
                 _characterController.height = 2;
                 _characterController.center = new Vector3(0, 0f, 0);
-                _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.66f, CrouchingSpeed * Time.deltaTime);
+                _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, Vector3.up * 0.66f, PlayerProperties.CrouchingSpeed * Time.deltaTime);
                 //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f,1f), CrouchingSpeed * Time.deltaTime);
             }   
         }
@@ -265,7 +275,7 @@ namespace Player_Scripts
         private bool OnSlope()
         {
             if (!Physics.Raycast(transform.position, Vector3.down, out var hit,
-                    _characterController.height / 2 * SlopeForceRayLenght)) return false;
+                    _characterController.height / 2 * PlayerProperties.SlopeForceRayLength)) return false;
             
             return hit.normal != Vector3.up;
         }
@@ -276,8 +286,9 @@ namespace Player_Scripts
         private void SlopeEvent()
         {
             if (_isJumping || playerState == States.InAir) return;
+            
             if (_currentDir.y != 0 || _currentDir.x != 0)
-                _characterController.Move(Vector3.down * _characterController.height / 2 * (SlopeForce * Time.deltaTime));
+                _characterController.Move(Vector3.down * _characterController.height / 2 * (PlayerProperties.SlopeForce * Time.deltaTime));
         }
 
         /// <summary>

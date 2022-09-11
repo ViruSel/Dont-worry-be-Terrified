@@ -9,8 +9,6 @@ namespace Player_Scripts
     public class CameraView : MonoBehaviour
     {
         // Variables
-        private Transform _player;
-
         [Header("Mouse Settings")]
         [SerializeField] private float mouseSensitivity;
         [SerializeField] [Range(80f, 100f)] private float defaultFOV;
@@ -23,14 +21,11 @@ namespace Player_Scripts
         private float _clampAngleUp;
         private float _clampAngleDown;
 
-        private const float FOVChangingSpeed = 5f;
-        private const float DefaultClampAngleUp = 89.999f;
-        private const float DefaultClampAngleDown = -89.999f;
-
         private Vector2 _currentMouseDelta = Vector2.zero;
         private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
         
         private Camera _camera;
+        private Transform _player;
         private Movement _playerMovement;
 
         /// <summary>
@@ -42,12 +37,13 @@ namespace Player_Scripts
             
             isClamped = true;
             defaultFOV = 80f; // To be changed later in settings
+            mouseSmoothTime = PlayerProperties.CameraSmoothTime;
             
             _camera.fieldOfView = defaultFOV;
             _player = transform.parent;
             
-            _clampAngleUp = DefaultClampAngleUp;
-            _clampAngleDown = DefaultClampAngleDown;
+            _clampAngleUp = PlayerProperties.CameraClampUp;
+            _clampAngleDown = PlayerProperties.CameraClampDown;
         }
         
         /// <summary>
@@ -97,8 +93,8 @@ namespace Player_Scripts
         /// </summary>
         private void CheckFOV()
         {
-            var crouchFOV = defaultFOV - 15f;
-            var runningFOV = defaultFOV + 15f;
+            var crouchFOV = defaultFOV - PlayerProperties.FovDifference;
+            var runningFOV = defaultFOV + PlayerProperties.FovDifference;
 
             if (_playerMovement.playerState == States.Crouching)
             {
@@ -128,7 +124,7 @@ namespace Player_Scripts
         /// <param name="newFOV"> New FOV Value </param>
         private void ChangeFOV(float newFOV)
         {
-            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, FOVChangingSpeed * Time.deltaTime);
+            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, PlayerProperties.FovChangingSpeed * Time.deltaTime);
         }
 
         /// <summary>
@@ -137,7 +133,7 @@ namespace Player_Scripts
         /// <param name="newFOV"></param>
         private void CorrectAfterRunningFOV(float newFOV)
         {
-            if (_camera.fieldOfView + 0.05f > newFOV)
+            if (_camera.fieldOfView + PlayerProperties.FOVCorrection > newFOV)
                 _camera.fieldOfView = newFOV;
         }
 
@@ -147,7 +143,7 @@ namespace Player_Scripts
         /// <param name="newFov"></param>
         private void CorrectAfterCrouchingFOV(float newFov)
         {
-            if (_camera.fieldOfView - 0.05f < newFov)
+            if (_camera.fieldOfView - PlayerProperties.FOVCorrection < newFov)
                 _camera.fieldOfView = newFov;
         }
 
@@ -178,8 +174,8 @@ namespace Player_Scripts
             // if camera isn't clamped allow full mouse movement
             if (isClamped)
             {
-                _clampAngleUp = DefaultClampAngleUp;
-                _clampAngleDown = DefaultClampAngleDown;
+                _clampAngleUp = PlayerProperties.CameraClampUp;
+                _clampAngleDown = PlayerProperties.CameraClampDown;
             }
             else
             {
