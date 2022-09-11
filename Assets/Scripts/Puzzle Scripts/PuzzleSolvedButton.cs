@@ -30,8 +30,8 @@ namespace Puzzle_Scripts
         [Header("Password")] 
         [Tooltip("If it's the case")]
         [SerializeField] private int[] password;
-        
-        public static List<int> PasswordReceived = new List<int>(); // Password received by pressing the buttons
+
+        public static List<int> PasswordReceived; // Password received by pressing the buttons
         public static string AnimatedObjReference;
         public static bool IsSolved;
 
@@ -90,16 +90,22 @@ namespace Puzzle_Scripts
             _canPress = true;
             IsSolved = false;
 
+            PasswordReceived = new List<int>();
             AnimatedObjReference = animatedObject.tag;
         }
 
         /// <summary>
-        /// Check if all the buttons are checked
+        /// Check if all the buttons are pressed
         /// </summary>
         /// <returns></returns>
-        private bool CheckAllButtons()
+        private bool CheckAllPressedButtons()
         {
-            return buttons.All(button => button.GetComponent<PuzzleButtonCheck>().isChecked);
+            foreach (var button in buttons)
+            {
+                if (!button.GetComponent<PuzzleButtonCheck>().isPressed) return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -108,7 +114,22 @@ namespace Puzzle_Scripts
         /// <returns></returns>
         private bool CheckPassword()
         {
-            return !password.Where((t, i) => PasswordReceived[i] != t).Any();
+            var check = false;
+
+            for (var i = 0; i < password.Length; i++)
+            {
+                if (password[i] == PasswordReceived[i])
+                {
+                    check = true;
+                }
+                else
+                {
+                    check = false;
+                    break;
+                }
+            }
+
+            return check;
         }
 
         /// <summary>
@@ -166,7 +187,7 @@ namespace Puzzle_Scripts
                     {
                         case "Mirror": // Check Mirror object to fix the animation
                         {
-                            if (CheckAllButtons() && CheckPassword())
+                            if (CheckAllPressedButtons() && CheckPassword())
                             {
                                 _canPress = false;
                                 StartCoroutine(PuzzleSolvedActions(0));
@@ -176,7 +197,7 @@ namespace Puzzle_Scripts
                         }
                         case "Door":
                         {
-                            if (CheckAllButtons())
+                            if (CheckAllPressedButtons())
                             {
                                 _canPress = false;
                                 StartCoroutine(PuzzleSolvedActions(1));
