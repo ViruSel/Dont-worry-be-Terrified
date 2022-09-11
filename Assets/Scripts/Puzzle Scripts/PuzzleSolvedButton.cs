@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Input_Scripts;
 using Player_Scripts;
+using Scene_Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -139,8 +139,10 @@ namespace Puzzle_Scripts
         /// <returns></returns>
         private IEnumerator PuzzleSolvedActions(int delay)
         {
-            IsSolved = true;
+            DestroyObjects.DestroyPuzzleObjects();
             
+            IsSolved = true;
+
             _renderer.material = onColor;
             crosshair.text = _oldText;
             

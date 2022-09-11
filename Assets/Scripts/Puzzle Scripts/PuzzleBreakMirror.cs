@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Puzzle_Scripts
@@ -11,6 +12,11 @@ namespace Puzzle_Scripts
 
         [SerializeField] private Material black;
 
+        private void Awake()
+        {
+            _mirrors = GameObject.FindGameObjectsWithTag("Mirror");
+        }
+
         /// <summary>
         /// Called once per frame
         /// </summary>
@@ -18,9 +24,6 @@ namespace Puzzle_Scripts
         {
             if (PuzzleSolvedButton.AnimatedObjReference == "Mirror")
             {
-                _mirrors = GameObject.FindGameObjectsWithTag("Mirror");
-
-                /*
                 foreach (var mirror in _mirrors)
                 {
                     for(var i = 2; i < mirror.transform.childCount; i++)
@@ -28,7 +31,6 @@ namespace Puzzle_Scripts
                         mirror.transform.GetChild(i).GetComponent<Renderer>().material = black;
                     }
                 }
-                */
             }
 
             if (PuzzleSolvedButton.IsSolved)
@@ -37,6 +39,7 @@ namespace Puzzle_Scripts
                 {
                     mirror.GetComponent<Animation>().Play();
                     mirror.GetComponent<AudioSource>().Play();
+                    
                     mirror.transform.GetChild(0).gameObject.SetActive(false); // Disable Teleportation collider
                     mirror.transform.GetChild(1).gameObject.SetActive(false); // Disable Non broken Mirror
                 }
