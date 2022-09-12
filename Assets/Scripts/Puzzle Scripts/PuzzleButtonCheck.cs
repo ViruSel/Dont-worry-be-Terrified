@@ -42,7 +42,7 @@ namespace Puzzle_Scripts
         /// </summary>
         private void Update()
         {
-            _distance = CastToObject.Distance;
+            _distance = PlayerCastToObject.Distance;
         }
 
         /// <summary>

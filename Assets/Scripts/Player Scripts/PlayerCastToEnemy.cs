@@ -4,7 +4,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace Player_Scripts
 {
-    public class CastToEnemy : MonoBehaviour
+    public class PlayerCastToEnemy : MonoBehaviour
     {
         /// <summary>
         /// Variables

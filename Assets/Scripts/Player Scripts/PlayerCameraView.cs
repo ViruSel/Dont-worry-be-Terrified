@@ -6,7 +6,7 @@ namespace Player_Scripts
     /// <summary>
     /// Camera look script
     /// </summary>
-    public class CameraView : MonoBehaviour
+    public class PlayerCameraView : MonoBehaviour
     {
         // Variables
         [Header("Mouse Settings")]
@@ -21,12 +21,12 @@ namespace Player_Scripts
         private float _clampAngleUp;
         private float _clampAngleDown;
 
-        private Vector2 _currentMouseDelta = Vector2.zero;
-        private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
+        private Vector2 _currentMouseDelta;
+        private Vector2 _currentMouseDeltaVelocity;
         
         private Camera _camera;
         private Transform _player;
-        private Movement _playerMovement;
+        private PlayerMovement _playerMovement;
 
         /// <summary>
         /// Called Before Start
@@ -34,6 +34,9 @@ namespace Player_Scripts
         private void Awake()
         {
             _camera = GetComponent<Camera>();
+            
+            _currentMouseDelta = Vector2.zero;
+            _currentMouseDeltaVelocity = Vector2.zero;
             
             isClamped = true;
             defaultFOV = 80f; // To be changed later in settings
@@ -54,7 +57,7 @@ namespace Player_Scripts
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             
-            _playerMovement = _player.GetComponent<Movement>();
+            _playerMovement = _player.GetComponent<PlayerMovement>();
         }
 
         /// <summary>
@@ -96,12 +99,12 @@ namespace Player_Scripts
             var crouchFOV = defaultFOV - PlayerProperties.FovDifference;
             var runningFOV = defaultFOV + PlayerProperties.FovDifference;
 
-            if (_playerMovement.playerState == States.Crouching)
+            if (_playerMovement.playerState == PlayerStates.Crouching)
             {
                 ChangeFOV(crouchFOV);
                 CorrectAfterCrouchingFOV(crouchFOV);
             }
-            else if (_playerMovement.playerState == States.Running)
+            else if (_playerMovement.playerState == PlayerStates.Running)
             {
                 ChangeFOV(runningFOV);
                 CorrectAfterRunningFOV(runningFOV);

@@ -6,7 +6,7 @@ namespace Mirror_Scripts
     /// <summary>
     /// Display the room on the other side of the mirror
     /// </summary>
-    public class CameraViewMirror : MonoBehaviour 
+    public class MirrorCameraView : MonoBehaviour 
     {
         /// <summary>
         /// Variables

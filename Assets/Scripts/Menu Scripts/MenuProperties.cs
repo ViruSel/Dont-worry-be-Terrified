@@ -1,6 +1,6 @@
-namespace Main_Menu_Scripts
+namespace Menu_Scripts
 {
-    public static class MainMenuProperties
+    public static class MenuProperties
     {
         // Camera Properties
         public const float MouseSensitivity = 1.3f;         // Mouse sensitivity

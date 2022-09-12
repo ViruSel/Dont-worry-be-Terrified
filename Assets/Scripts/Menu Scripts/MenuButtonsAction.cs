@@ -1,7 +1,7 @@
 using Scene_Scripts;
 using UnityEngine;
 
-namespace Main_Menu_Scripts
+namespace Menu_Scripts
 {
     /// <summary>
     /// Setting up actions for Main menu buttons

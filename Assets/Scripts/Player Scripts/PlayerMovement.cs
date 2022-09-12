@@ -8,7 +8,7 @@ namespace Player_Scripts
     /// <summary>
     /// Movement script
     /// </summary>
-    public class Movement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
         /// <summary>
         /// Variables
@@ -53,7 +53,7 @@ namespace Player_Scripts
         private Transform _groundCheck;
         private InputManager _inputManager;
 
-        public States playerState;
+        public PlayerStates playerState;
         
         /// <summary>
         /// Called before Start function
@@ -129,9 +129,9 @@ namespace Player_Scripts
 
             // Find out if player is moving
             if (_inputDir.x == 0 && _inputDir.y == 0)
-                playerState = States.Standing;
+                playerState = PlayerStates.Standing;
             else
-                playerState = States.Moving;
+                playerState = PlayerStates.Moving;
             
             // TODO - Block air movement
             // Player movement smoothing
@@ -159,13 +159,13 @@ namespace Player_Scripts
             // Ground check
             isGrounded = Physics.CheckSphere(_groundCheck.position, PlayerProperties.GroundDistance, groundMask);
 
-            if (!isGrounded) playerState = States.InAir;
+            if (!isGrounded) playerState = PlayerStates.InAir;
 
             // Update movement speed & state based on action
             if (_isCrouching)
             {
                 UpdateMovementSpeed(crouchSpeed);
-                playerState = States.Crouching;
+                playerState = PlayerStates.Crouching;
                 isGrounded = true; // Quick fix
             }
             else if (_isRunning)
@@ -173,14 +173,14 @@ namespace Player_Scripts
                 // Prevent player from running backwards
                 if(_inputDir.x != 0 || _inputDir.y != 0) 
                     if (_inputDir.y > 0f)
-                        playerState = States.Running;
+                        playerState = PlayerStates.Running;
 
-                UpdateMovementSpeed(playerState == States.Running ? runSpeed : defaultSpeed);
+                UpdateMovementSpeed(playerState == PlayerStates.Running ? runSpeed : defaultSpeed);
             }
             else if (_isWalking)
             {
                 UpdateMovementSpeed(walkSpeed);
-                playerState = States.Walking;
+                playerState = PlayerStates.Walking;
             }
             else
                 UpdateMovementSpeed(defaultSpeed);
@@ -195,7 +195,7 @@ namespace Player_Scripts
             if (_wishJump && !_isJumping)
             {
                 _isJumping = true; 
-                playerState = States.InAir;
+                playerState = PlayerStates.InAir;
                 StartCoroutine(JumpEvent());
             }
 
@@ -285,7 +285,7 @@ namespace Player_Scripts
         /// </summary>
         private void SlopeEvent()
         {
-            if (_isJumping || playerState == States.InAir) return;
+            if (_isJumping || playerState == PlayerStates.InAir) return;
             
             if (_currentDir.y != 0 || _currentDir.x != 0)
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (PlayerProperties.SlopeForce * Time.deltaTime));
@@ -296,7 +296,7 @@ namespace Player_Scripts
         /// </summary>
         private void CheckPauseMenu()
         {
-            _camera.GetComponent<CameraView>().enabled = !PauseMenu.IsPaused;
+            _camera.GetComponent<PlayerCameraView>().enabled = !PauseMenu.IsPaused;
         }
 
         /// <summary>

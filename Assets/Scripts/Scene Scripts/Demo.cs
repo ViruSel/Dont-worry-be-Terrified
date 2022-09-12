@@ -15,8 +15,8 @@ namespace Scene_Scripts
             player = GameObject.FindWithTag("Player");
             levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
 
-            player.GetComponent<Movement>().enabled = false;
-            player.GetComponentInChildren<CameraView>().enabled = false;
+            player.GetComponent<PlayerMovement>().enabled = false;
+            player.GetComponentInChildren<PlayerCameraView>().enabled = false;
             
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;

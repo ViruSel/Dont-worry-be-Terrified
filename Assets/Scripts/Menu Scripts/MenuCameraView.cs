@@ -1,3 +1,4 @@
+using Menu_Scripts;
 using UnityEngine;
 
 namespace Main_Menu_Scripts
@@ -5,7 +6,7 @@ namespace Main_Menu_Scripts
     /// <summary>
     /// Camera look in menu
     /// </summary>
-    public class CameraViewMenu : MonoBehaviour
+    public class MenuCameraView : MonoBehaviour
     {
         /// <summary>
         /// Variables
@@ -57,17 +58,17 @@ namespace Main_Menu_Scripts
         private void Initialize()
         {
             _menuCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-            _menuCamera.fieldOfView = MainMenuProperties.FieldOfView;
+            _menuCamera.fieldOfView = MenuProperties.FieldOfView;
             
             isClamped = true;
             
             _tripod = transform.parent;
 
-            mouseSensitivity = MainMenuProperties.MouseSensitivity;
-            mouseSmoothTime = MainMenuProperties.MouseSmoothTime;
+            mouseSensitivity = MenuProperties.MouseSensitivity;
+            mouseSmoothTime = MenuProperties.MouseSmoothTime;
             
-            _clampAngleLeft = MainMenuProperties.DefaultClampAngleLeft;
-            _clampAngleRight = MainMenuProperties.DefaultClampAngleRight;
+            _clampAngleLeft = MenuProperties.DefaultClampAngleLeft;
+            _clampAngleRight = MenuProperties.DefaultClampAngleRight;
         }
         
         /// <summary>
@@ -83,7 +84,7 @@ namespace Main_Menu_Scripts
 
             // Camera clamp on Vertical axis
             _mouseClampY -= _currentMouseDelta.y * mouseSensitivity;
-            _mouseClampY = Mathf.Clamp(_mouseClampY, MainMenuProperties.ClampAngleDown, MainMenuProperties.ClampAngleUp);
+            _mouseClampY = Mathf.Clamp(_mouseClampY, MenuProperties.ClampAngleDown, MenuProperties.ClampAngleUp);
 
             // Camera clamp on Horizontal Axis
             _mouseClampX += _currentMouseDelta.x * mouseSensitivity;
@@ -104,8 +105,8 @@ namespace Main_Menu_Scripts
             // if camera isn't clamped allow full mouse movement
             if (isClamped)
             {
-                _clampAngleLeft = MainMenuProperties.DefaultClampAngleLeft;
-                _clampAngleRight = MainMenuProperties.DefaultClampAngleRight;
+                _clampAngleLeft = MenuProperties.DefaultClampAngleLeft;
+                _clampAngleRight = MenuProperties.DefaultClampAngleRight;
             }
             else
             {

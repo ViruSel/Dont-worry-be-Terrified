@@ -2,23 +2,23 @@ using UnityEngine;
 
 namespace Mirror_Scripts
 {
-    public class SpawnEnemy : MonoBehaviour
+    public class MirrorSpawnEnemy : MonoBehaviour
     {
         [SerializeField] private GameObject enemy;
 
-        private MirrorTeleport mirrorTeleporter;
+        private MirrorTeleport mirrorTp;
         
         // Start is called before the first frame update
         private void Start()
         {
             enemy.SetActive(false);
-            mirrorTeleporter = GetComponent<MirrorTeleport>();
+            mirrorTp = GetComponent<MirrorTeleport>();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (mirrorTeleporter.playerTeleported)
+            if (mirrorTp.playerTeleported)
                 enemy.SetActive(true);
         }
     }

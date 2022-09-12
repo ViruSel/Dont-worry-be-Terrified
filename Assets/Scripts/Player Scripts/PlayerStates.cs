@@ -1,6 +1,6 @@
 namespace Player_Scripts
 {
-    public enum States
+    public enum PlayerStates
     {
         InAir,
         Standing,

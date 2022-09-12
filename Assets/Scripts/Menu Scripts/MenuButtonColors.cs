@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Main_Menu_Scripts
+namespace Menu_Scripts
 {
     /// <summary>
     /// Change Main menu button colors

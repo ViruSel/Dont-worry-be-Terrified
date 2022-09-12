@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Player_Scripts
 {
-    public class CastToObject : MonoBehaviour
+    public class PlayerCastToObject : MonoBehaviour
     {
         public static float Distance;
 
