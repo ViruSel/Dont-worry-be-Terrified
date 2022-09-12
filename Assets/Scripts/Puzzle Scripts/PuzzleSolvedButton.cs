@@ -10,6 +10,8 @@ namespace Puzzle_Scripts
 {
     public class PuzzleSolvedButton : MonoBehaviour
     {
+        //TODO: Separate script for each puzzle
+        
         /// <summary>
         /// variables
         /// </summary>

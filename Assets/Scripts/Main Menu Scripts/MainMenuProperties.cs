@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Main_Menu_Scripts
 {
     public static class MainMenuProperties

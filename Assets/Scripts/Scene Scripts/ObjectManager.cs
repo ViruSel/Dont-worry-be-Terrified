@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace Scene_Scripts
 {
+    //TODO: Interface
+
     public class ObjectManager : MonoBehaviour
     {
         /// <summary>
