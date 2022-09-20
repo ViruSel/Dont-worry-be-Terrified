@@ -23,8 +23,8 @@ namespace Enemy_Scripts
         private GameObject _playerCamera;
         private LevelLoader _levelLoader;
         
-        private Movement _playerMovement;
-        private CameraView _playerCameraView;
+        private PlayerMovement _playerMovement;
+        private PlayerCameraView _playerCameraView;
         private Rigidbody _enemyRigidbody;
         
         /// <summary>
@@ -58,8 +58,8 @@ namespace Enemy_Scripts
             _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
             
             _enemyRigidbody = GetComponent<Rigidbody>();
-            _playerMovement = _player.GetComponent<Movement>();
-            _playerCameraView = _playerCamera.GetComponent<CameraView>();
+            _playerMovement = _player.GetComponent<PlayerMovement>();
+            _playerCameraView = _playerCamera.GetComponent<PlayerCameraView>();
         }
         
         /// <summary>
@@ -92,10 +92,10 @@ namespace Enemy_Scripts
             _playerMovement.enabled = false;
             _playerCameraView.enabled = false;
             
-            // Oped death panel
+            //TODO: Open death panel
             _levelLoader.LoadScene("Scene 2");
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1);
 
             _playerMovement.enabled = true;
             _playerCameraView.enabled = true;

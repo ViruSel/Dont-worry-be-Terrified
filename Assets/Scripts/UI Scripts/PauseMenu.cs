@@ -1,4 +1,5 @@
 using System;
+using Audio_Scripts;
 using Scene_Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,6 +43,7 @@ namespace UI_Scripts
         private void CheckPaused()
         {
             if (!Input.GetKeyDown(KeyCode.Escape) || !(Time.timeSinceLevelLoad > 1f)) return;
+            
             if (IsPaused)
                 Resume();
             else

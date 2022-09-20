@@ -1,47 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scene_Scripts
 {
+    /// <summary>
+    /// Note: This script isn't attached to any GameObject in the scene.
+    /// Contains methods for manipulating the existence of GameObjects in the scene.
+    /// </summary>
     public class ObjectManager : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
-        private static GameObject[] _triggers;
-        private static GameObject[] _tunnelObjects;
-        private static GameObject[] _puzzleObjects;
-
-        private void Start()
+        public static void DestroyObjects(IEnumerable<GameObject> gameObjects)
         {
-            Initialize();
+            foreach (var gameObject in gameObjects)
+            {
+                Destroy(gameObject);
+            }
         }
 
-        private static void Initialize()
+        public static void DisableObjects(IEnumerable<GameObject> gameObjects)
         {
-            _triggers = GameObject.FindGameObjectsWithTag("Trigger");
-            _puzzleObjects = GameObject.FindGameObjectsWithTag("Puzzle");
-            _tunnelObjects = GameObject.FindGameObjectsWithTag("Tunnel");
-
-            foreach (var tunnelObject in _tunnelObjects)
-                tunnelObject.SetActive(false);
+            foreach (var gameObject in gameObjects)
+            {
+                gameObject.SetActive(false);
+            }
         }
         
-        public static void DestroyPuzzleObjects()
+        public static void ActivateObjects(IEnumerable<GameObject> gameObjects)
         {
-            foreach (var puzzleObject in _puzzleObjects)
-                Destroy(puzzleObject);
-        }
-        
-        public static void DestroyTriggers()
-        {
-            foreach (var trigger in _triggers)
-                Destroy(trigger);
-        }
-        
-        public static void ActivateTunnelObjects()
-        {
-            foreach (var tunnelObject in _tunnelObjects)
-                tunnelObject.SetActive(true);
+            foreach (var gameObject in gameObjects)
+            {
+                gameObject.SetActive(true);
+            }
         }
     }
 }
