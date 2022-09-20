@@ -1,8 +1,9 @@
+using Scene_Scripts;
 using UnityEngine;
 
 namespace Mirror_Scripts
 {
-    //TODO: Fix breaking image while being close to the mirrors
+    //TODO: Fix breaking image while running close to the mirrors
     
     public class MirrorCameraTrigger : MonoBehaviour
     {
@@ -13,14 +14,8 @@ namespace Mirror_Scripts
         {
             if (col.CompareTag("Player"))
             {
-                foreach (var cam in camerasToEnable)
-                {
-                    cam.SetActive(true);
-                }
-                foreach (var cam in camerasToDisable)
-                {
-                    cam.SetActive(false);
-                }
+                ObjectManager.ActivateObjects(camerasToEnable);
+                ObjectManager.DisableObjects(camerasToDisable);
             }
         }
     }

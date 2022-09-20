@@ -1,3 +1,4 @@
+using Scene_Scripts;
 using UnityEngine;
 
 namespace Mirror_Scripts
@@ -10,10 +11,7 @@ namespace Mirror_Scripts
         {
             if (col.CompareTag("Player"))
             {
-                foreach (var cam in cratesToDisable)
-                {
-                    cam.SetActive(false);
-                }
+                ObjectManager.DisableObjects(cratesToDisable);
             }
         }
     
@@ -21,10 +19,7 @@ namespace Mirror_Scripts
         {
             if (col.CompareTag("Player"))
             {
-                foreach (var cam in cratesToDisable)
-                {
-                    cam.SetActive(true);
-                }
+                ObjectManager.ActivateObjects(cratesToDisable);
             }
         }
     }
