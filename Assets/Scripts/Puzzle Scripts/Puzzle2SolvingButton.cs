@@ -17,10 +17,6 @@ namespace Puzzle_Scripts
         /// </summary>
         [Header("Crosshair")]
         [SerializeField] private Text crosshair;
-        
-        [Header("Animated Object")]
-        [Tooltip("Object with animation")]
-        [SerializeField] private GameObject animatedObject;
 
         [Header("Buttons")] 
         [SerializeField] private GameObject[] buttons;
@@ -32,7 +28,7 @@ namespace Puzzle_Scripts
         [Header("Password")]
         [SerializeField] private int[] password;
 
-        public static List<int> PasswordReceived;                   // Password received by the puzzle buttons
+        public static List<int> passwordReceived;                   // Password received by the puzzle buttons
 
         private float _distanceToButton;                            // Distance to this object
         private string _oldCrosshair;
@@ -102,9 +98,6 @@ namespace Puzzle_Scripts
             _buttonSound = GetComponent<AudioSource>();
             _buttonAnimation = GetComponent<Animation>();
 
-            _openSound = animatedObject.GetComponent<AudioSource>();
-            _objectAnimation = animatedObject.GetComponent<Animation>();
-            
             _mirrors = GameObject.FindGameObjectsWithTag("Mirror");
             _triggers = GameObject.FindGameObjectsWithTag("Trigger");
             _puzzleObjects = GameObject.FindGameObjectsWithTag("Puzzle");
@@ -114,7 +107,7 @@ namespace Puzzle_Scripts
             _renderer.material = offColor;
             _oldCrosshair = crosshair.text;
             
-            PasswordReceived = new List<int>();
+            passwordReceived = new List<int>();
             
             ObjectManager.DisableObjects(_tunnelObjects);
         }
@@ -139,9 +132,6 @@ namespace Puzzle_Scripts
             _buttonSound.Play();
             
             yield return new WaitForSeconds(delay);
-            
-            _objectAnimation.Play();
-            _openSound.Play();
         }
 
         /// <summary>
@@ -152,7 +142,7 @@ namespace Puzzle_Scripts
         {
             PuzzleManager.ResetButtons(buttons);
             
-            PasswordReceived.Clear();
+            passwordReceived.Clear();
             
             _buttonAnimation.Play();
             _buttonSound.Play();
@@ -168,7 +158,7 @@ namespace Puzzle_Scripts
 
                 if (_isPressing)
                 {
-                    if (PuzzleManager.CheckIfAllButtonsPressed(buttons) && PuzzleManager.CheckPassword(password, PasswordReceived))
+                    if (PuzzleManager.CheckIfAllButtonsPressed(buttons) && PuzzleManager.CheckPassword(password, passwordReceived))
                     {
                         StartCoroutine(PuzzleSolvedActions(0));
                         _canPress = false;
@@ -185,7 +175,10 @@ namespace Puzzle_Scripts
         {
             foreach (var mirror in _mirrors)
             {
+                //TODO: Store animations in a list
                 mirror.GetComponent<Animation>().Play();
+                
+                //TODO: use same sound for all mirrors
                 mirror.GetComponent<AudioSource>().Play();
                     
                 mirror.transform.GetChild(0).gameObject.SetActive(false);   // Disable Teleportation collider

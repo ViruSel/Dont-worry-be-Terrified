@@ -40,9 +40,7 @@ namespace Puzzle_Scripts
         private AudioSource _buttonSound;
         private Animation _objectAnimation;
         private Animation _buttonAnimation;
-        
-        private GameObject[] _teleporters;
-        
+
         /// <summary>
         /// Called before the first frame update
         /// </summary>
@@ -93,14 +91,10 @@ namespace Puzzle_Scripts
             
             _openSound = animatedObject.GetComponent<AudioSource>();
             _objectAnimation = animatedObject.GetComponent<Animation>();
-            
-            _teleporters = GameObject.FindGameObjectsWithTag("Teleporter");
-            
+
             _canPress = true;
             _renderer.material = offColor;
             _oldCrosshair = crosshair.text;
-            
-            ObjectManager.DisableObjects(_teleporters);
         }
         
         /// <summary>
@@ -110,8 +104,6 @@ namespace Puzzle_Scripts
         /// <returns></returns>
         private IEnumerator PuzzleSolvedActions(int delay)
         {
-            ObjectManager.ActivateObjects(_teleporters);
-
             _renderer.material = onColor;
             crosshair.text = _oldCrosshair;
             

@@ -63,7 +63,7 @@ namespace Puzzle_Scripts
                     break;
                 case 2:
                     // Send password to puzzle 2
-                    Puzzle2SolvingButton.PasswordReceived.Add(password);
+                    Puzzle2SolvingButton.passwordReceived.Add(password);
                     break;
                 default:
                     Debug.LogWarning("Puzzle number is not valid");
