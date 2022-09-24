@@ -8,7 +8,9 @@ namespace Input_Scripts
     /// </summary>
     public class InputManager : MonoBehaviour
     {
-        // Variables
+        /// <summary>
+        /// Variables
+        /// </summary>
         [SerializeField] private Keybindings keybindings;
         
         public static InputManager Instance;

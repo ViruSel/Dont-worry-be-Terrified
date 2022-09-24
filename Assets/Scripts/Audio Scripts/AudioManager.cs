@@ -74,24 +74,14 @@ namespace Audio_Scripts
             s?.source.Play();
         }
         
-        private IEnumerator Stop(string soundName)
+        /// <summary>
+        /// Stop a sound by name
+        /// </summary>
+        /// <param name="soundName"> Sound name </param>
+        private void Stop(string soundName)
         {
             var s = Array.Find(sounds, sound => sound.name.Equals(soundName));
-
-            while (s.source.isPlaying)
-            {
-                // decrease slow motion without considering Time.timeScale
-                s.source.volume -= Time.unscaledDeltaTime; 
-
-                // if slow motion time is less than or equal to 0 break the loop
-                if (s.source.volume <= 0f)
-                {
-                    s.source.Stop();
-                }
-
-                // will execute again in the next frame
-                yield return null; 
-            }   
+            s?.source.Stop();
         }
     }
 }

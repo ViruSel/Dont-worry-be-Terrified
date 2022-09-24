@@ -16,7 +16,7 @@ TagManager:
   - Puzzle
   - Trigger
   - Tunnel
-  - Teleporter
+  - Camera
   layers:
   - Default
   - TransparentFX
