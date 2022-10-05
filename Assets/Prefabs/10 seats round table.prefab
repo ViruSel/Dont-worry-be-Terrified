@@ -207,7 +207,6 @@ GameObject:
   - component: {fileID: 3421335358348362178}
   - component: {fileID: 5862989710645691310}
   - component: {fileID: 7453958592840766053}
-  - component: {fileID: 4344606689880653146}
   m_Layer: 0
   m_Name: Collidere
   m_TagString: Untagged
@@ -223,8 +222,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4398316285171400178}
   m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3333335, y: 0, z: 0}
-  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
+  m_LocalPosition: {x: 1.0000166, y: 0, z: -0.126}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4166579523739534933}
   m_RootOrder: 1
@@ -3040,19 +3039,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &4344606689880653146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4398316285171400178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57444c075000242ea99e263cee940de2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manageVisibility: 1
 --- !u!1 &4875215818233850107
 GameObject:
   m_ObjectHideFlags: 0
