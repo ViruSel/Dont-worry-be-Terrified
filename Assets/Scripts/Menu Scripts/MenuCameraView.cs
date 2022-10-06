@@ -1,4 +1,6 @@
+using System.Collections;
 using Menu_Scripts;
+using UnityEditor;
 using UnityEngine;
 
 namespace Main_Menu_Scripts
@@ -42,7 +44,7 @@ namespace Main_Menu_Scripts
         /// </summary>
         private void Start()
         {
-            Cursor.visible = true;
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.None;
         }
 
@@ -69,6 +71,18 @@ namespace Main_Menu_Scripts
             
             _clampAngleLeft = MenuProperties.DefaultClampAngleLeft;
             _clampAngleRight = MenuProperties.DefaultClampAngleRight;
+
+            StartCoroutine(CenterMouse());
+        }
+        
+        private IEnumerator CenterMouse()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            
+            yield return new WaitForSeconds(0.1f);
+            
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         
         /// <summary>

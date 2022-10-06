@@ -15,7 +15,7 @@ namespace UI_Scripts
         /// <summary>
         /// Variables
         /// </summary>
-        public static bool IsPaused;
+        public static bool isPaused;
         
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private GameObject settingsMenu;
@@ -28,7 +28,10 @@ namespace UI_Scripts
         /// </summary>
         private void Start()
         {
-            IsPaused = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            
+            isPaused = false;
             _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
         }
 
@@ -44,7 +47,7 @@ namespace UI_Scripts
         {
             if (!Input.GetKeyDown(KeyCode.Escape) || !(Time.timeSinceLevelLoad > 1f)) return;
             
-            if (IsPaused)
+            if (isPaused)
                 Resume();
             else
                 Pause();
@@ -57,10 +60,13 @@ namespace UI_Scripts
         {
             pauseMenu.SetActive(true);
             crosshair.SetActive(false);
+            
             Time.timeScale = 0f;
+            
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            IsPaused = true;
+            
+            isPaused = true;
         }
 
         /// <summary>
@@ -71,10 +77,13 @@ namespace UI_Scripts
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
             crosshair.SetActive(true);
+            
             Time.timeScale = 1f;
+            
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            IsPaused = false;
+            
+            isPaused = false;
         }
 
         /// <summary>
