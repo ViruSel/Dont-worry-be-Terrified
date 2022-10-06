@@ -23,7 +23,7 @@ namespace Player_Scripts
         // Camera
         public const float CameraSmoothTime = 0f;          // Time it takes to reach target camera position (Between 0 -  1)
         public const int FovChangingSpeed = 5;             // Speed of the FOV changing
-        public const int FovDifference = 15;               // Difference between the FOV when crouching or running
+        public const int FovDifference = 15;               // Difference between the FOV when crouching/running/walking
         public const float FOVCorrection = 0.05f;          // Correction of the FOV when crouching or running
         public const float CameraClampUp = 89.999f;        // Clamp of the camera up
         public const float CameraClampDown = -89.999f;     // Clamp of the camera down

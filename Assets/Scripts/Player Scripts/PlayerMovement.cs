@@ -179,8 +179,11 @@ namespace Player_Scripts
             }
             else if (_isWalking)
             {
+                if(_inputDir.x != 0 || _inputDir.y != 0) 
+                    if (_inputDir.y > 0f)
+                        playerState = PlayerStates.Walking;
+                
                 UpdateMovementSpeed(walkSpeed);
-                playerState = PlayerStates.Walking;
             }
             else
                 UpdateMovementSpeed(defaultSpeed);
@@ -296,7 +299,7 @@ namespace Player_Scripts
         /// </summary>
         private void CheckPauseMenu()
         {
-            _camera.GetComponent<PlayerCameraView>().enabled = !PauseMenu.IsPaused;
+            _camera.GetComponent<PlayerCameraView>().enabled = !PauseMenu.isPaused;
         }
 
         /// <summary>
@@ -305,6 +308,8 @@ namespace Player_Scripts
         /// <param name="hit"> Physics object </param>
         private void PushPhysicsObject(ControllerColliderHit hit)
         {
+            if(hit.gameObject.CompareTag("Enemy")) return;
+            
             var body = hit.collider.attachedRigidbody;
             
             if (body == null || body.isKinematic) return;

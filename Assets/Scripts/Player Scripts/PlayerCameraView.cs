@@ -54,9 +54,6 @@ namespace Player_Scripts
         /// </summary>
         private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            
             _playerMovement = _player.GetComponent<PlayerMovement>();
         }
 
@@ -67,7 +64,6 @@ namespace Player_Scripts
         {
             CheckFOV();
             CheckClamp();
-            CheckPauseMenu();
             CameraMovement();
         }
 
@@ -96,28 +92,32 @@ namespace Player_Scripts
         /// </summary>
         private void CheckFOV()
         {
-            var crouchFOV = defaultFOV - PlayerProperties.FovDifference;
-            var runningFOV = defaultFOV + PlayerProperties.FovDifference;
+            var walkingFOV = (int)defaultFOV - PlayerProperties.FovDifference / 2;
+            var runningFOV = (int)defaultFOV + PlayerProperties.FovDifference;
+            var crouchingFOV = (int)defaultFOV - PlayerProperties.FovDifference;
 
-            if (_playerMovement.playerState == PlayerStates.Crouching)
+            switch (_playerMovement.playerState)
             {
-                ChangeFOV(crouchFOV);
-                CorrectAfterCrouchingFOV(crouchFOV);
-            }
-            else if (_playerMovement.playerState == PlayerStates.Running)
-            {
-                ChangeFOV(runningFOV);
-                CorrectAfterRunningFOV(runningFOV);
-            }
-            else
-            {
-                ChangeFOV(defaultFOV);
-                
-                // Correct FOV values to a non decimal value after crouching and running
-                if (_camera.fieldOfView > defaultFOV)
-                    CorrectAfterCrouchingFOV(defaultFOV);
-                else if (_camera.fieldOfView < defaultFOV)
-                    CorrectAfterRunningFOV(defaultFOV);
+                case PlayerStates.Crouching:
+                    ChangeFOV(crouchingFOV);
+                    CorrectHigherFOV(crouchingFOV);
+                    break;
+                case PlayerStates.Running:
+                    ChangeFOV(runningFOV);
+                    CorrectLowerFOV(runningFOV);
+                    break;
+                case PlayerStates.Walking:
+                    ChangeFOV(walkingFOV);
+                    break;
+                default:
+                    ChangeFOV(defaultFOV);
+                    
+                    if (_camera.fieldOfView > defaultFOV)
+                        CorrectHigherFOV(defaultFOV);
+                    else if (_camera.fieldOfView < defaultFOV)
+                        CorrectLowerFOV(defaultFOV);
+                    
+                    break;
             }
         }
         
@@ -134,7 +134,7 @@ namespace Player_Scripts
         /// Correct FOV after Running, to be a non decimal value
         /// </summary>
         /// <param name="newFOV"></param>
-        private void CorrectAfterRunningFOV(float newFOV)
+        private void CorrectLowerFOV(float newFOV)
         {
             if (_camera.fieldOfView + PlayerProperties.FOVCorrection > newFOV)
                 _camera.fieldOfView = newFOV;
@@ -144,27 +144,10 @@ namespace Player_Scripts
         /// Correct FOV after Crouching, to be a non decimal value
         /// </summary>
         /// <param name="newFov"></param>
-        private void CorrectAfterCrouchingFOV(float newFov)
+        private void CorrectHigherFOV(float newFov)
         {
             if (_camera.fieldOfView - PlayerProperties.FOVCorrection < newFov)
                 _camera.fieldOfView = newFov;
-        }
-
-        /// <summary>
-        /// Unlocks mouse if game is paused
-        /// </summary>
-        private void CheckPauseMenu()
-        {
-            if (PauseMenu.IsPaused)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
         }
 
         /// <summary>
