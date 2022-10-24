@@ -75,6 +75,10 @@ namespace Main_Menu_Scripts
             StartCoroutine(CenterMouse());
         }
         
+        /// <summary>
+        /// Center mouse position
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator CenterMouse()
         {
             Cursor.lockState = CursorLockMode.Locked;

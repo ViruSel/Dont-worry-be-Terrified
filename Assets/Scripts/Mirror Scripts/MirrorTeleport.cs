@@ -15,6 +15,7 @@ namespace Mirror_Scripts
 
         public bool playerTeleported;
         private bool _playerIsOverlapping;
+        private bool _crateIsOverlapping;
 
         private Transform _player;
 
@@ -34,6 +35,11 @@ namespace Mirror_Scripts
         {
             if (_playerIsOverlapping)
                 Teleport(_player);
+
+            if (_crateIsOverlapping)
+            {
+                //TODO: Teleport crate
+            }
         }
 
         /// <summary>

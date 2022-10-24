@@ -127,7 +127,7 @@ namespace Player_Scripts
             _inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             _inputDir.Normalize();
 
-            // Find out if player is moving
+            // Check if player is moving
             if (_inputDir.x == 0 && _inputDir.y == 0)
                 playerState = PlayerStates.Standing;
             else
@@ -170,18 +170,16 @@ namespace Player_Scripts
             }
             else if (_isRunning)
             {
-                // Prevent player from running backwards
-                if(_inputDir.x != 0 || _inputDir.y != 0) 
-                    if (_inputDir.y > 0f)
+                if(_inputDir.x != 0 || _inputDir.y != 0)        // Don't change player state if player is not moving
+                    if (_inputDir.y > 0f)                       // Check if player is moving forward
                         playerState = PlayerStates.Running;
 
                 UpdateMovementSpeed(playerState == PlayerStates.Running ? runSpeed : defaultSpeed);
             }
             else if (_isWalking)
             {
-                if(_inputDir.x != 0 || _inputDir.y != 0) 
-                    if (_inputDir.y > 0f)
-                        playerState = PlayerStates.Walking;
+                if(_inputDir.x != 0 || _inputDir.y != 0)        // Don't change player state if player is not moving
+                    playerState = PlayerStates.Walking;
                 
                 UpdateMovementSpeed(walkSpeed);
             }
@@ -290,7 +288,7 @@ namespace Player_Scripts
         {
             if (_isJumping || playerState == PlayerStates.InAir) return;
             
-            if (_currentDir.y != 0 || _currentDir.x != 0)
+            if (_currentDir.y != 0 || _currentDir.x != 0)           // Don't stick player to slope if he is not moving
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (PlayerProperties.SlopeForce * Time.deltaTime));
         }
 
