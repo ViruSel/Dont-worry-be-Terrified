@@ -30,7 +30,7 @@ namespace UI_Scripts
         {
             Initialize();
         }
-
+    
         /// <summary>
         /// Initialize settings
         /// </summary>

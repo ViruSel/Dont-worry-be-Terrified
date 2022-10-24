@@ -14,13 +14,8 @@ namespace UI_Scripts
         /// Variables
         /// </summary>
         private Text _text;
-
-        private const float Seconds = 1f;
-        private const string Display = "Version {0}";
-
         public Animator animator;
-        
-        
+
         /// <summary>
         /// Called before the first frame update
         /// </summary>
@@ -43,7 +38,7 @@ namespace UI_Scripts
         private void Initialize()
         {
             _text = GetComponent<Text>();
-            _text.text = string.Format(Display, Application.version);
+            _text.text = string.Format(UIProperties.VersionString, Application.version);
             _text.enabled = false;
         }
         
@@ -55,7 +50,7 @@ namespace UI_Scripts
             // If the loading screen animation is not playing, show the version text
             if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Crossfade_Start"))
             {
-                StartCoroutine(DelayTextActivation(Seconds));
+                StartCoroutine(DelayTextActivation(UIProperties.DelayInSeconds));
             }
             else
             {

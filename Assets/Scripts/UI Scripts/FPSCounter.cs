@@ -12,9 +12,7 @@ namespace UI_Scripts
         /// <summary>
         /// Variables
         /// </summary>
-        private const float FPSMeasurePeriod = 0.5f;
-        private const string Display = "{0} FPS";
-        
+
         private float _fpsNextPeriod;
         private int _fpsAccumulator;
         private int _currentFps;
@@ -27,7 +25,7 @@ namespace UI_Scripts
         private void Awake()
         {
             _text = GetComponent<Text>();
-            _fpsNextPeriod = Time.realtimeSinceStartup + FPSMeasurePeriod;
+            _fpsNextPeriod = Time.realtimeSinceStartup + UIProperties.FpsMeasurePeriod;
         }
 
         /// <summary>
@@ -46,15 +44,15 @@ namespace UI_Scripts
             // Measure average frames per second
             _fpsAccumulator++;
             
-            if (!(Time.realtimeSinceStartup > _fpsNextPeriod)) return;
+            if (Time.realtimeSinceStartup <= _fpsNextPeriod) return;
             
             // Math
-            _currentFps = (int) (_fpsAccumulator/FPSMeasurePeriod);
+            _currentFps = (int) (_fpsAccumulator/UIProperties.FpsMeasurePeriod);
             _fpsAccumulator = 0;
-            _fpsNextPeriod += FPSMeasurePeriod;
+            _fpsNextPeriod += UIProperties.FpsMeasurePeriod;
             
             // Display FPS
-            _text.text = string.Format(Display, _currentFps);
+            _text.text = string.Format(UIProperties.FPSString, _currentFps);
         }
     }
 }

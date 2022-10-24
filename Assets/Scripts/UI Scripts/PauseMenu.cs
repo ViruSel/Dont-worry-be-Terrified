@@ -45,7 +45,7 @@ namespace UI_Scripts
 
         private void CheckPaused()
         {
-            if (!Input.GetKeyDown(KeyCode.Escape) || !(Time.timeSinceLevelLoad > 1f)) return;
+            if (!Input.GetKeyDown(KeyCode.Escape) || Time.timeSinceLevelLoad < 1f) return;
             
             if (isPaused)
                 Resume();
