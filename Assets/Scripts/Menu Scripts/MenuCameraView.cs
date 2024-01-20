@@ -5,14 +5,10 @@ using UnityEngine;
 
 namespace Main_Menu_Scripts
 {
-    /// <summary>
-    /// Camera look in menu
-    /// </summary>
+    // Camera look in menu
     public class MenuCameraView : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [Header("Mouse Settings")]
         [SerializeField] private float mouseSensitivity;
         [SerializeField] [Range(0f, 1f)] private float mouseSmoothTime;
@@ -30,27 +26,21 @@ namespace Main_Menu_Scripts
         
         private Camera _menuCamera;
         private Transform _tripod;
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             Initialize();
         }
-
-        /// <summary>
-        /// Start is called before the first frame update
-        /// </summary>
+        
+        // Start is called before the first frame update
         private void Start()
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.None;
         }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
+        
+        // Update is called once per frame
         private void Update()
         {
             CheckClamp();
@@ -75,10 +65,7 @@ namespace Main_Menu_Scripts
             StartCoroutine(CenterMouse());
         }
         
-        /// <summary>
         /// Center mouse position
-        /// </summary>
-        /// <returns></returns>
         private IEnumerator CenterMouse()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -89,9 +76,7 @@ namespace Main_Menu_Scripts
             Cursor.visible = true;
         }
         
-        /// <summary>
         /// Camera Movement
-        /// </summary>
         private void CameraMovement()
         {
             // Camera Input
@@ -112,15 +97,12 @@ namespace Main_Menu_Scripts
             _menuCamera.transform.localEulerAngles = Vector3.right * _mouseClampY;
             _tripod.rotation = Quaternion.Euler(-10.493f, _mouseClampX, 0f);
         }
-    
-        /// <summary>
-        /// Clamp Easter Egg
-        /// Makes camera able to loop while looking left / right
-        /// </summary>
+        
+        // Clamp Easter Egg
+        // Makes camera able to loop while looking left / right
         private void CheckClamp()
         {
-            // If camera is clamped, lock mouse movement to a certain degree
-            // if camera isn't clamped allow full mouse movement
+            // If camera is clamped, lock mouse movement to a certain degree else allow full mouse movement
             if (isClamped)
             {
                 _clampAngleLeft = MenuProperties.DefaultClampAngleLeft;

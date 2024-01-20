@@ -7,9 +7,7 @@ namespace Puzzle_Scripts
 {
     public class PuzzleButton : MonoBehaviour
     {
-        /// <summary>
-        /// variables
-        /// </summary>
+        // variables
         [Header("Crosshair")]
         [SerializeField] private Text crosshair;
 
@@ -31,50 +29,38 @@ namespace Puzzle_Scripts
         private Renderer _renderer;
         private AudioSource _buttonSound;
         private Animation _animation;
-
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        
+        // Called before the first frame update
         private void Start()
         {
             Initialize();
         }
-
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        
+        // Called once per frame
         private void Update()
         {
             _distanceToButton = PlayerCastToObject.Distance;
         }
-
-        /// <summary>
-        /// Called every fixed frame
-        /// </summary>
+        
+        // Called every fixed frame
         private void FixedUpdate()
         {
             _isPressing = _inputManager.GetKey(KeybindingActions.Use);
         }
-
-        /// <summary>
-        /// Actions to be performed while mouse is over this object
-        /// </summary>
+        
+        // Actions to be performed while mouse is over this object
         private void OnMouseOver()
         {
-            PressingThePuzzleButton();
+            IsPressing();
         }
-
-        /// <summary>
-        /// Actions to be performed while mouse is no longer over this object
-        /// </summary>
+        
+        // Actions to be performed while mouse is no longer over this object
         private void OnMouseExit()
         {
             crosshair.text = _oldCrosshair;
         }
-
-        /// <summary>
-        /// initialize variables
-        /// </summary>
+        
+        // initialize variables
         private void Initialize()
         {
             _inputManager = InputManager.Instance;
@@ -89,10 +75,8 @@ namespace Puzzle_Scripts
             isPressed = false;
             _canPress = true;
         }
-
-        /// <summary>
-        /// Reset button state to unpressed
-        /// </summary>
+        
+        // Reset button state to unpressed
         public void ResetButton()
         {
             _renderer.material = offColor;
@@ -102,7 +86,8 @@ namespace Puzzle_Scripts
             _canPress = true;
         }
 
-        private void PressingThePuzzleButton()
+        // Check if player is pressing the button
+        private void IsPressing()
         {
             if (_distanceToButton < 4 && _canPress)
             {

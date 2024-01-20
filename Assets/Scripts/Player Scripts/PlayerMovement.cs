@@ -5,14 +5,10 @@ using UnityEngine;
 
 namespace Player_Scripts
 {
-    /// <summary>
-    /// Movement script
-    /// </summary>
+    // Movement script
     public class PlayerMovement : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [Header("Movement Settings")]
         [SerializeField] private float defaultSpeed;
         [SerializeField] [Range(0f, 1f)] private float moveSmoothTime;
@@ -55,45 +51,35 @@ namespace Player_Scripts
 
         public PlayerStates playerState;
         
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        // Called before Start function
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             _groundCheck = transform.Find("GroundCheck");
         }
-
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        
+        // Called before the first frame update
         private void Start()
         {
             Initialize();
         }
-
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        
+        // Called once per frame
         private void Update()
         {
             CheckPauseMenu();
             MovePlayer();
             PlayerMovementSettings();
         }
-
-        /// <summary>
-        /// Called every fixed frame
-        /// </summary>
+        
+        // Called every fixed frame
         private void FixedUpdate()
         {
             InitializeBindings();
         }
         
-        /// <summary>
-        /// Initialize variables
-        /// </summary>
+        // Initialize variables
         private void Initialize()
         {
             _inputManager = InputManager.Instance;
@@ -106,10 +92,8 @@ namespace Player_Scripts
             jumpMultiplier = PlayerProperties.JumpMultiplier;
             crouchSpeed = PlayerProperties.CrouchSpeed;
         }
-
-        /// <summary>
-        /// Initialize Bindings
-        /// </summary>
+        
+        // Initialize Bindings
         private void InitializeBindings()
         {
             _wishJump = _inputManager.GetKey(KeybindingActions.Jump);
@@ -117,10 +101,8 @@ namespace Player_Scripts
             _isRunning = _inputManager.GetKey(KeybindingActions.Run);
             _isCrouching = _inputManager.GetKey(KeybindingActions.Crouch);
         }
-
-        /// <summary>
-        /// Moving the Player
-        /// </summary>
+        
+        // Moving the Player
         private void MovePlayer()
         {
             // Movement input
@@ -150,10 +132,8 @@ namespace Player_Scripts
             // Move player
             _characterController.Move(_velocity * Time.deltaTime);
         }
-
-        /// <summary>
-        /// Player Movement Settings
-        /// </summary>
+        
+        // Player Movement Settings
         private void PlayerMovementSettings()
         {
             // Ground check
@@ -203,22 +183,16 @@ namespace Player_Scripts
             // Slope Action
             if (OnSlope()) SlopeEvent();
         }
-
-        /// <summary>
-        /// Update movement speed
-        /// </summary>
-        /// <param name="speed"></param>
-        /// <returns> Movement Speed </returns>
+        
+        // Update movement speed
         private void UpdateMovementSpeed(float speed)
         {
             _movementSpeed = Mathf.Lerp(_movementSpeed, speed, Time.deltaTime * acceleration);
             
             if (_movementSpeed - 0.025f <= speed) _movementSpeed = speed;
         }
-
-        /// <summary>
-        /// Jump Event
-        /// </summary>
+        
+        // Jump Event
         private IEnumerator JumpEvent()
         {
             _characterController.slopeLimit = PlayerProperties.SlopeLimitInAir;
@@ -238,11 +212,8 @@ namespace Player_Scripts
 
             _isJumping = false;
         }
-
-        // TODO - Make transform size small
-        /// <summary>
-        /// Crouch Event
-        /// </summary>
+        
+        // Crouch Event
         private void CrouchEvent()
         {
             _characterController.height = 1;
@@ -251,7 +222,7 @@ namespace Player_Scripts
             //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f/2,1f), CrouchingSpeed * Time.deltaTime);
         }
         
-        // TODO - Make transform size big + ceiling detection
+        // TODO ceiling detection
         /// <summary>
         /// Stand Up Event
         /// </summary>
@@ -265,25 +236,18 @@ namespace Player_Scripts
                 //transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(1f,1f,1f), CrouchingSpeed * Time.deltaTime);
             }   
         }
-    
-        /// <summary>
-        /// Verify if character is on a slope
-        /// </summary>
-        /// <returns>
-        /// true = on slope
-        /// false = not on slope
-        /// </returns>
+        
+        // Verify if character is on a slope
         private bool OnSlope()
         {
+            // If we are on a slope, stick to it (stairs)
             if (!Physics.Raycast(transform.position, Vector3.down, out var hit,
                     _characterController.height / 2 * PlayerProperties.SlopeForceRayLength)) return false;
             
             return hit.normal != Vector3.up;
         }
-
-        /// <summary>
-        /// If player is on slope, stick him to it
-        /// </summary>
+        
+        // If player is on slope, stick him to it
         private void SlopeEvent()
         {
             if (_isJumping || playerState == PlayerStates.InAir) return;
@@ -291,19 +255,14 @@ namespace Player_Scripts
             if (_currentDir.y != 0 || _currentDir.x != 0)           // Don't stick player to slope if he is not moving
                 _characterController.Move(Vector3.down * _characterController.height / 2 * (PlayerProperties.SlopeForce * Time.deltaTime));
         }
-
-        /// <summary>
-        /// Disable camera while pause menu is open
-        /// </summary>
+        
+        // Disable camera while pause menu is open
         private void CheckPauseMenu()
         {
             _camera.GetComponent<PlayerCameraView>().enabled = !PauseMenu.isPaused;
         }
-
-        /// <summary>
-        /// Making player interact with physics objects
-        /// </summary>
-        /// <param name="hit"> Physics object </param>
+        
+        // Making player interact with physics objects
         private void PushPhysicsObject(ControllerColliderHit hit)
         {
             if(hit.gameObject.CompareTag("Enemy")) return;
@@ -315,14 +274,11 @@ namespace Player_Scripts
             
             body.velocity = hit.moveDirection * _velocity.magnitude;
         }
-
-        /// <summary>
+        
         /// Hitting other colliders
-        /// </summary>
-        /// <param name="hit"></param>
         private void OnControllerColliderHit( ControllerColliderHit hit )
         {
-            // Check if the object is a box
+            // Check if the object is a box to push it around
             if(hit.gameObject.CompareTag("Box"))
                 PushPhysicsObject(hit);
         }

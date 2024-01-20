@@ -5,6 +5,33 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
+    RecentlyUsedSceneGuid-0:
+      value: 51015651575750595d580d2312270844154e4c2f74797e67287e4566b6e3656c
+      flags: 0
+    RecentlyUsedSceneGuid-1:
+      value: 57535007570d580b5d595c7641725a444615407a7b2a7761792f446ae3e3653a
+      flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 0709575051005b0a540c0f7743270f44424f4a7b792a7e697a7e1863b2b1623b
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 53520c005d0d515f080a557540770e4410161c7d757976692f7d1c35b1e6653e
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 535557505d045b0c595c547645275b44424e4f7f787b70357f7c1b62e7e3356d
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 0702050353050d5d0957087040220e44124e1b2f782c23327c2b4537e7b9623e
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 545255500301510c590b542446255b444216197b782925627c284562b1b66d3d
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 57050c5551565a0d5a0b5f7215705b4413151e79787e75672f281e37b0b1636f
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 5208005157055e0b085f0d7615255a44154f412f2d297f662b2c4c35b3b26d3e
+      flags: 0
     RecentlyUsedScenePath-0:
       value: 22424703114646680e0b0227036c6c1313191d6a7966333e243d04
       flags: 0
@@ -24,16 +51,16 @@ EditorUserSettings:
       value: 22424703114646680e0b0227036c7d313d582b29292623707e67083debf42d
       flags: 0
     RecentlyUsedScenePath-6:
-      value: 22424703114646680e0b0227036c72151802563f22213229
-      flags: 0
-    RecentlyUsedScenePath-7:
       value: 22424703114646680e0b0227036c6c1313191d6a7f66333e243d04
       flags: 0
-    RecentlyUsedScenePath-8:
+    RecentlyUsedScenePath-7:
       value: 22424703114646680e0b0227036c6c1313191d6a7e66333e243d04
       flags: 0
-    RecentlyUsedScenePath-9:
+    RecentlyUsedScenePath-8:
       value: 22424703114646680e0b0227036c6c1313191d6a7d66333e243d04
+      flags: 0
+    RecentlyUsedScenePath-9:
+      value: 22424703114646680e0b0227036c72151802563f22213229
       flags: 0
     UnityEditor.ShaderGraph.Blackboard:
       value: 18135939215a0a5004000b0e15254b524c030a3f2964643d120d1230e9e93a3fd6e826abbd2e2d293c4ead313b08042de6030a0afa240c0d020be94c4ba75e435d8715fa32c70d15d11612dacc11fee5d3c5d1fe9ab1bf968e93e2ffcbc3e7e2f0b3ffe0e8b0be9af8ffaeffff8e85dd8390e3949c8899daa7
@@ -55,9 +82,13 @@ EditorUserSettings:
   m_VCDebugCmd: 0
   m_VCDebugOut: 0
   m_SemanticMergeMode: 2
+  m_DesiredImportWorkerCount: 3
+  m_StandbyImportWorkerCount: 2
+  m_IdleImportWorkerShutdownDelay: 60000
   m_VCShowFailedCheckout: 1
   m_VCOverwriteFailedCheckoutAssets: 1
   m_VCProjectOverlayIcons: 1
   m_VCHierarchyOverlayIcons: 1
   m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 1
+  m_ArtifactGarbageCollection: 1

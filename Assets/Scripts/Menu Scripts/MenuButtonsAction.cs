@@ -3,37 +3,27 @@ using UnityEngine;
 
 namespace Menu_Scripts
 {
-    /// <summary>
-    /// Setting up actions for Main menu buttons
-    /// </summary>
+    // Setting up actions for Main menu buttons
     public class MenuButtonsAction : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         private Camera _camera;
         private LevelLoader _levelLoader;
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             _camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
         }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
+        
+        // Update is called once per frame
         private void Update()
         {
             CheckButtonPressed();
         }
-
-        /// <summary>
-        /// Checking which button is pressed
-        /// </summary>
+        
+        // Checking which button is pressed
         private void CheckButtonPressed()
         {
             if (!Input.GetMouseButtonUp(0)) return;
@@ -58,26 +48,20 @@ namespace Menu_Scripts
                     break;
             }
         }
-
-        /// <summary>
-        /// Start game button action
-        /// </summary>
+        
+        // Start game button action
         private void StartGame()
         {
             _levelLoader.LoadScene("Scene 1");
         }
-
-        /// <summary>
-        /// Opening Settings menu
-        /// </summary>
+        
+        // Opening Settings menu
         private void Settings()
         {
-            print("Settings not implemented yet");
+            Debug.Log("Settings not implemented yet");
         }
 
-        /// <summary>
-        /// Exiting the game
-        /// </summary>
+        // Exiting the game
         private void ExitGame()
         {
             Application.Quit();

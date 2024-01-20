@@ -4,27 +4,22 @@ using UnityEngine.Rendering.Universal;
 
 namespace Scene_Scripts
 {
+    // Disable certain Post Processing Effects
     public class AdaptToProjector : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private VolumeProfile volume;
         [SerializeField] private bool isProjecting;
         
         private Tonemapping _tonemapping;
-
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        
+        // Called once per frame
         private void Update()
         {
             CheckProjector();
         }
-
-        /// <summary>
-        /// Change the tonemapping settings based on preference
-        /// </summary>
+        
+        // Change the Tone mapping settings based on preference
         private void CheckProjector()
         {
             if (volume.TryGet(out _tonemapping)) 

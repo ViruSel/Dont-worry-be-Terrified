@@ -2,16 +2,12 @@ using UnityEngine;
 
 namespace Input_Scripts
 {
-    /// <summary>
-    /// Creating Custom object "Keybindings"
-    /// </summary>
+    // Creating Custom object "Keybindings"
     [CreateAssetMenu(fileName ="Keybindings", menuName ="Keybindings")]
     
     public class Keybindings : ScriptableObject
     {
-        /// <summary>
-        /// Key actions class with their corresponding bind 
-        /// </summary>
+        // Key actions class with their corresponding bind 
         [System.Serializable]
         public class KeybindingCheck
         {

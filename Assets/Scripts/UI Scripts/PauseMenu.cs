@@ -7,14 +7,10 @@ using UnityEngine.UI;
 
 namespace UI_Scripts
 {
-    /// <summary>
-    /// Pause Menu Script
-    /// </summary>
+    // Pause Menu Script
     public class PauseMenu : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         public static bool isPaused;
         
         [SerializeField] private GameObject pauseMenu;
@@ -22,10 +18,8 @@ namespace UI_Scripts
         [SerializeField] private GameObject crosshair;
         
         private LevelLoader _levelLoader;
-
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        
+        // Called before the first frame update
         private void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -34,15 +28,14 @@ namespace UI_Scripts
             isPaused = false;
             _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
         }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
+        
+        // Update is called once per frame
         private void Update()
         {
             CheckPaused();
         }
 
+        // Check if game is paused
         private void CheckPaused()
         {
             if (!Input.GetKeyDown(KeyCode.Escape) || Time.timeSinceLevelLoad < 1f) return;
@@ -52,10 +45,8 @@ namespace UI_Scripts
             else
                 Pause();
         }
-
-        /// <summary>
-        /// Pause Game Actions
-        /// </summary>
+        
+        // Pause Game Actions
         private void Pause()
         {
             pauseMenu.SetActive(true);
@@ -68,10 +59,8 @@ namespace UI_Scripts
             
             isPaused = true;
         }
-
-        /// <summary>
-        /// Resume Game Actions
-        /// </summary>
+        
+        // Resume Game Actions
         public void Resume()
         {
             pauseMenu.SetActive(false);
@@ -85,10 +74,8 @@ namespace UI_Scripts
             
             isPaused = false;
         }
-
-        /// <summary>
-        /// Exit to main menu action
-        /// </summary>
+        
+        // Exit to main menu action
         public void Exit()
         {
             Time.timeScale = 1f;

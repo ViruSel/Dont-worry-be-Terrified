@@ -3,34 +3,25 @@ using UnityEngine;
 
 namespace Mirror_Scripts
 {
-    /// <summary>
-    /// Apply player's camera effects on mirrors
-    /// </summary>
+    // Apply player's camera effects on mirrors
     public class MirrorEffects : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         private Camera _playerCamera;
         private Camera _mirrorCamera;
 
         /*[SerializeField] private Transform mirror;
         [SerializeField] private int fps;
-        
         private float _elapsedTime;*/
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             _mirrorCamera = GetComponent<Camera>();
             _playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         }
-
-        /// <summary>
-        /// Called after all Update functions
-        /// </summary>
+        
+        // Called after all Update functions
         private void LateUpdate()
         {
             ChangeFOV();
@@ -41,6 +32,13 @@ namespace Mirror_Scripts
             //LimitFPS();
         }
 
+        // Change Mirror's FOV with Player's FOV
+        private void ChangeFOV()
+        {
+            _mirrorCamera.fieldOfView = _playerCamera.fieldOfView;
+        }
+        
+        // Try to detect when mirror is in front of player
         /*private bool IsFacingObject()
         {
             var toPlayer = (_playerCamera.transform.parent.position - mirror.position).normalized;
@@ -51,6 +49,7 @@ namespace Mirror_Scripts
             return dot < 0;
         }*/
 
+        // Limit fps inside mirror
         /*private void LimitFPS()
         {
             if (gameObject.activeSelf && IsFacingObject())
@@ -68,13 +67,5 @@ namespace Mirror_Scripts
                 _mirrorCamera.enabled = false;
             }
         }*/
-        
-        /// <summary>
-        /// Change Mirror's FOV with Player's FOV
-        /// </summary>
-        private void ChangeFOV()
-        {
-            _mirrorCamera.fieldOfView = _playerCamera.fieldOfView;
-        }
     }
 }

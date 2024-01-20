@@ -5,24 +5,17 @@ namespace Trigger_Scripts
 {
     public class TriggerEndLevel: MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private string levelName;
         private LevelLoader _levelLoader;
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             _levelLoader = GameObject.Find("Level Loader").GetComponent<LevelLoader>();
         }
-
-        /// <summary>
-        /// Action to be done while entering the trigger
-        /// </summary>
-        /// <param name="other"> The object that enters the trigger </param>
+        
+        // Action to be done while entering the trigger
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;

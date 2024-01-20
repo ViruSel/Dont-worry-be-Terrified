@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace Trigger_Scripts
 {
-    //TODO: Fix breaking image while running close to the mirrors
-    
+    // Activate cameras while inside trigger
     public class TriggerMirrorCamera : MonoBehaviour
     {
+        // Variables
         [SerializeField] private GameObject[] camerasToEnable;
         [SerializeField] private GameObject[] camerasToDisable;
 
+        // Actions to be done while in the trigger
         private void OnTriggerStay(Collider col)
         {
             if (col.CompareTag("Player"))

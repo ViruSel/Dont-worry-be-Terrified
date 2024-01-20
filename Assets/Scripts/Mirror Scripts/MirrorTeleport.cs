@@ -3,14 +3,10 @@ using UnityEngine;
 
 namespace Mirror_Scripts
 {
-    /// <summary>
-    /// Teleport player to the room inside the mirror
-    /// </summary>
+    // Teleport player to the room inside the mirror
     public class MirrorTeleport : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private Transform otherMirror;
 
         public bool playerTeleported;
@@ -18,19 +14,15 @@ namespace Mirror_Scripts
         private bool _crateIsOverlapping;
 
         private Transform _player;
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             playerTeleported = false;
             _player = GameObject.FindWithTag("Player").transform;
         }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
+        
+        // Update is called once per frame
         private void Update ()
         {
             if (_playerIsOverlapping)
@@ -41,10 +33,8 @@ namespace Mirror_Scripts
                 //TODO: Teleport crate
             }
         }
-
-        /// <summary>
-        /// Teleporting the Player
-        /// </summary>
+        
+        // Teleporting the Player
         private void Teleport(Transform objectToTeleport)
         {
             // Math
@@ -70,10 +60,7 @@ namespace Mirror_Scripts
             }
         }
         
-        /// <summary>
-        /// Check which object to be teleported
-        /// </summary>
-        /// <param name="objectToCheck"></param>
+        // Check which object to be teleported
         private void CheckTeleportingObject(Component objectToCheck)
         {
             if (objectToCheck.CompareTag("Player"))
@@ -82,21 +69,15 @@ namespace Mirror_Scripts
                 playerTeleported = true;
             }
         }
-
-        /// <summary>
-        /// Actions when colliding with the trigger
-        /// </summary>
-        /// <param name="other"></param>
+        
+        // Actions when colliding with the trigger
         private void OnTriggerEnter (Collider other)
         {
             if (other.CompareTag("Player"))
                 _playerIsOverlapping = true;
         }
-
-        /// <summary>
+        
         /// Actions when exiting the trigger
-        /// </summary>
-        /// <param name="other"></param>
         private void OnTriggerExit (Collider other)
         {
             if (other.CompareTag("Player"))

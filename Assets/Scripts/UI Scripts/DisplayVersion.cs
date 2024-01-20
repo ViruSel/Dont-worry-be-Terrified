@@ -5,36 +5,27 @@ using UnityEngine.UI;
 
 namespace UI_Scripts
 {
-    
     //Todo: Destroy canvas when showing fps
 
     public class DisplayVersion : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         private Text _text;
         public Animator animator;
-
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        
+        // Called before the first frame update
         private void Start()
         {
             Initialize();
         }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
+        
+        // Update is called once per frame
         private void Update()
         {
             ShowVersion();
         }
-
-        /// <summary>
-        /// Initialize variables
-        /// </summary>
+        
+        // Initialize variables
         private void Initialize()
         {
             _text = GetComponent<Text>();
@@ -42,9 +33,7 @@ namespace UI_Scripts
             _text.enabled = false;
         }
         
-        /// <summary>
-        /// Enables version text
-        /// </summary>
+        // Enables version text
         private void ShowVersion()
         {
             // If the loading screen animation is not playing, show the version text
@@ -57,21 +46,15 @@ namespace UI_Scripts
                 DestroyText();
             }
         }
-
-        /// <summary>
-        /// Delay the activation of the text
-        /// </summary>
-        /// <param name="sec"></param>
-        /// <returns></returns>
+        
+        // Delay the activation of the text
         private IEnumerator DelayTextActivation(float sec)
         {
             yield return new WaitForSeconds(sec);
             _text.enabled = true;
         }
-
-        /// <summary>
+        
         /// Destroy text & script
-        /// </summary>
         private void DestroyText()
         {
             if (_text.Equals(null)) return;

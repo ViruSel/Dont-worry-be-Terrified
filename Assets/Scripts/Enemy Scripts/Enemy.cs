@@ -7,9 +7,7 @@ namespace Enemy_Scripts
 {
     public class Enemy : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private Transform[] waypoints;
 
         [SerializeField] private float speed;
@@ -27,25 +25,19 @@ namespace Enemy_Scripts
         private PlayerCameraView _playerCameraView;
         private Rigidbody _enemyRigidbody;
         
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        // Called before the first frame update
         private void Start()
         {
             Initialize();
         }
-
-        /// <summary>
-        /// Called once per fixed frame
-        /// </summary>
+        
+        // Called once per fixed frame
         private void FixedUpdate()
         {
             if(!_caughtPlayer) MoveEnemy();
         }
-
-        /// <summary>
-        /// Initialize every variable
-        /// </summary>
+        
+        // Initialize every variable
         private void Initialize()
         {
             _caughtPlayer = false;
@@ -62,9 +54,7 @@ namespace Enemy_Scripts
             _playerCameraView = _playerCamera.GetComponent<PlayerCameraView>();
         }
         
-        /// <summary>
-        /// Move Enemy towards waypoint
-        /// </summary>
+        // Move Enemy towards waypoint
         private void MoveEnemy()
         {
             if (transform.position != waypoints[_currentWaypoint].position)
@@ -82,10 +72,8 @@ namespace Enemy_Scripts
             else // Loop Waypoints
                 _currentWaypoint = (_currentWaypoint + 1) % waypoints.Length;
         }
-
-        /// <summary>
-        /// Actions to perform after enemy collided with the player
-        /// </summary>
+        
+        // Actions to perform after enemy collided with the player
         private IEnumerator KillPlayer()
         {   
             _caughtPlayer = true;
@@ -100,11 +88,8 @@ namespace Enemy_Scripts
             _playerMovement.enabled = true;
             _playerCameraView.enabled = true;
         }
-
-        /// <summary>
-        /// Things to do on collision
-        /// </summary>
-        /// <param name="collision"></param>
+        
+        // Things to do on collision
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player"))

@@ -5,9 +5,7 @@ namespace Player_Scripts
 {
     public class PlayerRespawn : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private Animator crossFade;
         
         private Vector3 _respawnPoint;
@@ -16,10 +14,8 @@ namespace Player_Scripts
         private const float TransitionTime = 1f;
         
         private Transform _player;
-
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        
+        // Called before the first frame update
         private void Start()
         {
             _player = GameObject.Find("Player").transform;
@@ -27,11 +23,8 @@ namespace Player_Scripts
             _respawnPoint = _player.position;
             _respawnRotation = _player.rotation.eulerAngles;
         }
-
-        /// <summary>
-        /// Teleport player back to the level with a transition animation
-        /// </summary>
-        /// <returns></returns>
+        
+        // Teleport player back to the level with a transition animation
         private IEnumerator RespawnPlayer()
         {
             crossFade.Play("Crossfade_Start");
@@ -44,10 +37,7 @@ namespace Player_Scripts
             _player.localRotation = Quaternion.Euler(_respawnRotation);
         }
         
-        /// <summary>
-        /// Teleport player back to the level
-        /// </summary>
-        /// <param name="other"> The object that enters the trigger </param>
+        // Teleport player back to the level
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))

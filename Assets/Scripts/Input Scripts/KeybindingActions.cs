@@ -1,8 +1,6 @@
 namespace Input_Scripts
 {
-    /// <summary>
-    /// Bindable Actions
-    /// </summary>
+    // Bindable Actions
     public enum KeybindingActions
     {
         Walk,

@@ -5,18 +5,14 @@ namespace Player_Scripts
     public class PlayerCastToObject : MonoBehaviour
     {
         public static float Distance;
-
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        
+        // Called once per frame
         private void Update()
         {
             CheckDistance();
         }
-
-        /// <summary>
-        /// Cast a ray to find the distance between player and objects
-        /// </summary>
+        
+        // Cast a ray to find the distance between player and objects
         private void CheckDistance()
         {
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out var hit))

@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Scene_Scripts
 {
+    // End of the demo
     public class Demo : MonoBehaviour
     {
+        // Variables
         [SerializeField] private string levelName;
         [SerializeField] private LevelLoader levelLoader;
         [SerializeField] private GameObject player;
@@ -22,6 +24,7 @@ namespace Scene_Scripts
             Cursor.lockState = CursorLockMode.None;
         }
 
+        // Go back to the menu on exit
         public void Exit()
         {
             levelLoader.LoadScene(levelName);

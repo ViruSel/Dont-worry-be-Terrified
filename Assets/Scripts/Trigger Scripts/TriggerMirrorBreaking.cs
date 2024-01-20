@@ -3,31 +3,23 @@ using UnityEngine;
 
 namespace Trigger_Scripts
 {
-    /// <summary>
-    /// Trigger one or multiple animations at once with specific sounds
-    /// </summary>
+    // Trigger one or multiple animations at once with specific sounds
     public class TriggerMirrorBreaking : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         private GameObject mirror;
         private GameObject mirrorUnbroken;
         
         private Animation anim;
         private AudioSource sound;
         
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        // Called before the first frame update
         private void Start()
         {
             Initialize();
         }
         
-        /// <summary>
-        /// initialize variables
-        /// </summary>
+        // initialize variables
         private void Initialize()
         {
             mirror = GameObject.FindWithTag("Mirror");
@@ -36,11 +28,8 @@ namespace Trigger_Scripts
             anim = mirror.GetComponent<Animation>();
             sound = mirror.GetComponent<AudioSource>();
         }
-
-        /// <summary>
-        /// Actions to be done while entering the trigger
-        /// </summary>
-        /// <param name="other"> The object that enters the trigger </param>
+        
+        // Actions to be done while entering the trigger
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
@@ -50,7 +39,7 @@ namespace Trigger_Scripts
             anim.Play();
             sound.Play();
 
-            Destroy(this);      // Destroying the collider so the animations can't be triggered again
+            Destroy(this);  // Destroying the collider so the animations can't be triggered again
         }
     }
 }

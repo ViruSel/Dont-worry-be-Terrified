@@ -4,36 +4,26 @@ using UnityEngine.SceneManagement;
 
 namespace Scene_Scripts
 {
-    /// <summary>
-    /// Level loading Script with loading screen
-    /// </summary>
+    // Level loading Script with loading screen
     public class LevelLoader : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private Animator transition;
         private const float TransitionTime = 1f;
-
-        /// <summary>
-        /// Loading level by scene name
-        /// </summary>
-        /// <param name="sceneName"> Scene Name </param>
+        
+        // Loading level by scene name
         public void LoadScene(string sceneName)
         {
             StartCoroutine(LoadLevel(sceneName));
         }
 
+        // Loading level Async and additive
         public static void LoadSceneAsyncAdditive(string sceneName)
         {
             SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         }
-    
-        /// <summary>
-        /// Plays animation and loads the level by scene name
-        /// </summary>
-        /// <param name="sceneName"> Scene Name </param>
-        /// <returns></returns>
+        
+        // Plays animation and loads the level by scene name
         private IEnumerator LoadLevel(string sceneName)
         {
             transition.Play("Crossfade_Start");

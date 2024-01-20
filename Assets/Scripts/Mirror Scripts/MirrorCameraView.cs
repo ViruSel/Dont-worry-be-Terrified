@@ -3,39 +3,28 @@ using UnityEngine;
 
 namespace Mirror_Scripts
 {
-    /// <summary>
-    /// Display the room on the other side of the mirror
-    /// </summary>
+    // Display the room on the other side of the mirror
     public class MirrorCameraView : MonoBehaviour 
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private Transform mirror;
         [SerializeField] private Transform otherMirror;
 
         private Transform _playerCamera;
         
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        // Called before Start function
         private void Awake()
         {
             _playerCamera = GameObject.FindWithTag("MainCamera").transform;
         }
-
-        /// <summary>
-        /// Called after all Update functions
-        /// </summary>
+        
+        // Called after all Update functions
         private void LateUpdate()
         {
             ConnectMirrors();
         }
-
-        /// <summary>
-        /// Connecting 2 mirror views
-        /// Makes camera from the other mirror follow player movement
-        /// </summary>
+        
+        // Connecting 2 mirror views, makes camera from the other mirror follow player movement
         private void ConnectMirrors()
         {
             // Math

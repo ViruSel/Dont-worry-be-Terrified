@@ -1,11 +1,10 @@
+using System;
 using UI_Scripts;
 using UnityEngine;
 
 namespace Player_Scripts
 {
-    /// <summary>
-    /// Camera look script
-    /// </summary>
+    // Camera look script
     public class PlayerCameraView : MonoBehaviour
     {
         // Variables
@@ -27,10 +26,8 @@ namespace Player_Scripts
         private Camera _camera;
         private Transform _player;
         private PlayerMovement _playerMovement;
-
-        /// <summary>
-        /// Called Before Start
-        /// </summary>
+        
+        // Called Before Start
         private void Awake()
         {
             _camera = GetComponent<Camera>();
@@ -49,27 +46,26 @@ namespace Player_Scripts
             _clampAngleDown = PlayerProperties.CameraClampDown;
         }
         
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        // Called before the first frame update
         private void Start()
         {
             _playerMovement = _player.GetComponent<PlayerMovement>();
         }
-
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        
+        // Called once per frame
         private void Update()
         {
-            CheckFOV();
+            //CheckFOV();
             CheckClamp();
             CameraMovement();
         }
 
-        /// <summary>
-        /// Camera Movement
-        /// </summary>
+        private void FixedUpdate()
+        {
+            CheckFOV();
+        }
+
+        // Camera Movement
         private void CameraMovement()
         {
             // Input
@@ -86,10 +82,8 @@ namespace Player_Scripts
             _camera.transform.localEulerAngles = Vector3.right * _mouseClamp;
             _player.Rotate(Vector3.up * (_currentMouseDelta.x * mouseSensitivity));
         }
-
-        /// <summary>
-        /// Change FOV based on movement speed
-        /// </summary>
+        
+        // Change FOV based on movement speed
         private void CheckFOV()
         {
             var walkingFOV = (int)defaultFOV - PlayerProperties.FovDifference / 2;
@@ -121,43 +115,31 @@ namespace Player_Scripts
             }
         }
         
-        /// <summary>
-        /// Change FOV Smoothly
-        /// </summary>
-        /// <param name="newFOV"> New FOV Value </param>
+        // Change FOV Smoothly
         private void ChangeFOV(float newFOV)
         {
             _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, newFOV, PlayerProperties.FovChangingSpeed * Time.deltaTime);
         }
-
-        /// <summary>
-        /// Correct FOV after Running, to be a non decimal value
-        /// </summary>
-        /// <param name="newFOV"></param>
+        
+        // Correct FOV after Running, to be a non decimal value
         private void CorrectLowerFOV(float newFOV)
         {
             if (_camera.fieldOfView + PlayerProperties.FOVCorrection > newFOV)
                 _camera.fieldOfView = newFOV;
         }
-
-        /// <summary>
-        /// Correct FOV after Crouching, to be a non decimal value
-        /// </summary>
-        /// <param name="newFov"></param>
+        
+        // Correct FOV after Crouching, to be a non decimal value
         private void CorrectHigherFOV(float newFov)
         {
             if (_camera.fieldOfView - PlayerProperties.FOVCorrection < newFov)
                 _camera.fieldOfView = newFov;
         }
-
-        /// <summary>
-        /// Clamp Easter Egg
-        /// Makes camera able to loop while looking up / down
-        /// </summary>
+        
+        // Clamp Easter Egg
+        // Makes camera able to loop while looking up / down
         private void CheckClamp()
         {
-            // If camera is clamped, lock mouse movement to a certain degree
-            // if camera isn't clamped allow full mouse movement
+            // If camera is clamped, lock mouse movement to a certain degree else allow full mouse movement
             if (isClamped)
             {
                 _clampAngleUp = PlayerProperties.CameraClampUp;

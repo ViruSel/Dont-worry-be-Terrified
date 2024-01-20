@@ -5,8 +5,10 @@ namespace Trigger_Scripts
 {
     public class TriggerDisableCrates : MonoBehaviour
     {
+        // Variables
         [SerializeField] private GameObject[] cratesToDisable;
 
+        // Actions to be done while in the trigger
         private void OnTriggerStay(Collider col)
         {
             if (col.CompareTag("Player"))
@@ -15,6 +17,7 @@ namespace Trigger_Scripts
             }
         }
     
+        // Actions to be done while exiting the trigger
         private void OnTriggerExit(Collider col)
         {
             if (col.CompareTag("Player"))

@@ -7,39 +7,28 @@ using UnityEngine.Audio;
 
 namespace Audio_Scripts
 {
-    /// <summary>
-    /// Audio managing script
-    /// </summary>
+    // Audio managing script
     public class AudioManager : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         public Sound[] sounds;
-
         private static AudioManager _instance;
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             Initialize();
             DontDestroyOnLoad(this);
             CreateAudioSources();
         }
-
-        /// <summary>
-        /// Start is called before the first frame update
-        /// </summary>
+        
+        // Start is called before the first frame update
         private void Start()
         {
             Play("Menu");
         }
-
-        /// <summary>
-        /// Initialize object
-        /// </summary>
+        
+        // Initialize object
         private void Initialize()
         {
             if (_instance == null)
@@ -47,10 +36,8 @@ namespace Audio_Scripts
             else
                 Destroy(this);
         }
-
-        /// <summary>
-        /// Create audio sources for each sound
-        /// </summary>
+        
+        // Create audio sources for each sound
         private void CreateAudioSources()
         {
             foreach (var sound in sounds)
@@ -64,20 +51,14 @@ namespace Audio_Scripts
             }
         }
         
-        /// <summary>
-        /// Play a sound by name
-        /// </summary>
-        /// <param name="soundName"> Sound name </param>
+        // Play a sound by name
         private void Play(string soundName)
         {
             var s = Array.Find(sounds, sound => sound.name.Equals(soundName));
             s?.source.Play();
         }
         
-        /// <summary>
-        /// Stop a sound by name
-        /// </summary>
-        /// <param name="soundName"> Sound name </param>
+        // Stop a sound by name
         private void Stop(string soundName)
         {
             var s = Array.Find(sounds, sound => sound.name.Equals(soundName));

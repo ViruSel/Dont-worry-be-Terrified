@@ -6,27 +6,20 @@ namespace Player_Scripts
 {
     public class PlayerCastToEnemy : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [SerializeField] private Transform enemy;
         [SerializeField] private VolumeProfile volumeProfile;
 
         private float _distanceToEnemy;
-
         private Vignette _vignette;
         
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        // Called once per frame
         private void Update()
         {
             CheckDistance();
         }
-
-        /// <summary>
-        /// Cast a ray to find the distance between player and objects
-        /// </summary>
+        
+        // Cast a ray to find the distance between player and objects
         private void CheckDistance()
         {
             _distanceToEnemy = (enemy.position - transform.position).magnitude;
@@ -51,19 +44,13 @@ namespace Player_Scripts
             }
         }
         
-        /// <summary>
-        /// Smoothly change vignette
-        /// </summary>
-        /// <param name="newValue"></param>
+        // Smoothly change vignette
         private void ChangeVignette(float newValue)
         {
             _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, newValue, PlayerProperties.VignetteChangingSpeed * Time.deltaTime);
         }
         
-        /// <summary>
-        /// Things to do on collision
-        /// </summary>
-        /// <param name="collision"></param>
+        // Things to do on collision
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Enemy"))

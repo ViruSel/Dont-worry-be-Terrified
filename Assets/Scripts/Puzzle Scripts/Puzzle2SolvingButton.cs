@@ -10,11 +10,7 @@ namespace Puzzle_Scripts
 {
     public class Puzzle2SolvingButton : MonoBehaviour
     {
-        //TODO: Separate script for each puzzle
-        
-        /// <summary>
-        /// variables
-        /// </summary>
+        // variables
         [Header("Crosshair")]
         [SerializeField] private Text crosshair;
 
@@ -28,9 +24,9 @@ namespace Puzzle_Scripts
         [Header("Password")]
         [SerializeField] private int[] password;
 
-        public static List<int> passwordReceived;                   // Password received by the puzzle buttons
+        public static List<int> passwordReceived;          // Password received by the puzzle buttons
 
-        private float _distanceToButton;                            // Distance to this object
+        private float _distanceToButton;                   // Distance to this object
         private string _oldCrosshair;
         private bool _isPressing;
         private bool _canPress;
@@ -46,50 +42,38 @@ namespace Puzzle_Scripts
         private GameObject[] _tunnelObjects;
         private GameObject[] _puzzleObjects;
         private GameObject[] _mirrors;
-
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        
+        // Called before the first frame update
         private void Start()
         {
             Initialize();
         }
-
-        /// <summary>
-        /// Called once per frame
-        /// </summary>
+        
+        // Called once per frame
         private void Update()
         {
             _distanceToButton = PlayerCastToObject.Distance;
         }
-
-        /// <summary>
-        /// Called every fixed frame
-        /// </summary>
+        
+        // Called every fixed frame
         private void FixedUpdate()
         {
             _isPressing = _inputManager.GetKey(KeybindingActions.Use);
         }
-
-        /// <summary>
-        /// Actions to be performed while mouse is over this object
-        /// </summary>
+        
+        // Actions to be performed while mouse is over this object
         private void OnMouseOver()
         {
-            SolvePuzzle();
+            IsPuzzleSolved();
         }
-
-        /// <summary>
-        /// Actions to be performed while mouse is no longer over this object
-        /// </summary>
+        
+        // Actions to be performed while mouse is no longer over this object
         private void OnMouseExit()
         {
             crosshair.text = _oldCrosshair;
         }
-
-        /// <summary>
+        
         /// initialize variables
-        /// </summary>
         private void Initialize()
         {
             _inputManager = InputManager.Instance;
@@ -111,13 +95,9 @@ namespace Puzzle_Scripts
             
             ObjectManager.DisableObjects(_tunnelObjects);
         }
-
-        /// <summary>
-        /// Solved puzzle actions
-        /// </summary>
-        /// <param name="delay"></param>
-        /// <returns></returns>
-        private IEnumerator PuzzleSolvedActions(int delay)
+        
+        // Solved puzzle actions
+        private IEnumerator SolvePuzzle(int delay)
         {
             BreakMirrors();
             
@@ -133,12 +113,9 @@ namespace Puzzle_Scripts
             
             yield return new WaitForSeconds(delay);
         }
-
-        /// <summary>
-        /// Unsolved puzzle actions
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator PuzzleUnSolvedActions()
+        
+        // Unsolved puzzle actions
+        private IEnumerator UnSolvePuzzle()
         {
             PuzzleManager.ResetButtons(buttons);
             
@@ -150,7 +127,8 @@ namespace Puzzle_Scripts
             yield return null;
         }
 
-        private void SolvePuzzle()
+        // Check if puzzle is solved
+        private void IsPuzzleSolved()
         {
             if (_distanceToButton < PuzzleManager.DistanceToButton && _canPress)
             {
@@ -160,17 +138,18 @@ namespace Puzzle_Scripts
                 {
                     if (PuzzleManager.CheckIfAllButtonsPressed(buttons) && PuzzleManager.CheckPassword(password, passwordReceived))
                     {
-                        StartCoroutine(PuzzleSolvedActions(0));
+                        StartCoroutine(SolvePuzzle(0));
                         _canPress = false;
                     }
                     else
                     {
-                        StartCoroutine(PuzzleUnSolvedActions());
+                        StartCoroutine(UnSolvePuzzle());
                     }
                 }
             }
         }
 
+        // Make mirrors break
         private void BreakMirrors()
         {
             foreach (var mirror in _mirrors)

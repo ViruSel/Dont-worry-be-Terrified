@@ -1,5 +1,6 @@
 namespace UI_Scripts
 {
+    // UI Properties
     public static class UIProperties
     {
         // Version Properties
@@ -9,7 +10,6 @@ namespace UI_Scripts
         // FPS Properties
         public const float FpsMeasurePeriod = 0.5f;
         public const string FPSString = "{0} FPS";
-        
         
         // DEBUG Properties
         

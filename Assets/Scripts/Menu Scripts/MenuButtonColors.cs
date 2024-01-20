@@ -2,34 +2,26 @@ using UnityEngine;
 
 namespace Menu_Scripts
 {
-    /// <summary>
-    /// Change Main menu button colors
-    /// </summary>
+    // Change Main menu button colors
     public class MenuButtonColors : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         [Header("Button Color")]
         [SerializeField] private Material buttonOnColor;
         [SerializeField] private Material buttonOffColor;
 
-        private readonly Color _textOnColor = new Color(110,0,0); // BLOODY RED
-        private readonly Color _textOffColor = new Color(200,200,200); // WHITEY GREY
+        private readonly Color _textOnColor = new Color(110,0,0);       // BLOODY RED
+        private readonly Color _textOffColor = new Color(200,200,200);  // WHITEY GREY
 
         private GameObject[] _buttons;
-
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        
+        // Called before Start function
         private void Awake()
         {
             _buttons = GameObject.FindGameObjectsWithTag(gameObject.tag);
         }
-
-        /// <summary>
-        /// Changing color on mouse hover
-        /// </summary>
+        
+        // Changing color on mouse hover
         private void OnMouseEnter()
         {
             foreach (var button in _buttons)
@@ -37,10 +29,8 @@ namespace Menu_Scripts
                 button.GetComponent<Renderer>().material = buttonOnColor;
             }
         }
-
-        /// <summary>
-        /// Changing color back to default
-        /// </summary>
+        
+        // Changing color back to default
         private void OnMouseExit()
         {
             foreach (var button in _buttons)
@@ -48,10 +38,8 @@ namespace Menu_Scripts
                 button.GetComponent<Renderer>().material = buttonOffColor;
             }
         }
-
-        /// <summary>
-        /// Changing color when clicked
-        /// </summary>
+        
+        // Changing color when clicked
         private void OnMouseDown()
         {
             foreach (var button in _buttons)
@@ -59,10 +47,8 @@ namespace Menu_Scripts
                 button.GetComponentInChildren<SpriteRenderer>().color = _textOnColor;
             }
         }
-
-        /// <summary>
-        /// Changing color when click is lifted
-        /// </summary>
+        
+        // Changing color when click is lifted
         private void OnMouseUp()
         {
             foreach (var button in _buttons)

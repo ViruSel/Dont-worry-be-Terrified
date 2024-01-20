@@ -3,42 +3,31 @@ using UnityEngine.UI;
 
 namespace UI_Scripts
 {
-    /// <summary>
     /// Display FPS Script
-    /// </summary>
     [RequireComponent(typeof (Text))]
     public class FPSCounter : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
-
+        // Variables
         private float _fpsNextPeriod;
         private int _fpsAccumulator;
         private int _currentFps;
         
         private Text _text;
         
-        /// <summary>
-        /// Called before Start function
-        /// </summary>
+        // Called before Start function
         private void Awake()
         {
             _text = GetComponent<Text>();
             _fpsNextPeriod = Time.realtimeSinceStartup + UIProperties.FpsMeasurePeriod;
         }
-
-        /// <summary>
-        /// Update is called once per frame
-        /// </summary>
+        
+        // Update is called once per frame
         private void Update()
         {
             MeasureFPS();
         }
-
-        /// <summary>
-        /// Measure FPS
-        /// </summary>
+        
+        // Measure FPS
         private void MeasureFPS()
         {
             // Measure average frames per second

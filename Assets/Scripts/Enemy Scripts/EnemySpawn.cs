@@ -4,15 +4,11 @@ namespace Enemy_Scripts
 {
     public class EnemySpawn : MonoBehaviour
     {
-        /// <summary>
-        /// Variables
-        /// </summary>
+        // Variables
         private GameObject enemy;
         private Enemy _enemyScript;
         
-        /// <summary>
-        /// Called before the first frame update
-        /// </summary>
+        // Called before the first frame update
         private void Start()
         {
             enemy = GameObject.FindWithTag("Enemy");
@@ -20,10 +16,7 @@ namespace Enemy_Scripts
             _enemyScript.enabled = false;
         }
         
-        /// <summary>
-        /// Spawns the enemy when the player enters the trigger 
-        /// </summary>
-        /// <param name="other"></param>
+        // Spawns the enemy when the player enters the trigger 
         private void OnTriggerEnter(Collider other)
         {
             if(other.CompareTag("Player"))
